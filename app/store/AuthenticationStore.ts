@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-
+import {translate} from "../i18n"
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
   .props({
@@ -11,8 +11,8 @@ export const AuthenticationStoreModel = types
       return !!store.authToken
     },
     get validationError() {
-      if (store.authEmail.length === 0) return "can't be blank"
-      if (store.authEmail.length < 6) return "must be at least 6 characters"
+      if (store.authEmail.length === 0) return translate("fieldsValidation.blank")
+      if (store.authEmail.length < 6) return translate("fieldsValidation.min",{min:"6"})
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(store.authEmail))
         return "must be a valid email address"
       return ""

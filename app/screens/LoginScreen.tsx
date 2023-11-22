@@ -1,14 +1,17 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, TextStyle, ViewStyle } from "react-native"
+import { TextInput, TextStyle, ViewStyle, Image, ImageStyle,View } from "react-native"
 import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
-import { useStores } from "../models"
+import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
-import { colors, spacing } from "../theme"
+import { colors, spacing,  } from "../theme"
 
+
+const store = require("../../assets/images/store-removebg-preview.png")
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
+  
   const authPasswordInput = useRef<TextInput>(null)
 
   const [authPassword, setAuthPassword] = useState("")
@@ -20,12 +23,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   } = useStores()
 
   useEffect(() => {
-    // Here is where you could fetch credentials from keychain or storage
-    // and pre-fill the form fields.
-    setAuthEmail("ignite@infinite.red")
-    setAuthPassword("ign1teIsAwes0m3")
+   
+    setAuthEmail("admin@codes.store")
+    setAuthPassword("Odoo")
 
-    // Return a "cleanup" function that React will run when the component unmounts
     return () => {
       setAuthPassword("")
       setAuthEmail("")
@@ -40,13 +41,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
     if (validationError) return
 
-    // Make a request to your server to get an authentication token.
-    // If successful, reset the fields and set the token.
     setIsSubmitted(false)
     setAuthPassword("")
     setAuthEmail("")
 
-    // We'll mock this with a fake token.
     setAuthToken(String(Date.now()))
   }
 
@@ -68,11 +66,15 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   return (
     <Screen
+      backgroundColor={colors.background}
       preset="auto"
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
       <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
+      <View style={$viewImageStyle} >
+             <Image style={$image} source={store}></Image>
+       </View> 
       <Text tx="loginScreen.enterDetails" preset="subheading" style={$enterDetails} />
       {attemptsCount > 2 && <Text tx="loginScreen.hint" size="sm" weight="light" style={$hint} />}
 
@@ -113,6 +115,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         preset="reversed"
         onPress={login}
       />
+      
     </Screen>
   )
 })
@@ -141,4 +144,12 @@ const $textField: ViewStyle = {
 
 const $tapButton: ViewStyle = {
   marginTop: spacing.xs,
+  backgroundColor: colors.palette.secondary
 }
+
+const $image: ImageStyle = { flex: 1,
+  width: '100%',
+  height: '100%',
+  resizeMode: 'cover'}
+
+const $viewImageStyle:ViewStyle = { marginTop: spacing.lg, width:200,height:200, alignSelf:"center"}

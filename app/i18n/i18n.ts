@@ -4,9 +4,8 @@ import { I18nManager } from "react-native"
 
 // if English isn't your default language, move Translations to the appropriate language file.
 import en, { Translations } from "./en"
-import ar from "./ar"
-import ko from "./ko"
-import fr from "./fr"
+import es from "./es"
+
 
 i18n.fallbacks = true
 /**
@@ -14,14 +13,14 @@ i18n.fallbacks = true
  * the language code is the suffixed with "-US". i.e. if a device is set to English ("en"),
  * if you change to another language and then return to English language code is now "en-US".
  */
-i18n.translations = { ar, en, "en-US": en, ko, fr }
+i18n.translations = {es,"es-Es":es,en,"en-US": en}
 
 const locales = Localization.getLocales() // This method is guaranteed to return at least one array item.
 // The preferred language is the first element in the array, however, we fallback to en-US, especially for tests.
 const preferredLanguage:
   | Localization.Locale
   | { languageTag: string; textDirection: "ltr" | "rtl" } = locales[0] || {
-  languageTag: "en-US",
+  languageTag: "es-Es",
   textDirection: "ltr",
 }
 i18n.locale = preferredLanguage.languageTag

@@ -117,8 +117,14 @@ const en = {
       heading: "This looks a bit empty",
       content:
         "No favorites have been added yet. Tap the heart on an episode to add it to your favorites!",
+        
     },
   },
+  fieldsValidation:{
+    blank: "Can't be blank",
+    min: "Must be at least {{min}} characters",
+    email: "Must be a email address"
+}
 }
 
 export default en

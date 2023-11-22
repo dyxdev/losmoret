@@ -35,6 +35,12 @@ const palette: Record<string, string> = {
 
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",
+
+  primary: "#FF4A3D", //  (rojo oscuro)
+  secondary: "#1F2833", //  (azul oscuro)
+  accent: "#5BC0EB", // (azul claro)
+  fondo: "#F2F4F6", //  (gris claro)
+  focus: "#F7DC6F", //  (amarillo claro)
 } as const
 
 export const colors = {
