@@ -40,6 +40,8 @@ const en = {
     passwordFieldPlaceholder: "Super secret password here",
     tapToSignIn: "Tap to sign in!",
     hint: "Hint: you can use any email address and your favorite password :)",
+    details:"",
+    register:"Don't have account. Touch to register"
   },
   demoNavigator: {
     componentsTab: "Components",

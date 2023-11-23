@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, View, ImageBackground, SafeAreaView } from "react-native"
-import { Button, Icon,Text, TextField, TextFieldAccessoryProps } from "../components"
+import { TextInput, View, ImageBackground, SafeAreaView, TouchableOpacity } from "react-native"
+import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
 import { colors } from "../theme"
-import { $signIn, $tapButton, $textField, contentCenter,$fullImage, $fullBg } from "../theme/styles"
+import { $signIn, $tapButton, $textField, contentCenter, $fullImage, $fullBg, $enterDetails, $tapButtonTxt, $center, $topMargin } from "../theme/styles"
 
 
 const store = require("../../assets/images/login.png")
@@ -14,6 +14,7 @@ interface LoginScreenProps extends AppStackScreenProps<"Login"> { }
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
 
   const authPasswordInput = useRef<TextInput>(null)
+  const { navigation } = _props
 
   const [authPassword, setAuthPassword] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
@@ -49,6 +50,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     setAuthToken(String(Date.now()))
   }
 
+  function onRegister(){
+    
+      navigation.navigate("Welcome")
+    
+  }
+
   const PasswordRightAccessory: ComponentType<TextFieldAccessoryProps> = useMemo(
     () =>
       function PasswordRightAccessory(props: TextFieldAccessoryProps) {
@@ -70,8 +77,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       <ImageBackground source={store} resizeMode="contain" style={$fullImage}>
 
         <View style={contentCenter}>
-          <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
           <View>
+            <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
+            <Text tx="loginScreen.details" preset="heading" style={$enterDetails} />
+          </View>
+          <View style={$topMargin}>
             <TextField
               value={authEmail}
               onChangeText={setAuthEmail}
@@ -106,9 +116,15 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               testID="login-button"
               tx="loginScreen.tapToSignIn"
               style={$tapButton}
-              preset="reversed"
               onPress={login}
+              textStyle={$tapButtonTxt}
             />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={onRegister}
+              >
+              <Text tx="loginScreen.register" preset="formHelper" style={$center}></Text>
+            </TouchableOpacity>
           </View>
 
 

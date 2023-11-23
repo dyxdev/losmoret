@@ -42,7 +42,18 @@ const palette: Record<string, string> = {
   fondo: "#F2F4F6", //  (gris claro)
   focus: "#F7DC6F", //  (amarillo claro)
 
-  bgImage: "#010100"
+  bgImage: "#010100",
+  secondaryBussines: "#000000",
+  redBussines: "#E53518",
+  redBussinesLigth: "#8E1F0E",
+  lightBussines: "#898989",
+
+  accentBussines: "#58CC97",
+  button: "#2BDB8B",
+
+
+
+
 } as const
 
 export const colors = {

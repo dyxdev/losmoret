@@ -12,7 +12,7 @@ export const $signIn: TextStyle = {
   }
   
 export const $enterDetails: TextStyle = {
-    marginBottom: spacing.lg,
+    marginTop: spacing.lg,
   }
   
 export const $hint: TextStyle = {
@@ -21,12 +21,29 @@ export const $hint: TextStyle = {
   }
   
 export const $textField: ViewStyle = {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.lg
   }
   
 export const $tapButton: ViewStyle = {
     marginTop: spacing.xs,
-    backgroundColor: colors.palette.secondary
+    backgroundColor: colors.palette.button,
+    borderColor: colors.palette.button,
+    borderRadius: 50
+  }
+
+  export const $tapButtonTxt: TextStyle = {
+    color: "black",
+    fontSize:20,
+    alignSelf:"center"
+  }
+
+  export const $center = {
+    alignSelf:"center",
+    textAlign:"center",
+  }
+
+  export const $topMargin:ViewStyle = {
+      marginTop:5
   }
   
 export const $image: ImageStyle = {
