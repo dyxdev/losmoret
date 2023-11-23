@@ -43,6 +43,11 @@ const es = {
       details: "El arte de la charcutería en cada producto",
       register:"¡No tienes cuenta!. Toque para registrarse"
     },
+    registerScreen:{
+      nameFieldLabel: "Nombre",
+      passwordFieldLabel: "Repite tu contraseña",
+      label:"Registro"
+    },
     fieldsValidation:{
          blank: "No puede estar vacío",
          min: "Debe tener como mínimo {{min}} caracteres",

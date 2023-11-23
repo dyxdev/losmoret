@@ -43,6 +43,11 @@ const en = {
     details:"",
     register:"Don't have account. Touch to register"
   },
+  registerScreen:{
+    nameFieldLabel: "Name",
+    passwordFieldLabel: "Repeat Password",
+    label:"Register"
+  },
   demoNavigator: {
     componentsTab: "Components",
     debugTab: "Debug",

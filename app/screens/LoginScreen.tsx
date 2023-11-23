@@ -52,7 +52,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   function onRegister(){
     
-      navigation.navigate("Welcome")
+      navigation.navigate("Register")
     
   }
 
