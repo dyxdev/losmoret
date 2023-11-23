@@ -41,6 +41,8 @@ const palette: Record<string, string> = {
   accent: "#5BC0EB", // (azul claro)
   fondo: "#F2F4F6", //  (gris claro)
   focus: "#F7DC6F", //  (amarillo claro)
+
+  bgImage: "#010100"
 } as const
 
 export const colors = {
