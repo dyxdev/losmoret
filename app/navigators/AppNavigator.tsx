@@ -36,6 +36,7 @@ export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
   Register: undefined
+  HomeCategorie: undefined
 }
 
 /**
@@ -60,11 +61,11 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName={isAuthenticated ? "HomeCategorie" : "Login"}
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen name="HomeCategorie" component={Screens.HomeCategorieScreen} />
         </>
       ) : (
         <>
@@ -74,7 +75,8 @@ const AppStack = observer(function AppStack() {
       )}
 
       {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+     
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })
