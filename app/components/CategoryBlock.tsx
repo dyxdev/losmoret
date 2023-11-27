@@ -19,12 +19,11 @@ export function CategoryBlock(props:CategoryProps) {
           activeOpacity={0.9}
         >
           <View>
-            <Image style={styles.image} source={{uri: props.image}} />
+            <Image style={styles.image} source={props.image} />
             <View style={styles.overlay} />
             <View style={styles.border} />
             <View style={styles.text}>
               <Text preset='heading' style={styles.subtitle}>{props.title}</Text>
-              <Text preset='subheading' style={styles.subtitle}>Shop Now</Text>
             </View>
           </View>
         </TouchableOpacity>

@@ -1,10 +1,16 @@
+import { colors } from "app/theme"
 import { useHeader } from "app/utils/useHeader"
 
-export const useCartHeader = ()=>{
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const useCartHeader = (navigation: any)=>{
     useHeader(
         {
             rightIcon: 'cart',
-            leftIcon: 'menu'
+            leftIcon: 'menu',
+            leftIconColor: 'white',
+            rightIconColor: 'white',
+            onLeftPress: ()=>navigation.toggleDrawer(),
+            backgroundColor: colors.palette.secondary
         }
     )
 }

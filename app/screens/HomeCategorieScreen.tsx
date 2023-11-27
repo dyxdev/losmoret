@@ -4,42 +4,44 @@ import { ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
-import { NativeBaseProvider } from "native-base"
-import { useHeader } from "app/utils/useHeader"
-import { colors } from "app/theme/colors"
 import { useCartHeader } from "app/hooks/customHeader"
+
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
 
 interface HomeCategorieScreenProps extends AppStackScreenProps<"HomeCategorie"> {}
 
+const ahumados = require("../../assets/images/ahumado.jpg")
+const congelados = require("../../assets/images/congelados.jpg")
+const embutidos = require("../../assets/images/embutido.jpg")
+const lacteos = require("../../assets/images/lacteo.jpg")
 
 const categories = [
   {
     id: 1,
-    title: 'MEN',
-    image: 'http://res.cloudinary.com/atf19/image/upload/c_scale,w_489/v1500284127/pexels-photo-497848_yenhuf.jpg'
+    title: 'AHUMADOS',
+    image: ahumados
   },
   {
     id: 2,
-    title: 'WOMEN',
-    image: 'http://res.cloudinary.com/atf19/image/upload/c_scale,w_460/v1500284237/pexels-photo-324030_wakzz4.jpg'
+    title: 'CONGELADOS',
+    image: congelados
   },
   {
     id: 3,
-    title: 'KIDS',
-    image: 'http://res.cloudinary.com/atf19/image/upload/c_scale,w_445/v1500284286/child-childrens-baby-children-s_shcevh.jpg'
-  },
+    title: 'EMBUTIDOS',
+    image: embutidos
+   },
   {
     id: 4,
-    title: 'ACCESORIES',
-    image: 'http://res.cloudinary.com/atf19/image/upload/c_scale,w_467/v1500284346/pexels-photo-293229_qxnjtd.jpg'
+    title: 'LÁCTEOS',
+    image:  lacteos
   }
   ];
 
 function renderCategories() {
   const cat = [];
-  for(var i=0; i<categories.length; i++) {
+  for(let i=0; i<categories.length; i++) {
     cat.push(
       <CategoryBlock key={categories[i].id} id={categories[i].id} image={categories[i].image} title={categories[i].title} />
     );
@@ -49,20 +51,21 @@ function renderCategories() {
 
 
 
-export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(function HomeCategorieScreen() {
+export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(function HomeCategorieScreen(_props) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
 
   // Pull in navigation via hook
-  // const navigation = useNavigation()
-  useCartHeader()
+  const { navigation } = _props
+  
+  useCartHeader(navigation)
   
   return (
-    <NativeBaseProvider>
+    
     <Screen style={$root} preset="scroll">
        {renderCategories()}
     </Screen>
-    </NativeBaseProvider>
+    
   )
 })
 
