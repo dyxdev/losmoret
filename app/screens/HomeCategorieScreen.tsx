@@ -5,6 +5,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
 import { useCartHeader } from "app/hooks/customHeader"
+import { spacing } from "app/theme"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -16,53 +17,70 @@ const congelados = require("../../assets/images/congelados.jpg")
 const embutidos = require("../../assets/images/embutido.jpg")
 const lacteos = require("../../assets/images/lacteo.jpg")
 
-const categories = [
-  {
-    id: 1,
-    title: 'AHUMADOS',
-    image: ahumados
-  },
-  {
-    id: 2,
-    title: 'CONGELADOS',
-    image: congelados
-  },
-  {
-    id: 3,
-    title: 'EMBUTIDOS',
-    image: embutidos
-   },
-  {
-    id: 4,
-    title: 'LÁCTEOS',
-    image:  lacteos
-  }
-  ];
 
-function renderCategories() {
-  const cat = [];
-  for(let i=0; i<categories.length; i++) {
-    cat.push(
-      <CategoryBlock key={categories[i].id} id={categories[i].id} image={categories[i].image} title={categories[i].title} />
-    );
-  }
-  return cat;
-}
 
 
 
 export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(function HomeCategorieScreen(_props) {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
-  // Pull in navigation via hook
+  
   const { navigation } = _props
   
   useCartHeader(navigation)
+
+  const categories = [
+    {
+      id: 1,
+      title: 'AHUMADOS',
+      image: ahumados,
+      click: ()=>{
+        navigation.navigate('Products')
+      }
+    },
+    {
+      id: 2,
+      title: 'CONGELADOS',
+      image: congelados,
+      click: ()=>{
+        navigation.navigate('Products')
+      }
+    },
+    {
+      id: 3,
+      title: 'EMBUTIDOS',
+      image: embutidos,
+      click: ()=>{
+        navigation.navigate('Products')
+      }
+     },
+    {
+      id: 4,
+      title: 'LÁCTEOS',
+      image:  lacteos,
+      click: ()=>{
+        navigation.navigate('Products')
+      }
+    }
+    ];
+  
+  function renderCategories() {
+    const cat = [];
+    for(let i=0; i<categories.length; i++) {
+      cat.push(
+        <CategoryBlock 
+        key={categories[i].id} 
+        id={categories[i].id} 
+        image={categories[i].image}
+        title={categories[i].title} 
+        click={categories[i].click}
+        />
+      );
+    }
+    return cat;
+  }
   
   return (
     
-    <Screen style={$root} preset="scroll">
+    <Screen style={$root} preset="auto">
        {renderCategories()}
     </Screen>
     
@@ -71,4 +89,6 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
 
 const $root: ViewStyle = {
   flex: 1,
+  paddingHorizontal: spacing.lg,
+  paddingTop: spacing.sm ,
 }

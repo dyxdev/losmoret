@@ -52,6 +52,10 @@ const es = {
          blank: "No puede estar vacío",
          min: "Debe tener como mínimo {{min}} caracteres",
          email: "Debe ser una dirección de correo"
+    },
+    orderScreen:{
+      title: "Mis órdenes",
+      complete: 'Mostrar solo las completadas'
     }
   }
   

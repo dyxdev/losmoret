@@ -1,22 +1,26 @@
 
 import React from 'react';
 import { Image, Dimensions, TouchableOpacity, ViewStyle, TextStyle } from 'react-native';
-import { View  } from 'native-base';
+import { Box, View  } from 'native-base';
 import {Text} from './Text';
 import {colors} from './../theme/colors'
+import { spacing } from 'app/theme';
 
 interface CategoryProps {
     id: string|number,
     title: string,
-    image:string
+    image:string,
+    click: ()=>void
 }  
 
 export function CategoryBlock(props:CategoryProps) {
   
     return(
+      <Box rounded="lg" shadow="5" overflow="hidden" borderColor="coolGray.200" borderWidth="1" style={styles.box}> 
       <View style={styles.root}>
         <TouchableOpacity
           activeOpacity={0.9}
+          onPress={props.click}
         >
           <View>
             <Image style={styles.image} source={props.image} />
@@ -28,6 +32,7 @@ export function CategoryBlock(props:CategoryProps) {
           </View>
         </TouchableOpacity>
       </View>
+      </Box>
     );
 }
 
@@ -36,6 +41,9 @@ const styles = {
   root:{
      flex:1
   } as ViewStyle,  
+  box:{
+    marginBottom:spacing.lg,
+ } as ViewStyle,  
   text: {
     width: Dimensions.get('window').width,
     height: 200,

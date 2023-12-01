@@ -37,6 +37,7 @@ export type AppStackParamList = {
   HomeCategorie: undefined,
   Orders: undefined,
   User: undefined
+  Products: undefined
 }
 
 /**
@@ -78,6 +79,7 @@ const AppStack = observer(function AppStack() {
      
 			<Stack.Screen name="Orders" component={Screens.OrdersScreen} />
 			<Stack.Screen name="User" component={Screens.UserScreen} />
+      <Stack.Screen name="Products" component={Screens.ProductsScreen} />
 			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )

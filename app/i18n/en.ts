@@ -131,7 +131,11 @@ const en = {
     blank: "Can't be blank",
     min: "Must be at least {{min}} characters",
     email: "Must be a email address"
-}
+},
+  orderScreen:{
+    title: "Mis ordernes",
+    complete: 'Mostrar solo las completadas'
+  }
 }
 
 export default en
