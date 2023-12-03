@@ -5,7 +5,7 @@ import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../compo
 import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
 import { colors } from "../theme"
-import { $signIn, $tapButton, $textField, contentCenter, $fullImage, $fullBg, $enterDetails, $tapButtonTxt, $center, $topMargin } from "../theme/styles"
+import { $signIn, $tapButton, $textField, contentCenter, $fullImage, $fullBg, $enterDetails, $tapButtonTxt, $center, $topMargin, $centerText } from "../theme/styles"
 
 
 const store = require("../../assets/images/login.png")
@@ -89,6 +89,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect={false}
+              LabelTextProps={{
+                style:$signIn
+              }}
               keyboardType="email-address"
               labelTx="loginScreen.emailFieldLabel"
               placeholderTx="loginScreen.emailFieldPlaceholder"
@@ -102,6 +105,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               value={authPassword}
               onChangeText={setAuthPassword}
               containerStyle={$textField}
+              LabelTextProps={{
+                style:$signIn
+              }}
               autoCapitalize="none"
               autoComplete="password"
               autoCorrect={false}
@@ -123,7 +129,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               activeOpacity={0.8}
               onPress={onRegister}
               >
-              <Text tx="loginScreen.register" preset="formHelper" style={$center}></Text>
+              <Text tx="loginScreen.register" preset="formHelper" style={$centerText}></Text>
             </TouchableOpacity>
           </View>
 

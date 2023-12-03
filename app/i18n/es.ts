@@ -46,7 +46,8 @@ const es = {
     registerScreen:{
       nameFieldLabel: "Nombre",
       passwordFieldLabel: "Repite tu contraseña",
-      label:"Registro"
+      label:"Registro",
+      confirm:"Registrarse"
     },
     fieldsValidation:{
          blank: "No puede estar vacío",
@@ -56,6 +57,9 @@ const es = {
     orderScreen:{
       title: "Mis órdenes",
       complete: 'Mostrar solo las completadas'
+    },
+    productScreen:{
+      title: "Productos disponibles",
     }
   }
   

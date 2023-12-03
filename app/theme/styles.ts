@@ -9,10 +9,12 @@ export const $screenContentContainer: ViewStyle = {
   
 export const $signIn: TextStyle = {
     marginBottom: spacing.sm,
+    color: "white"
   }
   
 export const $enterDetails: TextStyle = {
     marginTop: spacing.lg,
+    color: "white"
   }
   
 export const $hint: TextStyle = {
@@ -22,6 +24,7 @@ export const $hint: TextStyle = {
   
 export const $textField: ViewStyle = {
     marginBottom: spacing.lg
+    
   }
   
 export const $tapButton: ViewStyle = {
@@ -40,6 +43,12 @@ export const $tapButton: ViewStyle = {
   export const $center = {
     alignSelf:"center",
     textAlign:"center",
+  }
+
+  export const $centerText = {
+    alignSelf:"center",
+    textAlign:"center",
+    color:"white"
   }
 
   export const $topMargin:ViewStyle = {

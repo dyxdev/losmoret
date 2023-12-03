@@ -90,7 +90,7 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
-      <Text testID="login-heading" tx="registerScreen.label" preset="heading" style={$signIn} />
+      <Text testID="login-heading" tx="registerScreen.label" preset="heading" style={$register} />
       <View style={$viewImageStyle} >
              <Image style={$image} source={store}></Image>
        </View> 
@@ -104,6 +104,9 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
         autoCorrect={false}
         keyboardType="default"
         labelTx="registerScreen.nameFieldLabel"
+        LabelTextProps={{
+          style:$register
+        }}
         placeholderTx="registerScreen.nameFieldLabel"
         helper={error}
         status={error ? "error" : undefined}
@@ -119,6 +122,9 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
         autoCorrect={false}
         keyboardType="email-address"
         labelTx="loginScreen.emailFieldLabel"
+        LabelTextProps={{
+          style:$register
+        }}
         placeholderTx="loginScreen.emailFieldPlaceholder"
         helper={error}
         status={error ? "error" : undefined}
@@ -135,6 +141,9 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
         autoCorrect={false}
         secureTextEntry={isAuthPasswordHidden}
         labelTx="loginScreen.passwordFieldLabel"
+        LabelTextProps={{
+          style:$register
+        }}
         placeholderTx="loginScreen.passwordFieldPlaceholder"
         onSubmitEditing={login}
         RightAccessory={PasswordRightAccessory}
@@ -150,6 +159,9 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
         autoCorrect={false}
         secureTextEntry={isAuthRepeetPasswordHidden}
         labelTx="loginScreen.passwordFieldLabel"
+        LabelTextProps={{
+          style:$register
+        }}
         placeholderTx="registerScreen.passwordFieldLabel"
         onSubmitEditing={login}
         RightAccessory={PasswordRepeetRightAccessory}
@@ -157,7 +169,7 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
 
       <Button
         testID="login-button"
-        tx="loginScreen.tapToSignIn"
+        tx="registerScreen.confirm"
         style={$tapButton}
         preset="reversed"
         onPress={login}
@@ -172,8 +184,9 @@ const $screenContentContainer: ViewStyle = {
   paddingHorizontal: spacing.lg,
 }
 
-const $signIn: TextStyle = {
+const $register: TextStyle = {
   marginBottom: spacing.sm,
+  color:"white"
 }
 
 const $textField: ViewStyle = {

@@ -1,46 +1,62 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Image } from 'react-native';
-import { View, Box, Button, VStack } from 'native-base';
+import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base';
 
-
-import {Text} from './Text';
+import { spacing } from 'app/theme';
+import { Icon } from './Icon';
 
 export function ProductBlock(props) {
-  
-    return(
-        <Box borderRadius="md">
-        <VStack>
-            <Box>
-              <Button style={style.button}>
-                <Image source={props.image} style={style.image}/>
-                <View style={style.border} />
-              </Button>
-            </Box>
-            <View style={{paddingTop: 0}}>
-            <Button style={{flex: 1, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, paddingTop: 0}}>
-                <Box>
-                    <Text
-                      style={{fontSize: 16}}
-                      numberOfLines={1}
-                    >{props.title}</Text>
-                    <View style={{flex: 1, width: '100%', alignItems: 'center'}}>
-                      <View style={style.line} />
-                      <Text style={style.price}>{props.price}</Text>
-                      <View style={style.line} />
-                    </View>
-                </Box>
-              </Button>
-            </View>
-          </VStack>
+
+  return (
+    <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
+      borderColor: "coolGray.600",
+      backgroundColor: "gray.700"
+    }} _web={{
+      shadow: 2,
+      borderWidth: 0
+    }} _light={{
+      backgroundColor: "gray.50"
+    }}>
+      <Box>
+
+        <Image source={props.image} style={style.image} />
+
+        <Center bg="red.500" _dark={{
+          bg: "red.400"
+        }} _text={{
+          color: "warmGray.50",
+          fontWeight: "700",
+          fontSize: "xs"
+        }} position="absolute" bottom="0" px="3" py="1.5">
+          Categoría
+        </Center>
       </Box>
-    );
-  
+      <Stack p="4" space={3}>
+        <Stack space={2}>
+          <Heading size="md" ml="-1">
+            {props.title}
+          </Heading>
+        </Stack>
+        <Text fontWeight="400" textAlign="left" textBreakStrategy='balanced'>
+          Nuestro filete de ternera premium: jugoso, tierno y delicioso.
+          Seleccionado cuidadosamente de los mejores ranchos, este corte de carne de calidad excepcional ofrece una experiencia culinaria única.
+        </Text>
+        <Divider></Divider>
+        <HStack alignItems="center" space={4} justifyContent="space-between">
+          <Heading size="md" ml="-1">
+            10 USD
+          </Heading>
+          <Icon icon='cart' size={30}></Icon>
+        </HStack>
+      </Stack>
+    </Box>
+  );
+
 }
 
 const style = {
-  button: {flex: 1, height: 250, paddingLeft: 4, paddingRight: 4},
-  image: {height: 250, width: null, flex: 1},
+  button: { flex: 1, height: 250, paddingLeft: 4, paddingRight: 4 },
   leftMargin: {
     marginLeft: 7,
     marginRight: 0,
@@ -73,5 +89,16 @@ const style = {
     backgroundColor: '#7f8c8d',
     position: 'absolute',
     top: '52%'
+  },
+  listContentContainer: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg + spacing.xl,
+    paddingBottom: spacing.lg,
+  },
+  image: {
+    height: 250,
+    width: "100%",
+    flex: 1,
+    reziseMode: "cover",
   }
 }

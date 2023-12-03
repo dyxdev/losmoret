@@ -46,7 +46,8 @@ const en = {
   registerScreen:{
     nameFieldLabel: "Name",
     passwordFieldLabel: "Repeat Password",
-    label:"Register"
+    label:"Register",
+    confirm:"Register"
   },
   demoNavigator: {
     componentsTab: "Components",
@@ -135,6 +136,9 @@ const en = {
   orderScreen:{
     title: "Mis ordernes",
     complete: 'Mostrar solo las completadas'
+  },
+  productScreen:{
+    title: "Productos disponibles",
   }
 }
 

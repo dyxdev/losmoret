@@ -16,7 +16,7 @@ interface CategoryProps {
 export function CategoryBlock(props:CategoryProps) {
   
     return(
-      <Box rounded="lg" shadow="5" overflow="hidden" borderColor="coolGray.200" borderWidth="1" style={styles.box}> 
+      <Box rounded="lg" shadow="2" overflow="hidden" borderColor="coolGray.200" borderWidth="1" style={styles.box}> 
       <View style={styles.root}>
         <TouchableOpacity
           activeOpacity={0.9}
