@@ -32,7 +32,7 @@ export function ProductBlock(props) {
           Categoría
         </Center>
       </Box>
-      <Stack p="4" space={3}>
+      <Stack p="4" space={3} backgroundColor="rose.100">
         <Stack space={2}>
           <Heading size="md" ml="-1">
             {props.title}
@@ -42,7 +42,7 @@ export function ProductBlock(props) {
           Nuestro filete de ternera premium: jugoso, tierno y delicioso.
           Seleccionado cuidadosamente de los mejores ranchos, este corte de carne de calidad excepcional ofrece una experiencia culinaria única.
         </Text>
-        <Divider></Divider>
+        <Divider backgroundColor="warmGray.300"></Divider>
         <HStack alignItems="center" space={4} justifyContent="space-between">
           <Heading size="md" ml="-1">
             10 USD

@@ -1,3 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-native/no-color-literals */
+/* eslint-disable-next-line react-native/no-inline-styles */
 import { Avatar, Box, HStack, Spacer, VStack } from "native-base"
 import { Text } from "./Text"
 import React from "react"
@@ -19,15 +22,22 @@ export const OrderBlock = (props:OrderBlockProps) => {
             <HStack space={[1, 2]} justifyContent="space-between">
                 <Avatar size="48px" source={props.avatarUrl}/>
                 <VStack>
-                    <Text>
+                    
+                    <Text style={{
+                       color:"white"
+                    }}>
                         {props.fullName}
                     </Text>
-                    <Text>
+                    <Text  style={{
+                       color:"white"
+                    }}>
                         {props.recentText}
                     </Text>
                 </VStack>
                 <Spacer />
-                <Text >
+                <Text style={{
+                       color:"white"
+                    }}>
                     {props.timeStamp}
                 </Text>
             </HStack>

@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-color-literals */
+/* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { ImageStyle, ViewStyle } from "react-native"
@@ -6,8 +8,7 @@ import { EmptyState, ListView, Screen, Text } from "app/components"
 import { useBackHeader } from "app/hooks/customHeader"
 import { ProductBlock } from "app/components/Product"
 import { Box, NativeBaseProvider, View } from "native-base"
-import { spacing } from "app/theme"
-import { delay } from "app/utils/delay"
+import { colors, spacing } from "app/theme"
 import { ContentStyle } from "@shopify/flash-list"
 import { SkeletonProducts } from "app/components/Skeleton"
 
@@ -58,7 +59,6 @@ async function load() {
     <NativeBaseProvider>
     <Screen
         preset="fixed"
-        safeAreaEdges={["top"]}
         contentContainerStyle={$screenContentContainer}
       >
         <ListView
@@ -88,7 +88,9 @@ async function load() {
           }
           ListHeaderComponent={
             <View style={$heading}>
-              <Text preset="heading" tx="productScreen.title" />
+              <Text preset="heading" tx="productScreen.title" style={{
+                color:"white"
+              }} />
             </View>
           }
           renderItem={({ item }) => (
@@ -113,6 +115,7 @@ const $listContentContainer: ContentStyle = {
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.lg,
   paddingBottom: spacing.lg,
+  backgroundColor: colors.palette.secondary
 }
 
 const $heading: ViewStyle = {

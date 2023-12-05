@@ -5,7 +5,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
 import { useCartHeader } from "app/hooks/customHeader"
-import { spacing } from "app/theme"
+import { colors, spacing } from "app/theme"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -90,5 +90,6 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
 const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.lg,
-  paddingTop: spacing.sm ,
+  paddingTop: spacing.sm,
+  backgroundColor: colors.palette.secondary
 }

@@ -11,7 +11,7 @@ export const useCartHeader = (navigation: any)=>{
             leftIconColor: 'white',
             rightIconColor: 'white',
             onLeftPress: ()=>navigation.toggleDrawer(),
-            backgroundColor: colors.palette.secondary
+            backgroundColor: colors.palette.primary
         }
     )
 }
@@ -24,7 +24,7 @@ export const useBackHeader = ()=>{
             leftIconColor: 'white',
             rightIconColor: 'white',
             onLeftPress: ()=>goBack(),
-            backgroundColor: colors.palette.secondary
+            backgroundColor: colors.palette.primary
         }
     )
 }
