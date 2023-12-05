@@ -1,4 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+/* eslint-disable react-native/sort-styles */
+/* eslint-disable react-native/no-unused-styles */
+/* eslint-disable react-native/no-color-literals */
+import React, { FC, useRef, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -6,37 +9,30 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  StyleSheet
 } from "react-native";
-import styles from "./styles";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 
+import { AppStackScreenProps } from "app/navigators";
+import { observer } from "mobx-react-lite";
+import { useBackHeader } from "app/hooks/customHeader";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import { Button } from "native-base";
 
 const { width: viewportWidth } = Dimensions.get("window");
+interface ProductDetailScreenProps extends AppStackScreenProps<"ProductDetail"> {}
 
-export default function RecipeScreen(props) {
-  const { navigation, route } = props;
+export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(function ProductDetailScreen(_props) {
+        
+  const { navigation, route } = _props;
 
-  const item = route.params?.item;
-  const category = getCategoryById(item.categoryId);
-  const title = getCategoryName(category.id);
+  const item = route.params?.product;
+  const title = route.params?.categoryName;
 
   const [activeSlide, setActiveSlide] = useState(0);
 
   const slider1Ref = useRef();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTransparent: "true",
-      headerLeft: () => (
-        <BackButton
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      ),
-      headerRight: () => <View />,
-    });
-  }, []);
+  useBackHeader()
 
   const renderImage = ({ item }) => (
     <TouchableHighlight>
@@ -46,10 +42,8 @@ export default function RecipeScreen(props) {
     </TouchableHighlight>
   );
 
-  const onPressIngredient = (item) => {
-    var name = getIngredientName(item);
-    let ingredient = item;
-    navigation.navigate("Ingredient", { ingredient, name });
+  const onPress = () => { 
+      console.log("OnPress")
   };
 
   return (
@@ -58,7 +52,7 @@ export default function RecipeScreen(props) {
         <View style={styles.carousel}>
           <Carousel
             ref={slider1Ref}
-            data={item.photosArray}
+            data={[item.image]}
             renderItem={renderImage}
             sliderWidth={viewportWidth}
             itemWidth={viewportWidth}
@@ -72,7 +66,7 @@ export default function RecipeScreen(props) {
             onSnapToItem={(index) => setActiveSlide(0)}
           />
           <Pagination
-            dotsLength={item.photosArray.length}
+            dotsLength={1}
             activeDotIndex={activeSlide}
             containerStyle={styles.paginationContainer}
             dotColor="rgba(255, 255, 255, 0.92)"
@@ -90,11 +84,11 @@ export default function RecipeScreen(props) {
         <View style={styles.infoContainer}>
           <TouchableHighlight
             onPress={() =>
-              navigation.navigate("RecipesList", { category, title })
+             console.log("Press info Container")
             }
           >
             <Text style={styles.category}>
-              {getCategoryName(item.categoryId).toUpperCase()}
+              {title}
             </Text>
           </TouchableHighlight>
         </View>
@@ -102,18 +96,14 @@ export default function RecipeScreen(props) {
         <View style={styles.infoContainer}>
           <Image
             style={styles.infoPhoto}
-            source={require("../../../assets/icons/time.png")}
+            source={require("../../assets/icons/time.png")}
           />
-          <Text style={styles.infoRecipe}>{item.time} minutes </Text>
+          <Text style={styles.infoRecipe}>10 minutes </Text>
         </View>
 
         <View style={styles.infoContainer}>
-          <ViewIngredientsButton
-            onPress={() => {
-              let ingredients = item.ingredients;
-              let title = "Ingredients for " + item.title;
-              navigation.navigate("IngredientsDetails", { ingredients, title });
-            }}
+          <Button
+            onPress={onPress}
           />
         </View>
         <View style={styles.infoContainer}>
@@ -122,4 +112,92 @@ export default function RecipeScreen(props) {
       </View>
     </ScrollView>
   );
-}
+
+})
+
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  carousel: {},
+  carouselContainer: {
+    minHeight: 250
+  },
+
+  category: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    margin: 10,
+    color: '#2cd18a'
+  },
+  container: {
+    backgroundColor: 'white',
+    flex: 1
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: 250
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    width: viewportWidth,
+    height: 250
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  infoDescriptionRecipe: {
+    textAlign: 'left',
+    fontSize: 16,
+    marginTop: 30,
+    margin: 15
+  },
+  infoPhoto: {
+    height: 20,
+    width: 20,
+    marginRight: 0
+  },
+  infoRecipe: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
+  infoRecipeContainer: {
+    flex: 1,
+    margin: 25,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  infoRecipeName: {
+    fontSize: 28,
+    margin: 10,
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'center'
+  },
+  paginationContainer: {
+    flex: 1,
+    position: 'absolute',
+    alignSelf: 'center',
+    paddingVertical: 8,
+    marginTop: 200
+  },
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 0
+  }
+});
+
+  

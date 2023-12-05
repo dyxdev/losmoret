@@ -1,15 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, ImageStyle } from 'react-native';
 import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base';
 
 import { spacing } from 'app/theme';
 import { Icon } from './Icon';
+import { ProductSnapshotOut } from 'app/models/Product';
 
-export function ProductBlock(props) {
+
+export function ProductBlock(props:ProductSnapshotOut) {
 
   return (
-    <Box maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
+    <Box 
+      onMagicTap={()=>console.log("on magic tap")}
+      maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
       borderColor: "coolGray.600",
       backgroundColor: "gray.700"
     }} _web={{
@@ -20,7 +24,7 @@ export function ProductBlock(props) {
     }}>
       <Box>
 
-        <Image source={props.image} style={style.image} />
+        <Image source={props.image as any} style={style.image} />
 
         <Center bg="red.500" _dark={{
           bg: "red.400"
@@ -100,5 +104,5 @@ const style = {
     width: "100%",
     flex: 1,
     reziseMode: "cover",
-  }
+  } as ImageStyle
 }

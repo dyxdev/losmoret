@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, View, ImageBackground, SafeAreaView, TouchableOpacity } from "react-native"
+import { TextInput, View, ImageBackground, SafeAreaView, TouchableOpacity, TextStyle } from "react-native"
 import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
 import { colors } from "../theme"
-import { $signIn, $tapButton, $textField, contentCenter, $fullImage, $fullBg, $enterDetails, $tapButtonTxt, $center, $topMargin, $centerText } from "../theme/styles"
+import { $signIn, $tapButton, $textField, contentCenter, $fullImage, $fullBg, $enterDetails, $tapButtonTxt, $topMargin, $centerText } from "../theme/styles"
 
 
 const store = require("../../assets/images/login.png")
@@ -129,7 +129,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               activeOpacity={0.8}
               onPress={onRegister}
               >
-              <Text tx="loginScreen.register" preset="formHelper" style={$centerText}></Text>
+              <Text tx="loginScreen.register" preset="formHelper" style={$centerText as TextStyle}></Text>
             </TouchableOpacity>
           </View>
 

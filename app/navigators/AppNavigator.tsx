@@ -16,6 +16,7 @@ import { useStores } from "../store"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 import {CategoryNavigator} from "./CategoryNavigator"
+import { ProductSnapshotOut } from "app/models/Product"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -34,10 +35,15 @@ export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
   Register: undefined
-  HomeCategorie: undefined,
-  Orders: undefined,
+  HomeCategorie: undefined
+  Orders: undefined
   User: undefined
   Products: undefined
+  ProductDetail: { 
+    product: ProductSnapshotOut
+    categoryName: string
+  }
+
 }
 
 /**

@@ -95,7 +95,7 @@ async function load() {
           }
           renderItem={({ item }) => (
             <Box marginBottom="5">
-              <ProductBlock key={item.id} id={item.id} image={item.image} title={item.title} />
+              <ProductBlock key={item.id} guid={String(item.id)} image={item.image} title={item.title} />
             </Box>
           )}
         />

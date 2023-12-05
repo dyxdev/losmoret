@@ -2,10 +2,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ImageStyle, View, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
-import { EmptyState, ListView, Screen, Text, Toggle } from "app/components"
-import { translate } from "app/i18n"
+import { EmptyState, ListView, Screen, Text } from "app/components"
 import { ContentStyle } from "@shopify/flash-list"
 import { spacing } from "app/theme/spacing"
 import { delay } from "app/utils/delay"
@@ -29,7 +28,7 @@ const data = [{
 export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScreen(_props) {
   
   const [isLoading, setIsLoading] = React.useState(false)
-  const [orders, setOrders] = React.useState([])
+  const [orders, setOrders] = React.useState(data)
 
   useCartHeader(_props.navigation)
   async function load() {
@@ -112,16 +111,6 @@ const $listContentContainer: ContentStyle = {
 const $heading: ViewStyle = {
   marginBottom: spacing.md,
 }
-
-
-const $toggle: ViewStyle = {
-  marginTop: spacing.md,
-}
-
-const $labelStyle: TextStyle = {
-  textAlign: "left",
-}
-
 
 const $emptyState: ViewStyle = {
   marginTop: spacing.xxl,
