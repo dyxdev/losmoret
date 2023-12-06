@@ -7,10 +7,11 @@ import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
 import { useBackHeader } from "app/hooks/customHeader"
 import { ProductBlock } from "app/components/Product"
-import { Box, NativeBaseProvider, View } from "native-base"
+import { Box, View } from "native-base"
 import { colors, spacing } from "app/theme"
 import { ContentStyle } from "@shopify/flash-list"
 import { SkeletonProducts } from "app/components/Skeleton"
+import { ProductSnapshotOut } from "app/models/Product"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -26,15 +27,18 @@ const productos = [
     title: 'Productos ahumados',
     image: ahumados,
     stock: 10,
-    price:  1000,
-    value: "1000"
-  }
+    price:  "1000",
+    description: "Nuestro filete de ternera premium: jugoso, tierno y delicioso.Seleccionado cuidadosamente de los mejores ranchos, este corte de carne de calidad excepcional ofrece una experiencia culinaria única.",
+    guid: "1000",
+    pubDate: ""
+  } as ProductSnapshotOut
   ];
 
 export const ProductsScreen: FC<ProductsScreenProps> = observer(function ProductsScreen(_props) {
   
   useBackHeader()
 
+  const {navigation} = _props
   const [isLoading, setIsLoading] = React.useState(false)
 
 const [data,setData] = React.useState(productos)
@@ -49,6 +53,14 @@ async function load() {
       
 }
 
+async function onPress(product: ProductSnapshotOut)
+{
+     navigation.navigate("ProductDetail",{
+      product,
+      categoryName: "Productos ahumados"
+      
+     })
+}
   useEffect(() => {
     
       load().then(()=>{console.log()})
@@ -56,12 +68,11 @@ async function load() {
   },[])
   
   return (
-    <NativeBaseProvider>
     <Screen
         preset="fixed"
         contentContainerStyle={$screenContentContainer}
       >
-        <ListView
+        <ListView<ProductSnapshotOut>
           contentContainerStyle={$listContentContainer}
           data={data}
           estimatedItemSize={177}
@@ -95,13 +106,11 @@ async function load() {
           }
           renderItem={({ item }) => (
             <Box marginBottom="5">
-              <ProductBlock key={item.id} guid={String(item.id)} image={item.image} title={item.title} />
+              <ProductBlock key={item.id} product={item} onPress={onPress} />
             </Box>
           )}
         />
-      </Screen>
-    </NativeBaseProvider>
-    
+      </Screen>  
   )
 })
 

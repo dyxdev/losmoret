@@ -1,18 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Image, ImageStyle } from 'react-native';
+import { Image, ImageStyle, TouchableOpacity } from 'react-native';
 import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base';
 
 import { spacing } from 'app/theme';
 import { Icon } from './Icon';
 import { ProductSnapshotOut } from 'app/models/Product';
 
+interface ProductBlockProps {
+  product:ProductSnapshotOut
+  onPress: (product:ProductSnapshotOut) => void;
+}
 
-export function ProductBlock(props:ProductSnapshotOut) {
+export function ProductBlock(props:ProductBlockProps) {
 
   return (
+    <TouchableOpacity
+       onPress={()=>props.onPress(props.product)}
+    >
     <Box 
-      onMagicTap={()=>console.log("on magic tap")}
       maxW="80" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" _dark={{
       borderColor: "coolGray.600",
       backgroundColor: "gray.700"
@@ -24,7 +30,7 @@ export function ProductBlock(props:ProductSnapshotOut) {
     }}>
       <Box>
 
-        <Image source={props.image as any} style={style.image} />
+        <Image source={props.product.image as any} style={style.image} />
 
         <Center bg="red.500" _dark={{
           bg: "red.400"
@@ -39,7 +45,7 @@ export function ProductBlock(props:ProductSnapshotOut) {
       <Stack p="4" space={3} backgroundColor="rose.100">
         <Stack space={2}>
           <Heading size="md" ml="-1">
-            {props.title}
+            {props.product.title}
           </Heading>
         </Stack>
         <Text fontWeight="400" textAlign="left" textBreakStrategy='balanced'>
@@ -55,6 +61,7 @@ export function ProductBlock(props:ProductSnapshotOut) {
         </HStack>
       </Stack>
     </Box>
+    </TouchableOpacity>
   );
 
 }
