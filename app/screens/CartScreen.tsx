@@ -16,6 +16,7 @@ import { SkeletonProducts } from "app/components/Skeleton"
 import { useStores } from "app/store"
 import { ProductCartSnapshotOut } from "app/models/Product"
 import { CustomDivider } from "app/components/CustomDivider"
+import { Swipable } from "app/components/ProductSwipable"
 
 
 
@@ -67,12 +68,14 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
             </View>
           }
           renderItem={({ item }) => (
-            <ProductCartBlock
+            <Swipable>
+              <ProductCartBlock
             image={item.image}
             name={item.name}
             detail={item.name}
             stock={item.quantity}
             />
+            </Swipable>
           )}
         />
       </Screen>
