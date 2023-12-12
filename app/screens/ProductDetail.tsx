@@ -15,8 +15,10 @@ import {
 import { AppStackScreenProps } from "app/navigators";
 import { observer } from "mobx-react-lite";
 import { useBackHeader } from "app/hooks/customHeader";
-import { Button } from "native-base";
+import { Box, Button, HStack, Input, Spacer, VStack } from "native-base";
 import { colors } from "app/theme";
+import NumericInput from "react-native-numeric-input";
+import { Icon } from "app/components";
 
 const { width: viewportWidth } = Dimensions.get("window");
 interface ProductDetailScreenProps extends AppStackScreenProps<"ProductDetail"> {}
@@ -64,11 +66,33 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
           <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
         </View>
         <View style={styles.infoContainer}>
+          <VStack>
+          <NumericInput 
+            value={0} 
+            onChange={value => console.log({value})} 
+            onLimitReached={(isMax,msg) => console.log(isMax,msg)}
+            totalWidth={240} 
+            totalHeight={50} 
+            iconSize={25}
+            step={1.5}
+            valueType='real'
+            rounded 
+            textColor='white' 
+            iconStyle={{ color: 'white' }} 
+            rightButtonBackgroundColor={colors.palette.primary}
+            leftButtonBackgroundColor={colors.palette.lightBussines}/>
+            <Box h="5"  />
           <Button
             backgroundColor={colors.palette.primary}
             variant="solid"
             onPress={onPress}
-          >Agregar</Button>
+          >
+            <HStack>
+            <Icon icon="cart" size={20}></Icon>
+            <Text>Agregar al carrito</Text>
+            </HStack>
+            </Button>
+          </VStack>
         </View>
         
       </View>

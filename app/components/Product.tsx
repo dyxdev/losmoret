@@ -10,6 +10,7 @@ import { ProductSnapshotOut } from 'app/models/Product';
 interface ProductBlockProps {
   product:ProductSnapshotOut
   onPress: (product:ProductSnapshotOut) => void;
+  onPressCart: (product:ProductSnapshotOut) => void
 }
 
 export function ProductBlock(props:ProductBlockProps) {
@@ -57,7 +58,7 @@ export function ProductBlock(props:ProductBlockProps) {
           <Heading size="md" ml="-1">
             10 USD
           </Heading>
-          <Icon icon='cart' size={30}></Icon>
+          <Icon icon='cart' size={30} onPress={()=>props.onPressCart(props.product)}></Icon>
         </HStack>
       </Stack>
     </Box>
