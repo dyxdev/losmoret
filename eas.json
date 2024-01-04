@@ -33,7 +33,7 @@
       "ios": { "simulator": false }
     },
     "production": {
-      
+      "node":"18.18.2"
     }
   },
   "submit": {

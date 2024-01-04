@@ -8,14 +8,14 @@ export const AuthenticationStoreModel = types
     authToken: types.maybe(types.string),
     authEmail: "",
     authPassword: "",
-    userInfo: {
+    userInfo: types.frozen({
       name: "",
       lastname: "",
       lang: "",
       currency_id: 0,
       address_id: 0,
       userid: 0,
-    } as any,
+    }) as any,
   })
   .views((store) => ({
     get isAuthenticated() {
