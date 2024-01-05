@@ -71,15 +71,19 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
     if (validationError) return
 
-    const response: LoginResponse | GeneralApiProblem = await userLogin()
+   userLogin().then(
+      (response: LoginResponse | GeneralApiProblem) =>{
+        if (isGeneralProblem(response)) {
+          showToastApiError(response as GeneralApiProblem)
+        } else{
+          const result = (response as LoginResponse).result
+          console.log("result:",result.access_token)
+          setAuthToken(result.access_token)
+          setUserInfo(result)
+        }
+    })
 
-    if (isGeneralProblem(response)) {
-      showToastApiError(response as GeneralApiProblem)
-    } else {
-      const result = (response as LoginResponse).result
-      setAuthToken(result.access_token)
-      setUserInfo(result)
-    }
+    
   }
 
   function onRegister() {

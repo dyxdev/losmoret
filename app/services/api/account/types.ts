@@ -37,8 +37,6 @@ export interface Address {
 }
 
 export interface LoginResponse {
-  jsonrpc: string;
-  id:      null;
   result:  Result;
 }
 
@@ -51,7 +49,6 @@ export interface Result {
   address_id:             number;
   userid:                 number;
   access_token:           string;
-  access_token_expire_on: number;
   refresh_token:          string;
   websocket_host:         string;
 }

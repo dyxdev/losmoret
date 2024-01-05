@@ -1,3 +1,3 @@
 export default {
-  API_URL: "https://www.charcuterialosmoret.com",
+  API_URL: "https://www.charcuterialosmoret.com/api",
 }

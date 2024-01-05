@@ -15,11 +15,13 @@ export async function userSignup(data:UserSignup):Promise<CommonResult|GeneralAp
 
 export async function login(data:UserSignin):Promise<LoginResponse|GeneralApiProblem> {
     const response = await api.apiPostWrapper<LoginResponse>(
-        "/auth/signin",
+        "auth/signin",
         {
+            "jsonrpc": "2.0",
             params:data
         }
     )
+    
     return response
 }
 

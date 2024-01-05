@@ -107,7 +107,7 @@ export class Api {
   }
 
   async apiPostWrapper<T>(url:string,body:any,isPut=false): Promise<T | GeneralApiProblem> {
-    
+    console.log(this.config.url,url,body)
     const response: ApiResponse<T> = !isPut ? await this.apisauce.post<T>(
       url,
       body
@@ -124,7 +124,7 @@ export class Api {
 
     try {
       const rawData = response.data
-      return rawData as T
+      return !rawData?.error?.code ? rawData as T :  { kind: rawData.error?.code ?? "unknown", temporary: true }
     } catch (e) {
       return this.onError<T>(e, response)
     }

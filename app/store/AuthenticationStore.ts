@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
 import { translate } from "../i18n"
 import { login as loginApi,logout as logoutApi } from "./../services/api/account/service"
 
@@ -39,23 +39,25 @@ export const AuthenticationStoreModel = types
     setAuthPassword(value: string) {
       store.authPassword = value.replace(/ /g, "")
     },
-    logout() {
+    logout: flow(function* logout() {
       store.authToken = undefined
       store.authEmail = ""
       store.authPassword = ""
-      logoutApi().then((_)=>{
+      try {
+        yield logoutApi()
         store.authToken = undefined
         store.authEmail = ""
         store.authPassword = ""
-      })
-
-    },
-    userLogin() {
-      return loginApi({
+      } catch (error) {
+      }
+      
+    }),
+    userLogin: flow(function* userLogin() {
+      return yield loginApi({
         email: store.authEmail,
         password: store.authPassword,
       })
-    },
+    }),
     setUserInfo(value:any){
            store.userInfo = value
     }

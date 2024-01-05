@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/sort-styles */
 /* eslint-disable react-native/no-unused-styles */
 /* eslint-disable react-native/no-color-literals */
@@ -15,7 +16,7 @@ import {
 import { AppStackScreenProps } from "app/navigators";
 import { observer } from "mobx-react-lite";
 import { useBackHeader } from "app/hooks/customHeader";
-import { Box, Button, HStack, Input, Spacer, VStack } from "native-base";
+import { Box, Button, HStack, VStack } from "native-base";
 import { colors } from "app/theme";
 import NumericInput from "react-native-numeric-input";
 import { Icon } from "app/components";
@@ -78,7 +79,6 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
             valueType='real'
             rounded 
             textColor='white' 
-            iconStyle={{ color: 'white' }} 
             rightButtonBackgroundColor={colors.palette.primary}
             leftButtonBackgroundColor={colors.palette.lightBussines}/>
             <Box h="5"  />

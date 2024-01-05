@@ -10,7 +10,7 @@ interface ToastAlertProps {
 }
 
 interface ToastShowProps{
-    
+status: "info" | "warning" | "success" | "error" | undefined
 title: string,
 variant: "solid"|"outline",
 description: string
@@ -21,8 +21,7 @@ export const ToastAlert = ({
     variant,
     title,
     description,
-    ...rest
-  }: ToastAlertProps) => <Alert maxWidth="100%" alignSelf="center" flexDirection="row" status={status} variant={variant} {...rest}>
+  }: ToastAlertProps) => <Alert maxWidth="100%" alignSelf="center" flexDirection="row" status={status} variant={variant}>
       <VStack space={1} flexShrink={1} w="100%">
         <HStack flexShrink={1} alignItems="center" justifyContent="space-between">
           <HStack space={2} flexShrink={1} alignItems="center">
@@ -44,9 +43,11 @@ export function useToastErrorApi(){
      
      function showToastApiError(value:GeneralApiProblem){
         const info:ToastShowProps = {
-            variant: "outline",
+            status:"error",
+            variant: "solid",
             title: "Resultado Inesperado",
-            description: value.kind
+            description: value.kind,
+
          }
         toast.show({
          render: (props)=>{
