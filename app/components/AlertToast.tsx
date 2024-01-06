@@ -1,3 +1,4 @@
+import { translate } from "app/i18n/translate";
 import { GeneralApiProblem } from "app/services/api/apiProblem";
 import { Alert, HStack, VStack, Text,useToast } from "native-base";
 import React from "react"
@@ -46,7 +47,7 @@ export function useToastErrorApi(){
             status:"error",
             variant: "solid",
             title: "Resultado Inesperado",
-            description: value.kind,
+            description: translate(`errorApi.${value.kind}`),
 
          }
         toast.show({

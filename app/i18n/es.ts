@@ -63,6 +63,18 @@ const es = {
     },
     cartScreen:{
       title: "Productos en el carrito",
+    },
+    errorApi:{
+      timeout: "Sin respuesta del servidor", 
+      cannotConnect: "Imposible establecer la conexión", 
+      server: "¡¡¡ Uppsss :( !!!",
+      unauthorized: "No esta autorizado para realizar esta operación", 
+      forbidden: "No existe", 
+      notFound: "¡¡¡ Uppsss :( !!! No encontramos nada", 
+      rejected: "Su petición ha sido rechazada", 
+      unknown: "Error desconocido",
+      badData: "Formato incorrecto",
+      "400": "¡¡¡ Uppsss :( !!! No encontramos nada"
     }
   }
   

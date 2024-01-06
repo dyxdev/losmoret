@@ -142,6 +142,18 @@ const en = {
   },
   cartScreen:{
     title: "Productos en el carrito",
+  },
+  errorApi:{
+    timeout: "Timeout", 
+    cannotConnect: "Cannot connect", 
+    server: "Server error",
+    unauthorized: "Unauthorized", 
+    forbidden: "Forbidden", 
+    notFound: "Not found", 
+    rejected: "Rejected", 
+    unknown: "Unknown",
+    badData: "Bad data",
+    "400": "Not Found"
   }
 }
 

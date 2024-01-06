@@ -8,7 +8,7 @@ export type GeneralApiProblem =
   /**
    * Cannot connect to the server for some reason.
    */
-  | { kind: "cannot-connect"; temporary: true }
+  | { kind: "cannotConnect"; temporary: true }
   /**
    * The server experienced a problem. Any 5xx error.
    */
@@ -24,7 +24,7 @@ export type GeneralApiProblem =
   /**
    * Unable to find that resource.  This is a 404.
    */
-  | { kind: "not-found" }
+  | { kind: "notFound" }
   /**
    * All other 4xx series errors.
    */
@@ -36,7 +36,7 @@ export type GeneralApiProblem =
   /**
    * The data we received is not in the expected format.
    */
-  | { kind: "bad-data" }
+  | { kind: "badData" }
 
 /**
  * Attempts to get a common cause of problems from an api response.
@@ -46,9 +46,9 @@ export type GeneralApiProblem =
 export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProblem | null {
   switch (response.problem) {
     case "CONNECTION_ERROR":
-      return { kind: "cannot-connect", temporary: true }
+      return { kind: "cannotConnect", temporary: true }
     case "NETWORK_ERROR":
-      return { kind: "cannot-connect", temporary: true }
+      return { kind: "cannotConnect", temporary: true }
     case "TIMEOUT_ERROR":
       return { kind: "timeout", temporary: true }
     case "SERVER_ERROR":
@@ -62,7 +62,7 @@ export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProb
         case 403:
           return { kind: "forbidden" }
         case 404:
-          return { kind: "not-found" }
+          return { kind: "notFound" }
         default:
           return { kind: "rejected" }
       }
