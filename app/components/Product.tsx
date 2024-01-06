@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Image, ImageStyle, TouchableOpacity } from 'react-native';
-import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base';
+import { Box, Stack, HStack, Center, Heading, Divider, Text, VStack } from 'native-base';
 
 import { spacing } from 'app/theme';
 import { Icon } from './Icon';
@@ -12,6 +12,7 @@ interface ProductBlockProps {
   onPress: (product:ProductSnapshotOut) => void;
   onPressCart: (product:ProductSnapshotOut) => void
 }
+const defaultImage = require("../../assets/images/ahumado.jpg")
 
 export function ProductBlock(props:ProductBlockProps) {
 
@@ -31,7 +32,12 @@ export function ProductBlock(props:ProductBlockProps) {
     }}>
       <Box>
 
-        <Image source={props.product.image as any} style={style.image} />
+        {
+          props.product.product_images.length > 0 ? 
+          <Image source={{uri:props.product.product_images[0]}} style={style.image} />
+          : 
+          <Image source={defaultImage} style={style.image} />
+        }
 
         <Center bg="red.500" _dark={{
           bg: "red.400"
@@ -40,24 +46,25 @@ export function ProductBlock(props:ProductBlockProps) {
           fontWeight: "700",
           fontSize: "xs"
         }} position="absolute" bottom="0" px="3" py="1.5">
-          Categoría
+          {props.product.categ_name}
         </Center>
       </Box>
       <Stack p="4" space={3} backgroundColor="rose.100">
         <Stack space={2}>
           <Heading size="md" ml="-1">
-            {props.product.title}
+            {props.product.name}
           </Heading>
         </Stack>
         <Text fontWeight="400" textAlign="left" textBreakStrategy='balanced'>
-          Nuestro filete de ternera premium: jugoso, tierno y delicioso.
-          Seleccionado cuidadosamente de los mejores ranchos, este corte de carne de calidad excepcional ofrece una experiencia culinaria única.
-        </Text>
+            {props.product.description_sale}
+          </Text>
         <Divider backgroundColor="warmGray.300"></Divider>
         <HStack alignItems="center" space={4} justifyContent="space-between">
+          
           <Heading size="md" ml="-1">
-            10 USD
+          { props.product.list_price + " " + props.product.currency_id[1]} 
           </Heading>
+          
           <Icon icon='cart' size={30} onPress={()=>props.onPressCart(props.product)}></Icon>
         </HStack>
       </Stack>
@@ -111,6 +118,5 @@ const style = {
     height: 250,
     width: "100%",
     flex: 1,
-    reziseMode: "cover",
   } as ImageStyle
 }

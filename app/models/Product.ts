@@ -5,13 +5,18 @@ import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree";
 export const ProductModel = types
   .model("Product")
   .props({
-    guid: types.identifier,
-    title: "",
-    pubDate: "", // Ex: 2022-08-12 21:05:36
-    description: "",
-    price: "",
-    stock: 0,
-    image:""
+    id:                      types.string,
+    name:                    types.string,
+    description_sale:        types.boolean,
+    categ_name:              types.string,
+    logo_url:                types.string,
+    list_price:              types.number,
+    price_in_eur:             types.number,
+    price_in_usd:             types.number,
+    alternative_product_ids:  types.array(types.identifier),
+    qty_available:            types.number,
+    product_images:          types.array(types.string),
+    currency_id:              types.array(types.union(types.string,types.number))
   })
   .actions(withSetPropAction)
 
@@ -22,7 +27,7 @@ export const ProductModel = types
     name: types.string,
     price: types.number,
     quantity: types.number,
-    image:types.number,
+    image:types.maybeNull(types.string),
     firstTime: types.boolean
 
   })

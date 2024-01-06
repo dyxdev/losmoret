@@ -13,6 +13,11 @@ import { ContentStyle } from "@shopify/flash-list"
 import { SkeletonProducts } from "app/components/Skeleton"
 import { ProductSnapshotOut } from "app/models/Product"
 import { useStores } from "app/store"
+import { usePaginatedResponse } from "app/hooks/api"
+import { Meta, PaginateResponse, ResultClass } from "app/services/api"
+import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
+import { useToastErrorApi } from "app/components/AlertToast"
+
 
 
 // import { useNavigation } from "@react-navigation/native"
@@ -20,43 +25,50 @@ import { useStores } from "app/store"
 
 interface ProductsScreenProps extends AppStackScreenProps<"Products"> { }
 
-const ahumados = require("../../assets/images/ahumado.jpg")
-
-
-const productos = [
-  {
-    id: 1,
-    title: 'Productos ahumados',
-    image: ahumados,
-    stock: 10,
-    price: "1000",
-    description: "Nuestro filete de ternera premium: jugoso, tierno y delicioso.Seleccionado cuidadosamente de los mejores ranchos, este corte de carne de calidad excepcional ofrece una experiencia culinaria única.",
-    guid: "1000",
-    pubDate: ""
-  } as ProductSnapshotOut
-];
-
 export const ProductsScreen: FC<ProductsScreenProps> = observer(function ProductsScreen(_props) {
 
   useBackHeader()
 
   const { navigation } = _props
-  const [isLoading, setIsLoading] = React.useState(false)
-
-  const [data, setData] = React.useState(productos)
+  const [data, setData] = React.useState<Array<ProductSnapshotOut>>([])
   const {
     cartStore: { addProduct },
   } = useStores()
-
+  const initialParams:Meta = {
+    page:1,
+    take:20
+  }
+  const {
+    refreshing,
+    isLoading, setIsLoading,
+    callEndpoint,
+    setRefreshing
+  } = usePaginatedResponse<ProductSnapshotOut,Meta>("/products",initialParams)
+  
+  const { showToastApiError } = useToastErrorApi()
 
   async function load() {
     setIsLoading(true)
-    const newData = []
-    for (let i = 0; i < 100; i++) {
-      newData.push(data[0]);
+    const response = await callEndpoint()
+    if (isGeneralProblem(response)) {
+      showToastApiError(response as GeneralApiProblem)
+    } else{
+      const result = (response as ResultClass<PaginateResponse<ProductSnapshotOut>>).result
+      setData([...result.items])
     }
-    setData([...newData])
+    
+  }
 
+  async function onRefresh() {
+    setRefreshing(true)
+    const response = await callEndpoint()
+    if (isGeneralProblem(response)) {
+      showToastApiError(response as GeneralApiProblem)
+    } else{
+      const result = (response as ResultClass<PaginateResponse<ProductSnapshotOut>>).result
+      setData([...result.items])
+    }
+    setRefreshing(false)
   }
 
   async function onPress(product: ProductSnapshotOut) {
@@ -68,32 +80,20 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   }
 
   async function onPressCart(product: ProductSnapshotOut) {
-    console.log(product.image)
-    console.log(
-      {
-        id: product.guid,
-        name: product.title,
-        price: Number.parseFloat(product.price),
-        quantity: 1,
-        image: ahumados,
-        firstTime: true
-      }
-    )
+    
     addProduct(
       {
-        id: product.guid,
-        name: product.title,
-        price: Number.parseFloat(product.price),
-        quantity: 1,
-        image: product.image,
+        id: product.id,
+        name: product.name,
+        price: product.list_price,
+        quantity: product.qty_available,
+        image: product.product_images.length > 0 ? product.product_images[0] : null ,
         firstTime: true
       }
     )
   }
   useEffect(() => {
-
-    load().then(() => { console.log() })
-
+    load()
   }, [])
 
   return (
@@ -101,10 +101,14 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
       preset="fixed"
       contentContainerStyle={$screenContentContainer}
     >
+
+      <View style={$screenContentContainer}>
       <ListView<ProductSnapshotOut>
         contentContainerStyle={$listContentContainer}
         data={data}
+        refreshing={refreshing}
         estimatedItemSize={177}
+        onRefresh={onRefresh}
         ListEmptyComponent={
           isLoading ? (
             <SkeletonProducts />
@@ -144,6 +148,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
           </Box>
         )}
       />
+      </View>
     </Screen>
   )
 })
@@ -151,14 +156,15 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
 
 const $screenContentContainer: ViewStyle = {
   flex: 1,
-
+  height: "100%",
+  backgroundColor: colors.palette.secondary,
 }
 
 const $listContentContainer: ContentStyle = {
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.lg,
   paddingBottom: spacing.lg,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: colors.palette.secondary,
 }
 
 const $heading: ViewStyle = {
@@ -167,6 +173,7 @@ const $heading: ViewStyle = {
 
 const $emptyState: ViewStyle = {
   marginTop: spacing.xxl,
+  flex:1
 }
 
 const $emptyStateImage: ImageStyle = {

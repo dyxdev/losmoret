@@ -2,8 +2,8 @@ import { Center, HStack, Skeleton, VStack } from "native-base";
 import React from "react";
 
 export const SkeletonProducts = () => {
-    return <Center w="100%" h="100%">
-        <HStack w="90%" maxW="400" borderWidth="1" space={8} rounded="md" _dark={{
+    return <Center w="100%" h="100%" flex={1} justifyItems="center">
+        <HStack w="90%" maxW="400" h="100%" borderWidth="1" space={8} rounded="md" _dark={{
         borderColor: "white.500"
       }} _light={{
         borderColor: "white.200"

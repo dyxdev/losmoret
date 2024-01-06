@@ -75,12 +75,12 @@ export interface CommonItem {
 }
 
 export interface Meta {
-  page:            number;
-  take:            number;
-  itemCount:       number;
-  pageCount:       number;
-  hasPreviousPage: boolean;
-  hasNextPage:     boolean;
+  page?:            number;
+  take?:            number;
+  itemCount?:       number;
+  pageCount?:       number;
+  hasPreviousPage?: boolean;
+  hasNextPage?:     boolean;
 }
 
 

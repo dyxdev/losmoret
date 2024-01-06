@@ -37,9 +37,7 @@ export class Api {
       baseURL: this.config.url,
       timeout: this.config.timeout,
       headers: {
-        Accept: "application/json",
         From: 'app', 
-        "Content-Type": 'application/json'
       },
     })
   }
@@ -82,9 +80,8 @@ export class Api {
     
     const response: ApiResponse<T> = await this.apisauce.get(
       url,
-      {
-        params:parameters
-      }
+      parameters
+      
     )
 
     if (!response.ok) {
@@ -140,7 +137,9 @@ const naviMonitor = (response: any) => console.log('hey!  listen! ', response)
 api.apisauce.addMonitor(naviMonitor)
 
 api.apisauce.addAsyncRequestTransform(async request => {
+  console.log('hey!  listen! request:', request)
   const token =  await AsyncStorage.getItem('odoo_token')
+  console.log(token)
   if(request.headers && token){
     request.headers.Authorization = `Bearer ${token}`
   }
