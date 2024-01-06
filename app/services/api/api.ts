@@ -10,6 +10,7 @@ import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
 import type { ApiConfig, ApiFeedResponse } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 /**
  * Configuring the apisauce instance.
@@ -73,7 +74,7 @@ export class Api {
       if (__DEV__ && e instanceof Error) {
         console.tron.error?.(`Bad data: ${e.message}\n${response.data}`, e.stack)
       }
-      return { kind: "bad-data" }
+      return { kind: "badData" }
     }
   }
 
@@ -103,7 +104,7 @@ export class Api {
     if (__DEV__ && e instanceof Error) {
       console.tron.error?.(`Bad data: ${e.message}\n${response.data}`, e.stack)
     }
-    return { kind: "bad-data" }
+    return { kind: "badData" }
   }
 
   async apiPostWrapper<T>(url:string,body:any,isPut=false): Promise<T | GeneralApiProblem> {
@@ -132,5 +133,17 @@ export class Api {
 
 }
 
-// Singleton instance of the API for convenience
-export const api = new Api()
+
+const api = new Api()
+const naviMonitor = (response: any) => console.log('hey!  listen! ', response)
+
+api.apisauce.addMonitor(naviMonitor)
+
+api.apisauce.addAsyncRequestTransform(async request => {
+  const token =  await AsyncStorage.getItem('odoo_token')
+  if(request.headers && token){
+    request.headers.Authorization = `Bearer ${token}`
+  }
+})
+
+export {api}

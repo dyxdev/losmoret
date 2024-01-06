@@ -2,6 +2,7 @@ import { LoginResponse, UserProfile, UserSignin, UserSignup } from "./types";
 import { api } from "../api";
 import { CommonResult } from "../api.types";
 import { GeneralApiProblem } from "../apiProblem";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function userSignup(data:UserSignup):Promise<CommonResult|GeneralApiProblem> {
     const response = await api.apiPostWrapper<CommonResult>(
@@ -39,6 +40,10 @@ export async function updateProfile(data:UserProfile):Promise<CommonResult|Gener
         {params:data}
     )
     return response
+}
+
+export async function setAuthTokenSession(value:any){
+    await AsyncStorage.setItem("odoo_token",value)
 }
 
 

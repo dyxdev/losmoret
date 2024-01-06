@@ -27,6 +27,7 @@ import {
 import type { LoginResponse } from "app/services/api/account/types"
 import { isGeneralProblem, type GeneralApiProblem } from "app/services/api/apiProblem"
 import { useToastErrorApi } from "app/components/AlertToast"
+import { setAuthTokenSession } from "app/services/api/account/service"
 
 const store = require("../../assets/images/login.png")
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
@@ -78,7 +79,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         } else{
           const result = (response as LoginResponse).result
           console.log("result:",result.access_token)
-          setAuthToken(result.access_token)
+          
+          setAuthTokenSession(result.access_token).then(()=>{
+            setAuthToken(result.access_token)
+          })
           setUserInfo(result)
         }
     })
