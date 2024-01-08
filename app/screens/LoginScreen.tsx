@@ -7,6 +7,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextStyle,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
 } from "react-native"
 import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
@@ -28,6 +31,7 @@ import type { LoginResponse } from "app/services/api/account/types"
 import { isGeneralProblem, type GeneralApiProblem } from "app/services/api/apiProblem"
 import { useToastErrorApi } from "app/components/AlertToast"
 import { setAuthTokenSession } from "app/services/api/account/service"
+
 
 const store = require("../../assets/images/login.png")
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
@@ -112,6 +116,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   return (
     <SafeAreaView style={$fullBg}>
+      <KeyboardAvoidingView behavior="padding">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ImageBackground source={store} resizeMode="contain" style={$fullImage}>
         <View style={contentCenter}>
           <View>
@@ -172,6 +178,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
           </View>
         </View>
       </ImageBackground>
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 })

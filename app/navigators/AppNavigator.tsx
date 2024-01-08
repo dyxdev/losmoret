@@ -45,7 +45,7 @@ export type AppStackParamList = {
     categoryName: string
   }
   Cart:undefined
-
+  Pay:undefined
 }
 
 /**
@@ -91,6 +91,7 @@ const AppStack = observer(function AppStack() {
       <Stack.Screen name="Products" component={Screens.ProductsScreen} />
       <Stack.Screen name="ProductDetail" component={Screens.ProductDetailScreen} />
       <Stack.Screen name="Cart" component={Screens.CartScreen} />
+      <Stack.Screen name="Pay" component={Screens.PayScreen} />
 			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
     </NativeBaseProvider>

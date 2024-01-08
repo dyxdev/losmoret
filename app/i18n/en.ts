@@ -148,7 +148,11 @@ const en = {
     delete: "¿ Desea eliminar el producto {{product}} ?",
     deletebutton: "Delete",
     empty: "El carrito esta vacío",
-    message: "Agregue algunos productos a su carrito para que se vea tan repleto como este"
+    message: "Agregue algunos productos a su carrito para que se vea tan repleto como este",
+    order: "No. Orden: ",
+    delivery: "Costo de envío: ",
+    total: "Total: ",
+    date: "Fecha:  "
   },
   errorApi:{
     timeout: "Timeout", 

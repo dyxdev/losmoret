@@ -17,8 +17,10 @@ export const CarStoreModel = types
   .model("CarStore")
   .props({
     id: "",
+    order_id: "",
     amount_total: 0,
     amount_delivery: 0,
+    date: types.maybeNull(types.Date),
     products: types.array(ProductCartModel),
     order_line: types.array(ProductCartLineModel),
     state: types.maybeNull(types.enumeration("State", ["pending", "done", "error"])),
@@ -57,6 +59,7 @@ export const CarStoreModel = types
     sucessFetch(result: GetCartResponse) {
       store.setProp("amount_delivery", result.amount_delivery)
       store.setProp("amount_total", result.amount_total)
+      store.setProp('order_id', result.name)
       const resultOrderLine = result.order_line.map((v) => {
         return ProductCartLineModel.create({
           id: v.id,

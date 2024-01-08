@@ -26,7 +26,8 @@ interface CartScreenProps extends AppStackScreenProps<"Cart"> { }
 
 
 export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_props) {
-
+  
+  const { navigation } = _props
   const {
     cartStore
   } = useStores()
@@ -88,6 +89,12 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
                "cartScreen.message"
 
              }
+             headingStyle={{
+              color:"white"
+             }}
+             contentStyle={{
+              color:"white"
+             }}
              imageStyle={$emptyStateImage}
              ImageProps={{ resizeMode: "contain" }}
            />
@@ -100,7 +107,9 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
               <Text preset="heading" tx="cartScreen.title" style={{
                 color: "white"
               }} />
-              {cartStore.orderLine.length > 0 && <Button bg="red.900">Finalizar pedido</Button>}
+              {cartStore.orderLine.length > 0 && <Button bg="red.900" onPress={()=>{
+                navigation.navigate("Pay")
+              }}>Finalizar pedido</Button>}
             </VStack>
           </View>
         }

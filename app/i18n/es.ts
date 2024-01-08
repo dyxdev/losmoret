@@ -65,7 +65,11 @@ const es = {
       title: "Productos en el carrito",
       error: "Ocurrio un error al obtener el carrito",
       delete: "¿ Desea eliminar el producto {{product}} ?",
-      deletebutton: "Eliminar"
+      deletebutton: "Eliminar",
+      order: "No. Orden: ",
+      delivery: "Costo de envío: ",
+      total: "Total: ",
+      date: "Fecha:  "
     },
     errorApi:{
       timeout: "Sin respuesta del servidor", 
