@@ -57,8 +57,39 @@ export function useToastErrorApi(){
       })
     }
 
-    return {showToastApiError}
+    function showToastErrorResponse(value:GeneralApiProblem){
+      const info:ToastShowProps = {
+          status:"error",
+          variant: "solid",
+          title: "Resultado Inesperado",
+          description: value.message ?? translate(`errorApi.${value.kind}`)
+
+       }
+      toast.show({
+       render: (props)=>{
+           return <ToastAlert {...info} {...props}/>
+       }
+    })
+  }
+
+    function showToastInfoMessage(description:string){
+      const info:ToastShowProps = {
+          status:"success",
+          variant: "solid",
+          title: "Operación satisfactoria",
+          description: description
+
+       }
+      toast.show({
+       render: (props)=>{
+           return <ToastAlert {...info} {...props}/>
+       }
+    })
+  }
+
+    return {showToastApiError,showToastErrorResponse,showToastInfoMessage}
 }
+
 
 export function useToastCustom(){
 

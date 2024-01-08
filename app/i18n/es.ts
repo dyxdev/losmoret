@@ -63,6 +63,9 @@ const es = {
     },
     cartScreen:{
       title: "Productos en el carrito",
+      error: "Ocurrio un error al obtener el carrito",
+      delete: "¿ Desea eliminar el producto {{product}} ?",
+      deletebutton: "Eliminar"
     },
     errorApi:{
       timeout: "Sin respuesta del servidor", 

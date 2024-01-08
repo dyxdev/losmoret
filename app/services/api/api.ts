@@ -91,7 +91,7 @@ export class Api {
 
     try {
       const rawData = response.data
-      return rawData as T
+      return !rawData?.error?.code ? rawData as T :  { kind: rawData.error?.code ?? "unknown", temporary: true, message: rawData.error?.message }
     } catch (e) {
       return this.onError<T>(e, response)
     }
@@ -122,13 +122,35 @@ export class Api {
 
     try {
       const rawData = response.data
-      return !rawData?.error?.code ? rawData as T :  { kind: rawData.error?.code ?? "unknown", temporary: true }
+      return !rawData?.error?.code ? rawData as T :  { kind: rawData.error?.code ?? "unknown", temporary: true, message: rawData.error?.message }
     } catch (e) {
       return this.onError<T>(e, response)
     }
   }
 
+  async apiDeleteWrapper<T>(url:string): Promise<T | GeneralApiProblem> {
+    
+    const response: ApiResponse<T> = await this.apisauce.delete(
+      url
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+      return !rawData?.error?.code ? rawData as T :  { kind: rawData.error?.code ?? "unknown", temporary: true, message: rawData.error?.message }
+    } catch (e) {
+      return this.onError<T>(e, response)
+    }
+  }
+
+
 }
+
+
 
 
 const api = new Api()

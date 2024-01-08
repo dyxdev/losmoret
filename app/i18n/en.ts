@@ -139,9 +139,16 @@ const en = {
   },
   productScreen:{
     title: "Productos disponibles",
+    empty: 'No existen productos disponibles',
+    message: "Intente refrescar los productos. Quizas obtenga algún resultado"
   },
   cartScreen:{
     title: "Productos en el carrito",
+    error: "Ocurrio un error al obtener el carrito",
+    delete: "¿ Desea eliminar el producto {{product}} ?",
+    deletebutton: "Delete",
+    empty: "El carrito esta vacío",
+    message: "Agregue algunos productos a su carrito para que se vea tan repleto como este"
   },
   errorApi:{
     timeout: "Timeout", 

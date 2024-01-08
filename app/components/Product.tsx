@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Image, ImageStyle, TouchableOpacity } from 'react-native';
-import { Box, Stack, HStack, Center, Heading, Divider, Text, VStack } from 'native-base';
+import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base';
 
 import { spacing } from 'app/theme';
 import { Icon } from './Icon';

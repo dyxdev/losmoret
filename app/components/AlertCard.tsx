@@ -1,41 +1,39 @@
-import { TouchableOpacityProps } from "react-native";
-import React, { ComponentType, Fragment, ReactElement } from "react"
-import {Image,Box, HStack, VStack, Text, Pressable} from "native-base"
-import {TextProps} from "./Text"
+import { AlertDialog, Button } from "native-base";
+import React from "react"
 
-
-interface AlertCardProps extends TouchableOpacityProps {
-    headingTx?: TextProps["tx"]
-
-    headingTxOptions?: TextProps["txOptions"]
+interface PropsAlert {
+  status: "primary" | "danger",
+  titleButton: string,
+  isOpen: boolean,
+  description: string,
+  onOK: ()=>void,
+  onClose: ()=>void
+  isLoading: boolean
 }
 
-export function AlertCard(props: AlertCardProps){
-           
-
-      return (
-        <Box bg="primary.600" py="4" px="3" borderRadius="5" rounded="md" width={375} maxWidth="100%">
-        <HStack justifyContent="space-between">
-          <Box justifyContent="space-between">
-            <VStack space="2">
-              <Text fontSize="sm" color="white">
-                Today @ 9PM
-              </Text>
-              <Text color="white" fontSize="xl">
-                Let's talk about avatar!
-              </Text>
-            </VStack>
-            <Pressable rounded="xs" bg="primary.400" alignSelf="flex-start" py="1" px="3">
-              <Text textTransform="uppercase" fontSize="sm" fontWeight="bold" color="white">
-                Remind me
-              </Text>
-            </Pressable>
-          </Box>
-          <Image source={{
-          uri: 'https://media.vanityfair.com/photos/5ba12e6d42b9d16f4545aa19/3:2/w_1998,h_1332,c_limit/t-Avatar-The-Last-Airbender-Live-Action.jpg'
-        }} alt="Aang flying and surrounded by clouds" height="100" rounded="full" width="100" />
-        </HStack>
-      </Box>
+export const AlertShow = (props:PropsAlert) => {
+  
+  const cancelRef = React.useRef(null);
+  return (
+      <AlertDialog leastDestructiveRef={cancelRef} isOpen={props.isOpen} onClose={props.onClose}>
+        <AlertDialog.Content>
+          <AlertDialog.CloseButton />
+          <AlertDialog.Header>{props.titleButton}</AlertDialog.Header>
+          <AlertDialog.Body>
+            {props.description}
+          </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Button.Group space={2}>
+              <Button variant="unstyled" colorScheme="coolGray" onPress={props.onClose} ref={cancelRef}>
+                Cancelar
+              </Button>
+              <Button isLoading={props.isLoading} colorScheme={props.status} onPress={()=>props.onOK()}>
+                {props.titleButton}
+              </Button>
+            </Button.Group>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
       )
-}
-
+  
+};

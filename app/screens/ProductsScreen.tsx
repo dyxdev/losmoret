@@ -10,14 +10,14 @@ import { ProductBlock } from "app/components/Product"
 import { Box, View } from "native-base"
 import { colors, spacing } from "app/theme"
 import { ContentStyle } from "@shopify/flash-list"
-import { SkeletonProducts } from "app/components/Skeleton"
 import { ProductSnapshotOut } from "app/models/Product"
 import { useStores } from "app/store"
 import { usePaginatedResponse } from "app/hooks/api"
 import { Meta, PaginateResponse, ResultClass } from "app/services/api"
 import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
 import { useToastErrorApi } from "app/components/AlertToast"
-
+import { add2Cart } from "app/services/api/cart/service"
+import { CartAddResponse } from "app/services/api/cart/types"
 
 
 // import { useNavigation } from "@react-navigation/native"
@@ -45,7 +45,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
     setRefreshing
   } = usePaginatedResponse<ProductSnapshotOut,Meta>("/products",initialParams)
   
-  const { showToastApiError } = useToastErrorApi()
+  const { showToastApiError,showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
 
   async function load() {
     setIsLoading(true)
@@ -55,6 +55,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
     } else{
       const result = (response as ResultClass<PaginateResponse<ProductSnapshotOut>>).result
       setData([...result.items])
+      setIsLoading(false)
     }
     
   }
@@ -74,23 +75,23 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   async function onPress(product: ProductSnapshotOut) {
     navigation.navigate("ProductDetail", {
       product,
-      categoryName: "Productos ahumados"
-
+      categoryName: product.categ_name
     })
   }
 
   async function onPressCart(product: ProductSnapshotOut) {
     
-    addProduct(
-      {
-        id: product.id,
-        name: product.name,
-        price: product.list_price,
-        quantity: product.qty_available,
-        image: product.product_images.length > 0 ? product.product_images[0] : null ,
-        firstTime: true
+    add2Cart({
+      product_id:Number.parseInt(product.id),
+      quantity: 1
+    }).then((response:GeneralApiProblem | ResultClass<CartAddResponse>)=>{
+      if (isGeneralProblem(response)) {
+        showToastErrorResponse(response as GeneralApiProblem)
+      } else{
+        const result = (response as ResultClass<CartAddResponse>).result
+        showToastInfoMessage(result.message)
       }
-    )
+    })
   }
   useEffect(() => {
     load()
@@ -98,7 +99,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
 
   return (
     <Screen
-      preset="fixed"
+      preset="scroll"
       contentContainerStyle={$screenContentContainer}
     >
 
@@ -110,19 +111,18 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
         estimatedItemSize={177}
         onRefresh={onRefresh}
         ListEmptyComponent={
-          isLoading ? (
-            <SkeletonProducts />
-          ) : (
+         (
             <EmptyState
               preset="generic"
               style={$emptyState}
+              imageSource={require("../../assets/images/sad.png")}
               headingTx={
-                "demoPodcastListScreen.noFavoritesEmptyState.heading"
+                "productScreen.empty"
 
               }
               contentTx={
 
-                "demoPodcastListScreen.noFavoritesEmptyState.content"
+                "productScreen.message"
 
               }
               imageStyle={$emptyStateImage}
