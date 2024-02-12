@@ -33,8 +33,8 @@ export function ProductBlock(props:ProductBlockProps) {
       <Box>
 
         {
-          props.product.product_images.length > 0 ? 
-          <Image source={{uri:props.product.product_images[0]}} style={style.image} />
+          props.product.logo_url ? 
+          <Image source={{uri:props.product.logo_url}} style={style.image} />
           : 
           <Image source={defaultImage} style={style.image} />
         }
