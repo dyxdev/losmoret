@@ -38,6 +38,7 @@ interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
   const authPasswordInput = useRef<TextInput>(null)
+  const emailInput = useRef<TextInput>(null)
   const { navigation } = _props
 
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
@@ -59,9 +60,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   const { showToastApiError } = useToastErrorApi()
 
   useEffect(() => {
-    setAuthEmail("admin@codes.store")
-    setAuthPassword("Odoo")
-
+  
     return () => {
       setAuthPassword("")
       setAuthEmail("")
@@ -126,6 +125,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
           </View>
           <View style={$topMargin}>
             <TextField
+              ref={emailInput}
               value={authEmail}
               onChangeText={setAuthEmail}
               containerStyle={$textField}
@@ -135,12 +135,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               LabelTextProps={{
                 style: $signIn,
               }}
-              keyboardType="email-address"
               labelTx="loginScreen.emailFieldLabel"
               placeholderTx="loginScreen.emailFieldPlaceholder"
               helper={error}
               status={error ? "error" : undefined}
-              onSubmitEditing={() => authPasswordInput.current?.focus()}
             />
 
             <TextField

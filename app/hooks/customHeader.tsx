@@ -7,10 +7,10 @@ export const useCartHeader = (navigation: any)=>{
     useHeader(
         {
             rightIcon: 'cart',
-            leftIcon: 'menu',
+            //leftIcon: 'menu',
             leftIconColor: 'white',
             rightIconColor: 'white',
-            onLeftPress: ()=>navigation.toggleDrawer(),
+            //onLeftPress: ()=>navigation.toggleDrawer(),
             onRightPress: ()=>navigation.navigate("Cart"),
             backgroundColor: colors.palette.primary
         }

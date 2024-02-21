@@ -2,7 +2,7 @@
 /* eslint-disable react-native/sort-styles */
 /* eslint-disable react-native/no-unused-styles */
 /* eslint-disable react-native/no-color-literals */
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -10,7 +10,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 
 import { AppStackScreenProps } from "app/navigators";
@@ -20,62 +20,86 @@ import { Box, Button, HStack, VStack } from "native-base";
 import { colors } from "app/theme";
 import NumericInput from "react-native-numeric-input";
 import { Icon } from "app/components";
+import { add2Cart } from "app/services/api/cart/service"
+import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem";
+import { ResultClass } from "app/services/api";
+import { CartAddResponse } from "app/services/api/cart/types";
+import { useToastErrorApi } from "app/components/AlertToast";
 
 const { width: viewportWidth } = Dimensions.get("window");
 interface ProductDetailScreenProps extends AppStackScreenProps<"ProductDetail"> {}
 
 export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(function ProductDetailScreen(_props) {
         
-  const { navigation, route } = _props;
+  const { route } = _props;
 
   const item = route.params?.product;
-  const title = route.params?.categoryName;
+  const title = route.params?.categoryName ?? "";
+  const defaultImage = require("../../assets/images/ahumado.jpg")
 
+  const [quantity,setQuantity] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
+  
   useBackHeader()
 
-  const renderImage = ({ item }) => (
+  const renderImage = ({ item:any }) => (
     <TouchableHighlight>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={item} />
+        {item.logo_url ? 
+          <Image source={{uri:item.logo_url}} style={styles.image} />
+          : 
+          <Image source={defaultImage} style={styles.image} />}
       </View>
     </TouchableHighlight>
   );
 
   const onPress = () => { 
-      console.log("OnPress")
+    setLoading(true)
+    add2Cart({
+      product_id:Number.parseInt(item.id),
+      quantity
+    }).then((response:GeneralApiProblem | ResultClass<CartAddResponse>)=>{
+      if (isGeneralProblem(response)) {
+        showToastErrorResponse(response as GeneralApiProblem)
+        setQuantity(0)
+        setLoading(false)
+      } else{
+        const result = (response as ResultClass<CartAddResponse>).result
+        showToastInfoMessage(result.message)
+        setQuantity(0)
+        setLoading(false)
+      }
+    }).finally(()=>{
+        setLoading(false)
+    })
   };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.carouselContainer}>
-          {renderImage(item.image)}
+          {renderImage(item)}
       </View>
       <View style={styles.infoRecipeContainer}>
-        <Text style={styles.infoRecipeName}>{item.title}</Text>
+        <Text style={styles.infoRecipeName}>{item.name}</Text>
         <View style={styles.infoContainer}>
-          <TouchableHighlight
-            onPress={() =>
-             console.log("Press info Container")
-            }
-          >
-            <Text style={styles.category}>
-              {title}
-            </Text>
-          </TouchableHighlight>
+            <Text style={styles.category}> {title} </Text>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoDescriptionRecipe}>{item.description}</Text>
+          <Text style={styles.infoDescriptionRecipe}>{"¿Qué cantidad desea?"}</Text>
         </View>
         <View style={styles.infoContainer}>
           <VStack>
           <NumericInput 
-            value={0} 
-            onChange={value => console.log({value})} 
+            value={quantity} 
+            onChange={value => setQuantity(value)} 
+            maxValue={item.qty_available}
             onLimitReached={(isMax,msg) => console.log(isMax,msg)}
             totalWidth={240} 
             totalHeight={50} 
             iconSize={25}
-            step={1.5}
+            step={1}
             valueType='real'
             rounded 
             textColor='white' 
@@ -86,10 +110,12 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
             backgroundColor={colors.palette.primary}
             variant="solid"
             onPress={onPress}
+            isLoading={loading}
+            isLoadingText="Agregando al carrito..."
           >
-            <HStack>
-            <Icon icon="cart" size={20}></Icon>
-            <Text>Agregar al carrito</Text>
+            <HStack justifyContent={"center"} alignItems="center">
+            <Icon icon="cart" size={30} color="white"></Icon>
+            <Text style={styles.addCart}>Agregar al carrito</Text>
             </HStack>
             </Button>
           </VStack>
@@ -188,7 +214,13 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     marginHorizontal: 0
-  }
+  },
+  addCart: {
+    textAlign: 'left',
+    fontSize: 16,
+    color:"white",
+    fontWeight:"200"
+  },
 });
 
   

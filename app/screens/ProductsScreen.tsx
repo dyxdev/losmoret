@@ -73,6 +73,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   }
 
   async function onPress(product: ProductSnapshotOut) {
+    console.log(product)
     navigation.navigate("ProductDetail", {
       product,
       categoryName: product.categ_name

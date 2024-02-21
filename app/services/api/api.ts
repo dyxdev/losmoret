@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
  * Configuring the apisauce instance.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: Config.API_URL,
+  url: process.env.EXPO_PUBLIC_API_URL,
   timeout: 10000,
 }
 
@@ -34,7 +34,7 @@ export class Api {
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
     this.apisauce = create({
-      baseURL: this.config.url,
+      baseURL: process.env.EXPO_PUBLIC_API_URL,
       timeout: this.config.timeout,
       headers: {
         From: 'app', 

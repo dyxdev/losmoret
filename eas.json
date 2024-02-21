@@ -33,7 +33,10 @@
       "ios": { "simulator": false }
     },
     "production": {
-      "node":"18.18.2"
+      "node":"18.18.2",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://www.charcuterialosmoret.com/api"
+      }
     }
   },
   "submit": {

@@ -76,7 +76,7 @@ const AppStack = observer(function AppStack() {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="HomeCategorie" component={CategoryNavigator} />
+          <Stack.Screen name="HomeCategorie" component={BottomNavigator} />
         </>
       ) : (
         <>
