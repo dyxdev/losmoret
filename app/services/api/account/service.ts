@@ -46,6 +46,11 @@ export async function setAuthTokenSession(value:any){
     await AsyncStorage.setItem("odoo_token",value)
 }
 
+export async function setCookies(value:string){
+    const cookies = value + ";frontend_lang=es_MX;tZ=America/Havana"
+    await AsyncStorage.setItem("cookies",cookies)
+}
+
 
 
 

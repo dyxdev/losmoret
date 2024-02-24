@@ -17,6 +17,7 @@ import { DeleteCartResponse } from "app/services/api/cart/types"
 import { useToastErrorApi } from "app/components/AlertToast"
 import { AlertShow } from "app/components/AlertCard"
 import { translate } from "app/i18n"
+import { useBackHeader } from "app/hooks/customHeader"
 
 interface PayScreenProps extends AppStackScreenProps<"Pay"> { }
 
@@ -36,6 +37,7 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
   } = useTheme();
 
   const { navigation } = _props
+  useBackHeader()
   
   const onPayCart = async (product?: ProductLineCartSnapshotOut) => {
     setLoading(true)
@@ -56,17 +58,7 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
     })
 
   }
-
-  React.useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
-
-      }),
-    [navigation]
-  );
-
+ 
   return (
     <Screen
       preset="scroll"
@@ -137,14 +129,9 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
         </ScrollView>
 
 
-        <View style={{ marginTop: 50, marginBottom: 10, paddingBottom: 7 }} flex={1} >
-          <Button variant="solid" colorScheme="danger" startIcon={<Icon icon='check' />} justifyContent="center" alignItems="end">
-            <Text style={{ color: '#fdfdfd' }}>Pagar</Text>
-          </Button>
-        </View>
-        <View style={{ marginBottom: 10, paddingBottom: 7 }} flex={1} justifyContent="space-between">
-          <Button onPress={()=>navigation.navigate("Products")} variant="outline" borderColor="warmGray.500" leftIcon={<Icon icon='back' />} justifyContent="space-between">
-            <Text style={{ color: '#fdfdfd' }}>Volver a la vista de productos</Text>
+        <View style={{ marginTop: 20, marginBottom: 10, paddingBottom: 7 }} flex={1} >
+          <Button onPress={()=>navigation.navigate("PayWeb")} variant="solid" colorScheme="danger" startIcon={<Icon icon='check' color="white" />} justifyContent="center" alignItems="end">
+            <Text style={{ color: '#fdfdfd' }}>Ir a la web para realizar el pago</Text>
           </Button>
         </View>
       </Box>
@@ -166,7 +153,8 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 10,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: colors.palette.secondary,
+  marginBottom: spacing.md,
 
 }
 

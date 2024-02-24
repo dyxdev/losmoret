@@ -16,7 +16,6 @@ import { useStores } from "../store"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 import {BottomNavigator} from "./BottomNavigator"
-import {CategoryNavigator} from "./CategoryNavigator"
 import { ProductSnapshotOut } from "app/models/Product"
 import { NativeBaseProvider } from "native-base"
 
@@ -47,6 +46,7 @@ export type AppStackParamList = {
   }
   Cart:undefined
   Pay:undefined
+  PayWeb:undefined
 }
 
 /**
@@ -93,6 +93,7 @@ const AppStack = observer(function AppStack() {
       <Stack.Screen name="ProductDetail" component={Screens.ProductDetailScreen} />
       <Stack.Screen name="Cart" component={Screens.CartScreen} />
       <Stack.Screen name="Pay" component={Screens.PayScreen} />
+      <Stack.Screen name="PayWeb" component={Screens.PayWebScreen} />
 			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
     </NativeBaseProvider>

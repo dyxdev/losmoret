@@ -30,11 +30,13 @@
     "prebuild:clean": "npx expo prebuild --clean",
     "prebuild": "npx expo prebuild",
     "build:install": "eas build --platform android",
-    "build:apk": "eas build -p android --profile preview"
+    "build:apk": "eas build -p android --profile preview",
+    "link-web": "react-native link react-native-webview"
   },
   "dependencies": {
     "@expo-google-fonts/space-grotesk": "^0.2.2",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-cookies/cookies": "^6.2.1",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.0.2",
@@ -71,6 +73,7 @@
     "react-native-swipeable": "^0.6.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.19.6",
+    "react-native-webview": "^13.8.1",
     "stable-hash": "^0.0.3"
   },
   "devDependencies": {

@@ -107,7 +107,8 @@ export const iconRegistry = {
   slack: require("../../assets/icons/demo/slack.png"),
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
-  cart: require("../../assets/icons/cart.png")
+  cart: require("../../assets/icons/cart.png"),
+  trash: require("../../assets/icons/trash.png")
 }
 
 const $imageStyleBase: ImageStyle = {

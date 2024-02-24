@@ -9,9 +9,8 @@ import { ContentStyle } from "@shopify/flash-list"
 import { spacing } from "app/theme/spacing"
 import { useBackHeader } from "app/hooks/customHeader"
 import { colors } from "app/theme"
-import { Button, Center, VStack } from "native-base"
+import { Button, Center, HStack, VStack } from "native-base"
 import { ProductCartBlock } from "app/components/ProductCartBlock"
-import { SkeletonProducts } from "app/components/Skeleton"
 import { useStores } from "app/store"
 import {ProductLineCartSnapshotOut } from "app/models/Product"
 import { CustomDivider } from "app/components/CustomDivider"
@@ -33,6 +32,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   } = useStores()
   const [currentProduct, setCurrentProduct] = useState<ProductLineCartSnapshotOut>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const [openAlertWeb, setOpenAlertWeb] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   useBackHeader()
@@ -68,6 +68,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
       preset="scroll"
       contentContainerStyle={$screenContentContainer}
     >
+
       <ListView<ProductLineCartSnapshotOut>
         ItemSeparatorComponent={CustomDivider}
         contentContainerStyle={$listContentContainer}
@@ -104,12 +105,33 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
         ListHeaderComponent={
           <View style={$heading}>
             <VStack>
+          
               <Text preset="heading" tx="cartScreen.title" style={{
                 color: "white"
               }} />
               {cartStore.orderLine.length > 0 && <Button bg="red.900" onPress={()=>{
-                navigation.navigate("Pay")
-              }}>Finalizar pedido</Button>}
+                setOpenAlertWeb(true)
+              }}>Finalizar pedido</Button>
+              }
+             {
+              cartStore.orderLine.length > 0 &&
+               (<HStack justifyContent="space-between" marginTop="10">
+               <Text preset="bold" tx="cartScreen.total" style={{
+                 color: "white",
+                 fontSize: 24
+               }} />
+               <Text preset="bold" text={String(cartStore.amount_total)} style={{
+                 color: "white",
+                 fontSize: 24
+               }} />
+               
+             </HStack>
+            )
+            
+             }
+             {
+               cartStore.orderLine.length > 0 && <CustomDivider></CustomDivider>
+             }
             </VStack>
           </View>
         }
@@ -123,6 +145,16 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
             />
         )}
       />
+      <AlertShow
+          isOpen={openAlertWeb} 
+          description={translate("cartScreen.gopay")}
+          status="primary"
+          titleButton={translate("cartScreen.pay")}
+          onOK={()=>navigation.navigate('PayWeb')}
+          onClose={()=>setOpenAlertWeb(false)}
+          isLoading={loading}
+      />
+
       <AlertShow
           isOpen={openAlert} 
           description={translate("cartScreen.delete", { product: currentProduct?.name ?? "" })}

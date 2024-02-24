@@ -152,7 +152,9 @@ const en = {
     order: "No. Orden: ",
     delivery: "Costo de envío: ",
     total: "Total: ",
-    date: "Fecha:  "
+    date: "Fecha:  ",
+    pay: "Pagar pedido",
+    gopay: "Sera redireccionado a la web para realizar el pago de su pedido"
   },
   errorApi:{
     timeout: "Timeout", 
