@@ -4,11 +4,9 @@ import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle,SafeAreaView } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
-import { Screen } from "app/components"
 import { colors } from "app/theme"
-import { Box, ScrollView } from "native-base"
 import { WebView } from 'react-native-webview';
-import { useBackHeader, useLeaveWebView } from "app/hooks/customHeader"
+import { useLeaveWebView } from "app/hooks/customHeader"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface PayWebScreenProps extends AppStackScreenProps<"PayWeb"> { }
@@ -55,8 +53,7 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
   const { navigation } = _props
   useLeaveWebView(navigation)
   const [cookies,setCookies] = useState<string|null>(null)
-  const [injectedJs,setInjectedJs] = useState<string>("")
-  const [height,setHeight] = useState<any>()
+  
 
   useEffect( ()=> {
 
@@ -64,8 +61,6 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
       try {
         const getCookies =  await AsyncStorage.getItem('cookies') ?? ""
         setCookies(getCookies)
-        setInjectedJs(INJECTED_JAVASCRIPT(getCookies))
-        console.log(getCookies)
       } catch (err) {
         console.error(err);
       }
@@ -78,26 +73,17 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
       
     style={$screenContentContainer}
     >
-      {
-        cookies && <WebView
+      <WebView
         source={{ 
           uri: 'https://charcuterialosmoret.com/shop/cart',
         }}
         scrollEnabled={false}
-        style={{height: height}}  
+        style={{height: "100%",width:"100%"}}  
         automaticallyAdjustContentInsets={false}
         sharedCookiesEnabled={true}
         pullToRefreshEnabled={true}
-        onMessage={event => {
-          setHeight(parseInt(event.nativeEvent.data));
-        }}
         onNavigationStateChange={handleWebViewNavigationStateChange}
-        javaScriptEnabled={true}
-  injectedJavaScript ={webViewScript}
-  domStorageEnabled={true}
-        
       />
-      }
       
     </SafeAreaView>
   )

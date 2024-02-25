@@ -172,6 +172,7 @@ api.apisauce.addAsyncResponseTransform(async response => {
  
    try {
     if(response.headers){
+      setCookies(response.headers['set-cookie'][0])
       CookieManager.setFromResponse(
         'https://charcuterialosmoret.com',
         response.headers['set-cookie'][0])
