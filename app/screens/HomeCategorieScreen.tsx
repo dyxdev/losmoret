@@ -6,6 +6,7 @@ import { Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
 import { useCartHeader } from "app/hooks/customHeader"
 import { colors, spacing } from "app/theme"
+import { useStores } from "app/store"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -27,12 +28,17 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
   
   useCartHeader(navigation)
 
+  const {
+    cartStore
+  } = useStores()
+
   const categories = [
     {
       id: 1,
       title: 'AHUMADOS',
       image: ahumados,
       click: ()=>{
+        cartStore.setCategoryName("Ahumados")
         navigation.navigate('Products')
       }
     },
@@ -41,6 +47,7 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
       title: 'CONGELADOS',
       image: congelados,
       click: ()=>{
+        cartStore.setCategoryName("Congelados")
         navigation.navigate('Products')
       }
     },
@@ -49,6 +56,7 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
       title: 'EMBUTIDOS',
       image: embutidos,
       click: ()=>{
+        cartStore.setCategoryName("Embutidos")
         navigation.navigate('Products')
       }
      },
@@ -57,6 +65,7 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
       title: 'LÁCTEOS',
       image:  lacteos,
       click: ()=>{
+        cartStore.setCategoryName("Lácteos")
         navigation.navigate('Products')
       }
     }

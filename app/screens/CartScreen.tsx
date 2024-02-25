@@ -41,9 +41,23 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
     await cartStore.fetchCart()
    
   }
+
   useEffect(() => {
     load().then(()=> console.log(cartStore.state,cartStore.orderLine))
-  }, [])
+  },[])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        load()
+    });
+
+    navigation.addListener('beforeRemove', (_) => {
+        load()
+    })
+
+    return unsubscribe;
+  }, [navigation]);
+
   
   const onRemoveProduct = async (product?:ProductLineCartSnapshotOut) => {
         setLoading(true)

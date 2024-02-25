@@ -25,6 +25,7 @@ export const CarStoreModel = types
     order_line: types.array(ProductCartLineModel),
     state: types.maybeNull(types.enumeration("State", ["pending", "done", "error"])),
     message: types.maybeNull(types.string),
+    categ: "",
   })
   .views((store) => ({
     get total() {
@@ -38,12 +39,18 @@ export const CarStoreModel = types
     },
     get orderLine(){
       return store.order_line.slice()
+    },
+    get category(){
+      return store.categ
     }
   }))
   .actions(withSetPropAction)
   .actions((store) => ({
     addProduct(product: ProductCartSnapshotOut) {
       store.products.push(product)
+    },
+    setCategoryName(categ:string){
+        store.setProp("categ",categ)
     },
     removeProduct(id: any) {
       const index = store.products.findIndex((p) => p.id === id)

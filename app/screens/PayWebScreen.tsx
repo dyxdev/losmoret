@@ -2,13 +2,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { ViewStyle,SafeAreaView } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { Screen } from "app/components"
 import { colors } from "app/theme"
-import { Box } from "native-base"
+import { Box, ScrollView } from "native-base"
 import { WebView } from 'react-native-webview';
-import { useBackHeader } from "app/hooks/customHeader"
+import { useBackHeader, useLeaveWebView } from "app/hooks/customHeader"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface PayWebScreenProps extends AppStackScreenProps<"PayWeb"> { }
@@ -27,14 +27,36 @@ const INJECTED_JAVASCRIPT = (cookies:string)=>{
   })();`
 };
 
+const webViewScript = `
+  setTimeout(function() { 
+    window.postMessage(document.documentElement.scrollHeight); 
+  }, 500);
+  true; // note: this is required, or you'll sometimes get silent failures
+`;
+
 const onMessage = (payload) => {
   console.log('payload', payload);
 };
 
+const handleWebViewNavigationStateChange = (newNavState) => {
+  // newNavState looks something like this:
+  // {
+  //   url?: string;
+  //   title?: string;
+  //   loading?: boolean;
+  //   canGoBack?: boolean;
+  //   canGoForward?: boolean;
+  // }
+  const { url } = newNavState;
+  console.log(url)
+}
+
 export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScreen(_props) {
-  useBackHeader()
+  const { navigation } = _props
+  useLeaveWebView(navigation)
   const [cookies,setCookies] = useState<string|null>(null)
   const [injectedJs,setInjectedJs] = useState<string>("")
+  const [height,setHeight] = useState<any>()
 
   useEffect( ()=> {
 
@@ -52,25 +74,32 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
   },[])
 
   return (
-    <Screen
-      preset="auto"
-      contentContainerStyle={$screenContentContainer}
+    <SafeAreaView
+      
+    style={$screenContentContainer}
     >
-      <Box w="100%" h="100%" flex={1}>
       {
         cookies && <WebView
         source={{ 
           uri: 'https://charcuterialosmoret.com/shop/cart',
         }}
-        style={{ width: "100%",height:"100%" }}
+        scrollEnabled={false}
+        style={{height: height}}  
+        automaticallyAdjustContentInsets={false}
         sharedCookiesEnabled={true}
         pullToRefreshEnabled={true}
-        onMessage={onMessage}
+        onMessage={event => {
+          setHeight(parseInt(event.nativeEvent.data));
+        }}
+        onNavigationStateChange={handleWebViewNavigationStateChange}
+        javaScriptEnabled={true}
+  injectedJavaScript ={webViewScript}
+  domStorageEnabled={true}
         
       />
       }
-      </Box>  
-    </Screen>
+      
+    </SafeAreaView>
   )
 })
 
@@ -78,7 +107,9 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 0,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: colors.palette.secondary,
+  height: "auto",
+  bottom: 30
 
 }
 

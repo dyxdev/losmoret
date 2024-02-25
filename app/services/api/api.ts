@@ -18,7 +18,7 @@ import CookieManager from '@react-native-cookies/cookies';
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 10000,
+  timeout: 500000,
 }
 
 /**
@@ -170,16 +170,19 @@ api.apisauce.addAsyncRequestTransform(async request => {
 
 api.apisauce.addAsyncResponseTransform(async response => {
  
-  if(response.headers){
-    console.log('headers',response.headers['set-cookie'][0])
-    await setCookies(response.headers['set-cookie'][0])
-    CookieManager.setFromResponse(
-      'https://charcuterialosmoret.com',
-      response.headers['set-cookie'][0])
-        .then((success) => {
-          console.log('CookieManager.setFromResponse =>', success);
-        });
-  }
+   try {
+    if(response.headers){
+      CookieManager.setFromResponse(
+        'https://charcuterialosmoret.com',
+        response.headers['set-cookie'][0])
+          .then((success) => {
+            console.log('CookieManager.setFromResponse =>', success);
+          }); 
+    }
+   } catch (error) {
+    
+   }
+ 
  
 })
 

@@ -32,22 +32,31 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   const { navigation } = _props
   const [data, setData] = React.useState<Array<ProductSnapshotOut>>([])
   const {
-    cartStore: { addProduct },
+    cartStore: { addProduct,category },
   } = useStores()
-  const initialParams:Meta = {
+  const params:Meta = {
     page:1,
-    take:20
+    take:20,
+    categ_name:category
   }
   const {
     refreshing,
     isLoading, setIsLoading,
     callEndpoint,
+    setParams,
     setRefreshing
-  } = usePaginatedResponse<ProductSnapshotOut,Meta>("/products",initialParams)
+  } = usePaginatedResponse<ProductSnapshotOut,Meta>("/products",params)
   
   const { showToastApiError,showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
 
   async function load() {
+    setParams({
+      page:1,
+      take:20,
+      categ_name:category
+    })
+    
+
     setIsLoading(true)
     const response = await callEndpoint()
     if (isGeneralProblem(response)) {
@@ -73,7 +82,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   }
 
   async function onPress(product: ProductSnapshotOut) {
-    console.log(product)
+    
     navigation.navigate("ProductDetail", {
       product,
       categoryName: product.categ_name

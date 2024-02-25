@@ -11,7 +11,7 @@ export function usePaginatedResponse<T,P>(url:string,params?:P|null){
     const callEndpoint = useCallback(async ()=>{
         const response = await api.apiGetWrapper<ResultClass<PaginateResponse<T>>>(
             initialUrl,
-            params
+            initialParams
         )
         return response
     },[initialUrl,initialParams])
@@ -23,6 +23,7 @@ export function usePaginatedResponse<T,P>(url:string,params?:P|null){
         callEndpoint,
         setUrl,
         setParams,
+        initialParams
     }
 
 }

@@ -93,7 +93,12 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
           <VStack>
           <NumericInput 
             value={quantity} 
-            onChange={value => setQuantity(value)} 
+            onChange={value => {
+              if(value > 0){
+                setQuantity(value)
+              }
+            }} 
+            minValue={0}
             maxValue={item.qty_available}
             onLimitReached={(isMax,msg) => console.log(isMax,msg)}
             totalWidth={240} 
