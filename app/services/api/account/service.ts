@@ -3,6 +3,8 @@ import { api } from "../api";
 import { CommonResult } from "../api.types";
 import { GeneralApiProblem } from "../apiProblem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CallbackWithResult } from "@react-native-async-storage/async-storage/lib/typescript/types";
+import { _rootStore, useStores } from "app/store";
 
 export async function userSignup(data:UserSignup):Promise<CommonResult|GeneralApiProblem> {
     const response = await api.apiPostWrapper<CommonResult>(
@@ -44,6 +46,25 @@ export async function updateProfile(data:UserProfile):Promise<CommonResult|Gener
 
 export async function setAuthTokenSession(value:any){
     await AsyncStorage.setItem("odoo_token",value)
+}
+
+export async function getAuthTokenSession(callback?: CallbackWithResult<string> | undefined){
+    return await AsyncStorage.getItem("odoo_token",callback)
+}
+
+export async function removeAuthTokenSession(){
+    await AsyncStorage.removeItem("odoo_token")
+}
+
+export async function refreshStorageAuth(){
+
+    const store = _rootStore.authenticationStore
+
+    getAuthTokenSession((error?: Error | null, result?: string | null)=>{
+        if(!error){
+            store.setAuthToken(result == null ? undefined : result)
+        }
+ })
 }
 
 export async function setCookies(value:string){

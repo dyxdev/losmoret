@@ -65,11 +65,15 @@ const es = {
       title: "Productos en el carrito",
       error: "Ocurrio un error al obtener el carrito",
       delete: "¿ Desea eliminar el producto {{product}} ?",
-      deletebutton: "Eliminar",
+      deletebutton: "Delete",
+      empty: "El carrito esta vacío",
+      message: "Agregue algunos productos a su carrito para que se vea tan repleto como este",
       order: "No. Orden: ",
       delivery: "Costo de envío: ",
       total: "Total: ",
-      date: "Fecha:  "
+      date: "Fecha:  ",
+      pay: "Pagar pedido",
+      gopay: "Sera redireccionado a la web para realizar el pago de su pedido"
     },
     errorApi:{
       timeout: "Sin respuesta del servidor", 

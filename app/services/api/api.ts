@@ -11,7 +11,7 @@ import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
 import type { ApiConfig, ApiFeedResponse } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { setCookies } from "./account/service"
+import { refreshStorageAuth, removeAuthTokenSession, setCookies } from "./account/service"
 import CookieManager from '@react-native-cookies/cookies';
 /**
  * Configuring the apisauce instance.
@@ -171,6 +171,11 @@ api.apisauce.addAsyncRequestTransform(async request => {
 api.apisauce.addAsyncResponseTransform(async response => {
  
    try {
+    if(response.status === 401 || response.status === 403 ){
+          await removeAuthTokenSession()
+          await refreshStorageAuth()
+    }
+
     if(response.headers){
       setCookies(response.headers['set-cookie'][0])
       CookieManager.setFromResponse(

@@ -1,6 +1,6 @@
 import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
 import { translate } from "../i18n"
-import { login as loginApi,logout as logoutApi } from "./../services/api/account/service"
+import { login as loginApi,logout as logoutApi, refreshStorageAuth, removeAuthTokenSession } from "./../services/api/account/service"
 
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
@@ -19,6 +19,7 @@ export const AuthenticationStoreModel = types
   })
   .views((store) => ({
     get isAuthenticated() {
+      refreshStorageAuth()
       return !!store.authToken
     },
     get validationError() {
@@ -26,8 +27,15 @@ export const AuthenticationStoreModel = types
       if (store.authEmail.length < 6) return translate("fieldsValidation.min", { min: "6" })
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(store.authEmail))
         return translate('errors.invalidEmail')
-      return ""
+      return null
     },
+    get validationErrorPassword() {
+      if (store.authPassword.length === 0) return translate("fieldsValidation.blank")
+      return null
+    },
+    get asValidationError(){
+        return this.validationError !=null || this.validationErrorPassword != null
+    }
   }))
   .actions((store) => ({
     setAuthToken(value?: string) {
@@ -40,14 +48,14 @@ export const AuthenticationStoreModel = types
       store.authPassword = value.replace(/ /g, "")
     },
     logout: flow(function* logout() {
-      store.authToken = undefined
       store.authEmail = ""
       store.authPassword = ""
       try {
         yield logoutApi()
-        store.authToken = undefined
+        yield removeAuthTokenSession()
         store.authEmail = ""
         store.authPassword = ""
+        store.authToken = undefined
       } catch (error) {
       }
       

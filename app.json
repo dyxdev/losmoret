@@ -1,9 +1,9 @@
 {
-  "name": "StoreOdooApp",
-  "displayName": "StoreOdooApp",
+  "name": "Los Moret",
+  "displayName": "Los Moret",
   "expo": {
-    "name": "StoreOdooApp",
-    "slug": "StoreOdooApp",
+    "name": "Los Moret",
+    "slug": "Los Moret",
     "scheme": "storeodooapp",
     "version": "1.0.0",
     "orientation": "portrait",

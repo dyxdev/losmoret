@@ -9,7 +9,8 @@ import {
   TextStyle,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native"
 import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
@@ -31,6 +32,7 @@ import type { LoginResponse } from "app/services/api/account/types"
 import { isGeneralProblem, type GeneralApiProblem } from "app/services/api/apiProblem"
 import { useToastErrorApi } from "app/components/AlertToast"
 import { setAuthTokenSession } from "app/services/api/account/service"
+import { CircularProgress } from "native-base"
 
 
 const store = require("../../assets/images/login.png")
@@ -50,10 +52,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       setAuthEmail,
       setAuthToken,
       validationError,
+      validationErrorPassword,
       authPassword,
       setAuthPassword,
       userLogin,
       setUserInfo,
+      asValidationError
     },
   } = useStores()
 
@@ -67,14 +71,20 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     }
   }, [])
 
-  const error = isSubmitted ? validationError : ""
+  const [error, setError] = useState(isSubmitted ? validationError : null)
+  const [errorPassword, setErrorPassword] = useState(isSubmitted ? validationErrorPassword : null)
+  const [loading,setLoading] = useState(false)
 
   async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
 
-    if (validationError) return
-
+    if (validationError || validationErrorPassword) {
+      setError("Revise los valores del campo")
+      setErrorPassword("Revise los valores del campo")
+      return
+    }
+   setLoading(true)
    userLogin().then(
       (response: LoginResponse | GeneralApiProblem) =>{
         if (isGeneralProblem(response)) {
@@ -88,6 +98,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
           })
           setUserInfo(result)
         }
+    }).finally(()=>{
+      setLoading(false)
     })
 
     
@@ -157,6 +169,8 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               placeholderTx="loginScreen.passwordFieldPlaceholder"
               onSubmitEditing={login}
               RightAccessory={PasswordRightAccessory}
+              helper={errorPassword}
+              status={errorPassword ? "error" : undefined}
             />
 
             <Button
@@ -165,6 +179,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               style={$tapButton}
               onPress={login}
               textStyle={$tapButtonTxt}
+              disabled={asValidationError}
+              LeftAccessory={()=>loading && <ActivityIndicator color="white"/>}
+              
             />
             <TouchableOpacity activeOpacity={0.8} onPress={onRegister}>
               <Text
