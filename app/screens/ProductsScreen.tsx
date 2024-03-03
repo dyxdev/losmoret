@@ -27,9 +27,10 @@ interface ProductsScreenProps extends AppStackScreenProps<"Products"> { }
 
 export const ProductsScreen: FC<ProductsScreenProps> = observer(function ProductsScreen(_props) {
 
-  useBackHeader()
-
   const { navigation } = _props
+  useBackHeader(navigation)
+
+ 
   const [data, setData] = React.useState<Array<ProductSnapshotOut>>([])
   const {
     cartStore: { addProduct,category },

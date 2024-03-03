@@ -35,7 +35,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   const [openAlertWeb, setOpenAlertWeb] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
-  useBackHeader()
+  useBackHeader(navigation)
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
   async function load() {
     await cartStore.fetchCart()

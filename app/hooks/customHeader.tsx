@@ -1,9 +1,10 @@
 import { useToastErrorApi } from "app/components/AlertToast"
+import { UserMenu } from "app/components/Menu"
 import { goBack, navigate } from "app/navigators"
 import { useStores } from "app/store"
 import { colors } from "app/theme"
 import { useHeader } from "app/utils/useHeader"
-
+import React from "react"
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const useCartHeader = (navigation: any)=>{
     const {
@@ -11,10 +12,8 @@ export const useCartHeader = (navigation: any)=>{
     } = useStores()
     useHeader(
         {
-            rightIcon: 'cart',
-            leftIcon: 'back',
-            leftIconColor: 'white',
-            rightIconColor: 'white',
+            
+            RightActionComponent: <UserMenu navigation={navigation}/>,
             onLeftPress: async ()=> authenticationStore.logout(),
             onRightPress: ()=>navigation.navigate("Cart"),
             backgroundColor: colors.palette.primary
@@ -22,16 +21,16 @@ export const useCartHeader = (navigation: any)=>{
     )
 }
 
-export const useBackHeader = ()=>{
+export const useBackHeader = (navigation:any)=>{
     useHeader(
         {
-            rightIcon: 'cart',
+            
             leftIcon: 'back',
             leftIconColor: 'white',
             rightIconColor: 'white',
             onLeftPress: ()=>goBack(),
             backgroundColor: colors.palette.primary,
-            onRightPress: ()=>navigate("Cart"),
+            RightActionComponent: <UserMenu navigation={navigation}/>
         }
     )
 }

@@ -37,7 +37,7 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
   } = useTheme();
 
   const { navigation } = _props
-  useBackHeader()
+  useBackHeader(navigation)
   
   const onPayCart = async (product?: ProductLineCartSnapshotOut) => {
     setLoading(true)

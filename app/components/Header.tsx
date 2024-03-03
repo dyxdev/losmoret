@@ -123,6 +123,7 @@ export interface HeaderProps {
    * Override the default edges for the safe area.
    */
   safeAreaEdges?: ExtendedEdge[]
+
 }
 
 interface HeaderActionProps {

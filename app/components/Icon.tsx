@@ -108,7 +108,8 @@ export const iconRegistry = {
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
   cart: require("../../assets/icons/cart.png"),
-  trash: require("../../assets/icons/trash.png")
+  trash: require("../../assets/icons/trash.png"),
+  user: require("../../assets/icons/user.png"),
 }
 
 const $imageStyleBase: ImageStyle = {

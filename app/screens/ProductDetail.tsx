@@ -31,7 +31,7 @@ interface ProductDetailScreenProps extends AppStackScreenProps<"ProductDetail"> 
 
 export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(function ProductDetailScreen(_props) {
         
-  const { route } = _props;
+  const { route,navigation } = _props;
 
   const item = route.params?.product;
   const title = route.params?.categoryName ?? "";
@@ -42,7 +42,7 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
 
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
   
-  useBackHeader()
+  useBackHeader(navigation)
 
   const renderImage = ({ item:any }) => (
     <TouchableHighlight>
