@@ -154,7 +154,7 @@ const en = {
     total: "Total: ",
     date: "Fecha:  ",
     pay: "Pagar pedido",
-    gopay: "Sera redireccionado a la web para realizar el pago de su pedido"
+    gopay: "Sera redireccionado a la web para realizar el pago de su pedido. Cuando termine el pago presione el botón atrás (<-) de la app"
   },
   errorApi:{
     timeout: "Timeout", 

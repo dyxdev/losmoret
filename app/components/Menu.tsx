@@ -1,13 +1,15 @@
-import { Avatar, Box, Menu, Pressable } from "native-base";
-import React from "react"
+import { Box, Menu, Pressable } from "native-base";
+import React, { useState } from "react"
 import { Icon } from "./Icon";
 import { CustomDivider } from "./CustomDivider";
 import { useStores } from "app/store";
+import { ActivityIndicator } from "react-native";
 
 export const UserMenu = (props:any)=> {
     const {
         authenticationStore
     } = useStores()
+
     return (
         <Box mr={2} alignItems="center" flexDir={"row"}>
         <Icon icon="cart" size={30} color="white" onPress={()=>props.navigation.navigate("Cart")}/>

@@ -62,7 +62,8 @@ export function ProductBlock(props:ProductBlockProps) {
         <HStack alignItems="center" space={4} justifyContent="space-between">
           
           <Heading size="md" ml="-1">
-          { props.product.list_price + " " + props.product.currency_id[1]} 
+          { props.product.price_in_usd.toFixed(2) + " " + "USD"} 
+          
           </Heading>
           
           <Icon icon='cart' size={30} onPress={()=>props.onPressCart(props.product)}></Icon>
