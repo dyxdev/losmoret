@@ -17,7 +17,24 @@ import { colors } from "app/theme";
 
 
 const Tab = createBottomTabNavigator()
-
+const orderTab = (
+  <Tab.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{
+          tabBarLabel: ({ children, color, focused }) => (
+            <Text style={
+              {
+                color: focused ? colors.palette.primary : color
+              }
+            }>Mis órdenes</Text>
+          ),
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons name="book-check" color={focused ? colors.palette.primary : color} size={size} />
+          ),
+        }}
+      />
+)
 
 export const BottomNavigator = () => {
 
@@ -45,23 +62,7 @@ export const BottomNavigator = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Orders"
-        component={OrdersScreen}
-        options={{
-          tabBarLabel: ({ children, color, focused }) => (
-            <Text style={
-              {
-                color: focused ? colors.palette.primary : color
-              }
-            }>Mis órdenes</Text>
-          ),
-          tabBarIcon: ({ color, size, focused }) => (
-            <MaterialCommunityIcons name="book-check" color={focused ? colors.palette.primary : color} size={size} />
-          ),
-        }}
-      />
-
+      
 
     </Tab.Navigator>
   )

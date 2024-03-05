@@ -1,9 +1,8 @@
 import { Box, Menu, Pressable } from "native-base";
 import React, { useState } from "react"
 import { Icon } from "./Icon";
-import { CustomDivider } from "./CustomDivider";
 import { useStores } from "app/store";
-import { ActivityIndicator } from "react-native";
+
 
 export const UserMenu = (props:any)=> {
     const {
@@ -18,9 +17,13 @@ export const UserMenu = (props:any)=> {
                     <Icon icon="user" size={30} color="white"/>
                   </Pressable>;
           }}>
-              <Menu.Item>Perfil</Menu.Item>
-              <CustomDivider />
-              <Menu.Item onPress={()=>authenticationStore.logout()}>Cerrar Sesión</Menu.Item>
+              <Menu.Item onPress={async ()=>{
+                await authenticationStore.logout()
+                props.navigation.reset({
+                    index: 0,
+                    routes: [{name: 'Login'}],
+                  });
+                }}>Cerrar Sesión</Menu.Item>
         </Menu>
         </Box>
     )

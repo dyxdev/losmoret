@@ -57,6 +57,7 @@ export const AuthenticationStoreModel = types
         store.authPassword = ""
         store.authToken = undefined
       } catch (error) {
+        store.authToken = undefined
       }
       
     }),

@@ -27,10 +27,10 @@ export const useBackHeader = (navigation:any)=>{
             
             leftIcon: 'back',
             leftIconColor: 'white',
-            rightIconColor: 'white',
             onLeftPress: ()=>goBack(),
-            backgroundColor: colors.palette.primary,
-            RightActionComponent: <UserMenu navigation={navigation}/>
+            RightActionComponent: <UserMenu navigation={navigation}/>,
+            onRightPress: ()=>navigation.navigate("Cart"),
+            backgroundColor: colors.palette.primary
         }
     )
 }

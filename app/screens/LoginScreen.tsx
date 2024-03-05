@@ -30,7 +30,7 @@ import {
 } from "../theme/styles"
 import type { LoginResponse } from "app/services/api/account/types"
 import { isGeneralProblem, type GeneralApiProblem } from "app/services/api/apiProblem"
-import { useToastErrorApi } from "app/components/AlertToast"
+import { useToastCustom, useToastErrorApi } from "app/components/AlertToast"
 import { setAuthTokenSession } from "app/services/api/account/service"
 import { CircularProgress } from "native-base"
 
@@ -61,7 +61,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     },
   } = useStores()
 
-  const { showToastApiError } = useToastErrorApi()
+  const { showToast } = useToastCustom()
 
   useEffect(() => {
   
@@ -80,7 +80,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     setAttemptsCount(attemptsCount + 1)
 
     if (validationError || validationErrorPassword) {
-      setError("Revise los valores del campo")
+      setError(validationError)
       setErrorPassword("Revise los valores del campo")
       return
     }
@@ -88,7 +88,14 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
    userLogin().then(
       (response: LoginResponse | GeneralApiProblem) =>{
         if (isGeneralProblem(response)) {
-          showToastApiError(response as GeneralApiProblem)
+          showToast(
+            {
+              title:"Creedenciales incorrectas",
+              status: "error",
+              description:"Las creedenciales no son correctas. Revise los valores del campo correo y del campo contraseña",
+              variant:"solid"
+            }
+          )
         } else{
           const result = (response as LoginResponse).result
           console.log("result:",result.access_token)
@@ -179,7 +186,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
               style={$tapButton}
               onPress={login}
               textStyle={$tapButtonTxt}
-              disabled={asValidationError}
               LeftAccessory={()=>loading && <ActivityIndicator color="white"/>}
               
             />
