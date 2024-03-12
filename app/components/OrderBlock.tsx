@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-native/no-color-literals */
 /* eslint-disable-next-line react-native/no-inline-styles */
-import { Avatar, Box, HStack, Spacer, VStack } from "native-base"
+import { Avatar, Badge, Box, HStack, Spacer, VStack } from "native-base"
 import { Text } from "./Text"
 import React from "react"
 
@@ -28,11 +28,9 @@ export const OrderBlock = (props:OrderBlockProps) => {
                     }}>
                         {props.fullName}
                     </Text>
-                    <Text  style={{
-                       color:"white"
-                    }}>
+                    <Badge  colorScheme={props.recentText === "Aprobada" ? "success" : "error"}>
                         {props.recentText}
-                    </Text>
+                    </Badge>
                 </VStack>
                 <Spacer />
                 <Text style={{

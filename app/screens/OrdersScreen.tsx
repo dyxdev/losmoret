@@ -7,37 +7,42 @@ import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
 import { ContentStyle } from "@shopify/flash-list"
 import { spacing } from "app/theme/spacing"
-import { delay } from "app/utils/delay"
 import { OrderBlock } from "app/components/OrderBlock"
-import { useCartHeader } from "app/hooks/customHeader"
+import { useBackHeader } from "app/hooks/customHeader"
 import { colors } from "app/theme"
 import { Divider } from "native-base"
+import { getOrders } from "app/services/api/orders/service"
+import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
+import { useToastErrorApi } from "app/components/AlertToast"
+import { ResultClass } from "app/services/api"
+import { Order } from "app/services/api/orders/types"
 
 
 
 interface OrdersScreenProps extends AppStackScreenProps<"Orders"> {}
 
-const data = [{
-  id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-  fullName: "Orden #",
-  timeStamp: "12:47 PM",
-  recentText: "Productos ordenados:  10",
-  avatarUrl: require('../../assets/images/order.png')
-}];
+const  avatarUrl = require('../../assets/images/order.png')
+
 
 export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScreen(_props) {
   
   const [isLoading, setIsLoading] = React.useState(false)
-  const [orders, setOrders] = React.useState(data)
+  const [orders, setOrders] = React.useState<Order[]>()
+  const { navigation } = _props
 
-  useCartHeader(_props.navigation)
+  useBackHeader(navigation)
+  const { showToastApiError} = useToastErrorApi()
+
   async function load() {
     setIsLoading(true)
-    for(let i = 0 ; i < 10 ; i++){
-      data.push(data[0]);
+    const response = await getOrders()
+    
+    if (isGeneralProblem(response)) {
+      showToastApiError(response as GeneralApiProblem)
+    } else{
+      const result = (response as ResultClass<Order[]>).result
+      setOrders(result)
     }
-    setOrders([...data])
-    await Promise.all([delay(750),delay(750)])
     setIsLoading(false)
   }
   useEffect(() => {
@@ -59,20 +64,21 @@ export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScree
               <ActivityIndicator />
             ) : (
               <EmptyState
-                preset="generic"
-                style={$emptyState}
-                headingTx={
-                  "demoPodcastListScreen.noFavoritesEmptyState.heading"
-                  
-                }
-                contentTx={
-                  
-                    "demoPodcastListScreen.noFavoritesEmptyState.content"
-                    
-                }
-                imageStyle={$emptyStateImage}
-                ImageProps={{ resizeMode: "contain" }}
-              />
+              preset="generic"
+              style={$emptyState}
+              imageSource={require("../../assets/images/sad.png")}
+              headingTx={
+                "orderScreen.empty"
+
+              }
+              contentTx={
+
+                "orderScreen.message"
+
+              }
+              imageStyle={$emptyStateImage}
+              ImageProps={{ resizeMode: "contain" }}
+            />
             )
           }
           ListHeaderComponent={
@@ -84,10 +90,10 @@ export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScree
           }
           renderItem={({ item }) => (
             <OrderBlock
-            avatarUrl={item.avatarUrl}
-            fullName={item.fullName}
-            timeStamp={item.timeStamp}
-            recentText={item.recentText}
+            avatarUrl={avatarUrl}
+            fullName={item.name}
+            timeStamp={item.date_order}
+            recentText={item.state}
             />
           )}
         />

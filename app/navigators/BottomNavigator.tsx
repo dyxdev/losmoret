@@ -62,6 +62,8 @@ export const BottomNavigator = () => {
         }}
       />
 
+       {orderTab}
+
       
 
     </Tab.Navigator>

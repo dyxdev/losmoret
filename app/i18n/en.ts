@@ -135,7 +135,9 @@ const en = {
 },
   orderScreen:{
     title: "Mis ordernes",
-    complete: 'Mostrar solo las completadas'
+    complete: 'Mostrar solo las completadas',
+    empty: 'Usted no tiene ninguna orden',
+    message: "Intente refrescar. Quizas obtenga algún resultado"
   },
   productScreen:{
     title: "Productos disponibles",
