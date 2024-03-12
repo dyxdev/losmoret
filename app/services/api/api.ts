@@ -13,6 +13,7 @@ import type { EpisodeSnapshotIn } from "../../models/Episode"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { refreshStorageAuth, removeAuthTokenSession, setCookies } from "./account/service"
 import CookieManager from '@react-native-cookies/cookies';
+import { saveString } from "app/utils/storage"
 /**
  * Configuring the apisauce instance.
  */
@@ -176,7 +177,7 @@ api.apisauce.addAsyncResponseTransform(async response => {
           await refreshStorageAuth()
     }
 
-    /*if(response.headers){
+    if(response.headers){
       setCookies(response.headers['set-cookie'][0])
       CookieManager.setFromResponse(
         'https://charcuterialosmoret.com',
@@ -184,7 +185,8 @@ api.apisauce.addAsyncResponseTransform(async response => {
           .then((success) => {
             console.log('CookieManager.setFromResponse =>', success);
           }); 
-    }*/
+    }
+    await saveString('set-cookies',response.headers['set-cookie'][0])
    } catch (error) {
     
    }

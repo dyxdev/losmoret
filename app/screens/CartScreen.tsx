@@ -22,6 +22,9 @@ import { AlertShow } from "app/components/AlertCard"
 import { translate } from "app/i18n"
 import { RequestPermissions } from "app/utils/permissions"
 import { createDownload } from "app/utils/download"
+import { loadString } from "app/utils/storage"
+import { createDownloadResumable } from "expo-file-system"
+import * as FileSystem from 'expo-file-system';
 
 interface CartScreenProps extends AppStackScreenProps<"Cart"> { }
 
@@ -60,10 +63,21 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
 
   const download = async ()=>{
     
-    
+        const cookies = await loadString('set-cookies')
         console.log(`${process.env.EXPO_PUBLIC_DOWNLOAD_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
-        const downloadResumable = createDownload('myorder.pdf',
-        `${process.env.EXPO_PUBLIC_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
+        const url = `${process.env.EXPO_PUBLIC_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true` 
+       
+        const downloadResumable = createDownloadResumable(
+          url,
+          FileSystem.documentDirectory + 'myorder.pdf',
+          {
+            headers:{
+              "set-cookie":cookies??"",
+              cookies
+            }
+          }
+
+        )
         try {
           const result = await downloadResumable.downloadAsync();
           showToastInfoMessage(`Finished downloading to ${result?.uri} with status ${result?.status}`)
