@@ -45,15 +45,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
    
   }
 
-  async function loadPermission(){
-    await RequestPermissions('read_external_storage','read_external_storage')
-    await RequestPermissions('write_external_storage','write_external_storage')
-  }
-
-  useEffect(() => {     
-        loadPermission()
-  },[])
-
+ 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
         load()
@@ -74,9 +66,11 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
         `${process.env.EXPO_PUBLIC_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
         try {
           const result = await downloadResumable.downloadAsync();
-          console.log('Finished downloading to ', result?.uri,result);
+          showToastInfoMessage(`Finished downloading to ${result?.uri} with status ${result?.status}`)
+          
         } catch (e) {
           console.error(e);
+          showToastInfoMessage(`error downloading`)
         }
   }
 
