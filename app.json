@@ -21,6 +21,11 @@
       "**/*"
     ],
     "android": {
+      "permissions": [
+        "SCHEDULE_EXACT_ALARM",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "icon": "./assets/images/logocontxt.png",
       "package": "com.storeodooapp",
       "adaptiveIcon": {
@@ -54,6 +59,8 @@
       "bundler": "metro"
     },
     "plugins": [
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf",
       "expo-localization",
       [
         "expo-build-properties",

@@ -74,7 +74,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "^13.8.1",
-    "stable-hash": "^0.0.3"
+    "stable-hash": "^0.0.3",
+    "expo-file-system": "~15.4.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -86,6 +87,8 @@
     "@babel/plugin-transform-template-literals": "^7.0.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
+    "@config-plugins/react-native-blob-util": "^0.0.0",
+    "@config-plugins/react-native-pdf": "^0.0.0",
     "@types/i18n-js": "3.8.2",
     "@types/jest": "^29.2.1",
     "@types/react": "~18.2.14",

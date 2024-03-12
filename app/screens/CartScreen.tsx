@@ -20,6 +20,8 @@ import { DeleteCartResponse } from "app/services/api/cart/types"
 import { useToastErrorApi } from "app/components/AlertToast"
 import { AlertShow } from "app/components/AlertCard"
 import { translate } from "app/i18n"
+import { RequestPermissions } from "app/utils/permissions"
+import { createDownload } from "app/utils/download"
 
 interface CartScreenProps extends AppStackScreenProps<"Cart"> { }
 
@@ -28,7 +30,8 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   
   const { navigation } = _props
   const {
-    cartStore
+    cartStore,
+    authenticationStore
   } = useStores()
   const [currentProduct, setCurrentProduct] = useState<ProductLineCartSnapshotOut>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
@@ -42,8 +45,13 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
    
   }
 
-  useEffect(() => {
-    load().then(()=> console.log(cartStore.state,cartStore.orderLine))
+  async function loadPermission(){
+    await RequestPermissions('read_external_storage','read_external_storage')
+    await RequestPermissions('write_external_storage','write_external_storage')
+  }
+
+  useEffect(() => {     
+        loadPermission()
   },[])
 
   useEffect(() => {
@@ -57,6 +65,20 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
 
     return unsubscribe;
   }, [navigation]);
+
+  const download = async ()=>{
+    
+    
+        console.log(`${process.env.EXPO_PUBLIC_DOWNLOAD_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
+        const downloadResumable = createDownload('myorder.pdf',
+        `${process.env.EXPO_PUBLIC_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
+        try {
+          const result = await downloadResumable.downloadAsync();
+          console.log('Finished downloading to ', result?.uri,result);
+        } catch (e) {
+          console.error(e);
+        }
+  }
 
   
   const onRemoveProduct = async (product?:ProductLineCartSnapshotOut) => {
@@ -119,7 +141,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
         ListHeaderComponent={
           <View style={$heading}>
             <VStack>
-          
+              <Button onPress={()=>download()}>Descargar factura</Button>
               <Text preset="heading" tx="cartScreen.title" style={{
                 color: "white"
               }} />
