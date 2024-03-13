@@ -29,17 +29,33 @@ export const OrderDetailScreen: FC<OrderDetailScreenProps> = observer(function O
   const item = route.params?.order;
 
   const [data,setData] = useState()
+  const load = ()=>{
+    const newdData = item.order_line.map((line)=>{
+      console.log(line)
+      return {
+          Productos: line.product_id[1],
+          Cantidad: line.product_uom_qty,
+          Tax: line.price_tax,
+          Importe: line.price_total
+      }
+})
+setData(newdData)
+  }
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        load()
+    });
+
+    navigation.addListener('beforeRemove', (_) => {
+        load()
+    })
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(()=>{
-         const newdData = item.order_line.map((line)=>{
-               return {
-                   Productos: line.name,
-                   Cantidad: line.product_uom_qty,
-                   Tax: line.price_tax,
-                   Importe: line.price_total
-               }
-         })
-         setData(newdData)
+         load()
   },[])
 
 
@@ -76,7 +92,7 @@ export const OrderDetailScreen: FC<OrderDetailScreenProps> = observer(function O
         </VStack>
       </View>
 
-      <VStack p={8} mt={-60}>
+      <VStack p={7} mt={-60}>
       <VStack mt="3" mb="4">
             <Heading fontSize="xl" color={colors.palette.primary}>Términos y condiciones</Heading>
             <CustomDivider></CustomDivider>
@@ -97,7 +113,7 @@ export const OrderDetailScreen: FC<OrderDetailScreenProps> = observer(function O
         {"https://charcuterialosmoret.com/terms"}
       </Link>
       </VStack>
-      <VStack mt="3" mb="4">
+      <VStack mb="4">
             <Heading fontSize="xl" color={colors.palette.primary}>Órdenes y facturas</Heading>
             <CustomDivider></CustomDivider>
             <Link isExternal  _text={{
@@ -203,13 +219,13 @@ const styles = StyleSheet.create({
   },
   infoRecipeContainer: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center'
   },
   infoRecipeName: {
     fontSize: 20,
-    margin: 10,
+    margin: 5,
     fontWeight: '300',
     color: 'white',
     textAlign: 'left'
