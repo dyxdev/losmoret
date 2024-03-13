@@ -18,6 +18,7 @@ import { colors } from "app/theme"
 import {BottomNavigator} from "./BottomNavigator"
 import { ProductSnapshotOut } from "app/models/Product"
 import { NativeBaseProvider } from "native-base"
+import { Order } from "app/services/api/orders/types"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -47,6 +48,9 @@ export type AppStackParamList = {
   Cart:undefined
   Pay:undefined
   PayWeb:undefined
+  OrderDetail: {
+    order: Order
+  }
 }
 
 /**
@@ -88,6 +92,7 @@ const AppStack = observer(function AppStack() {
       {/** 🔥 Your screens go here */}
      
 			<Stack.Screen name="Orders" component={Screens.OrdersScreen} />
+      <Stack.Screen name="OrderDetail" component={Screens.OrderDetailScreen} />
 			<Stack.Screen name="User" component={Screens.UserScreen} />
       <Stack.Screen name="Products" component={Screens.ProductsScreen} />
       <Stack.Screen name="ProductDetail" component={Screens.ProductDetailScreen} />

@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { ImageStyle, ViewStyle } from "react-native"
+import { ActivityIndicator, ImageStyle, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
 import { useBackHeader } from "app/hooks/customHeader"
@@ -122,6 +122,9 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
         estimatedItemSize={177}
         onRefresh={onRefresh}
         ListEmptyComponent={
+          isLoading ? (
+            <ActivityIndicator />
+          ):
          (
             <EmptyState
               preset="generic"

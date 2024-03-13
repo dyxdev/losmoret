@@ -161,9 +161,9 @@ const naviMonitor = (response: any) => console.log('hey!  listen! ', response)
 api.apisauce.addMonitor(naviMonitor)
 
 api.apisauce.addAsyncRequestTransform(async request => {
-  console.log('hey!  listen! request:', request)
+  //console.log('hey!  listen! request:', request)
   const token =  await AsyncStorage.getItem('odoo_token')
-  console.log(token)
+  //console.log(token)
   if(request.headers && token){
     request.headers.Authorization = `Bearer ${token}`
   }
@@ -185,8 +185,9 @@ api.apisauce.addAsyncResponseTransform(async response => {
           .then((success) => {
             console.log('CookieManager.setFromResponse =>', success);
           }); 
+          await saveString('set-cookies',response.headers['set-cookie'][0])
     }
-    await saveString('set-cookies',response.headers['set-cookie'][0])
+  
    } catch (error) {
     
    }

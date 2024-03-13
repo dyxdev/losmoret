@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import {ImageStyle, View, ViewStyle } from "react-native"
+import {ActivityIndicator, ImageStyle, View, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
 import { ContentStyle } from "@shopify/flash-list"
@@ -20,11 +20,7 @@ import { DeleteCartResponse } from "app/services/api/cart/types"
 import { useToastErrorApi } from "app/components/AlertToast"
 import { AlertShow } from "app/components/AlertCard"
 import { translate } from "app/i18n"
-import { RequestPermissions } from "app/utils/permissions"
-import { createDownload } from "app/utils/download"
-import { loadString } from "app/utils/storage"
-import { createDownloadResumable } from "expo-file-system"
-import * as FileSystem from 'expo-file-system';
+
 
 interface CartScreenProps extends AppStackScreenProps<"Cart"> { }
 
@@ -33,8 +29,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   
   const { navigation } = _props
   const {
-    cartStore,
-    authenticationStore
+    cartStore
   } = useStores()
   const [currentProduct, setCurrentProduct] = useState<ProductLineCartSnapshotOut>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
@@ -44,7 +39,9 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   useBackHeader(navigation)
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
   async function load() {
+    setLoading(true)
     await cartStore.fetchCart()
+    setLoading(false)
    
   }
 
@@ -60,33 +57,6 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
 
     return unsubscribe;
   }, [navigation]);
-
-  const download = async ()=>{
-    
-        const cookies = await loadString('set-cookies')
-        console.log(`${process.env.EXPO_PUBLIC_DOWNLOAD_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true`)
-        const url = `${process.env.EXPO_PUBLIC_API_URL}/orders/145?access_token=${authenticationStore.authToken}&report_type=pdf&download=true` 
-       
-        const downloadResumable = createDownloadResumable(
-          url,
-          FileSystem.documentDirectory + 'myorder.pdf',
-          {
-            headers:{
-              "set-cookie":cookies??"",
-              cookies
-            }
-          }
-
-        )
-        try {
-          const result = await downloadResumable.downloadAsync();
-          showToastInfoMessage(`Finished downloading to ${result?.uri} with status ${result?.status}`)
-          
-        } catch (e) {
-          console.error(e);
-          showToastInfoMessage(`error downloading`)
-        }
-  }
 
   
   const onRemoveProduct = async (product?:ProductLineCartSnapshotOut) => {
@@ -119,6 +89,9 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
         data={cartStore.orderLine}
         estimatedItemSize={177}
         ListEmptyComponent={
+          loading ? (
+            <ActivityIndicator />
+          ):(
           <Center flex={1} height="full">
             {(
              <EmptyState
@@ -144,12 +117,11 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
              ImageProps={{ resizeMode: "contain" }}
            />
             )}
-          </Center>
+          </Center>)
         }
         ListHeaderComponent={
           <View style={$heading}>
             <VStack>
-              <Button onPress={()=>download()}>Descargar factura</Button>
               <Text preset="heading" tx="cartScreen.title" style={{
                 color: "white"
               }} />

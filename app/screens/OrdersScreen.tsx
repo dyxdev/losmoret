@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, ImageStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ImageStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
 import { ContentStyle } from "@shopify/flash-list"
@@ -48,6 +48,13 @@ export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScree
   useEffect(() => {
       load()
   },[])
+
+  async function onPress(order: Order) {
+    
+    navigation.navigate("OrderDetail", {
+      order
+    })
+  }
   
   return (
     <Screen
@@ -89,12 +96,15 @@ export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScree
             </View>
           }
           renderItem={({ item }) => (
-            <OrderBlock
+            <TouchableOpacity onPress={()=>onPress(item)}>
+                        <OrderBlock
             avatarUrl={avatarUrl}
             fullName={item.name}
             timeStamp={item.date_order}
             recentText={item.state}
             />
+            </TouchableOpacity>
+            
           )}
         />
       </Screen>
