@@ -1,4 +1,5 @@
 import { useToastErrorApi } from "app/components/AlertToast"
+import { CoinSelect } from "app/components/CoinSelect"
 import { UserMenu } from "app/components/Menu"
 import { goBack, navigate } from "app/navigators"
 import { useStores } from "app/store"
@@ -16,7 +17,8 @@ export const useCartHeader = (navigation: any)=>{
             RightActionComponent: <UserMenu navigation={navigation}/>,
             onLeftPress: async ()=> authenticationStore.logout(),
             onRightPress: ()=>navigation.navigate("Cart"),
-            backgroundColor: colors.palette.primary
+            backgroundColor: colors.palette.primary,
+            LeftActionComponent: <CoinSelect />
         }
     )
 }
