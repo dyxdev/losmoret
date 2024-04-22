@@ -24,6 +24,9 @@ export const UserMenu = (props:any)=> {
                     <Icon icon="user" size={30} color="white"/>
                   </Pressable>;
           }}>
+               <Menu.Item onPress={async ()=>{
+                props.navigation.navigate('Address')
+                }}>Mis direcciones</Menu.Item> 
               <Menu.Item onPress={async ()=>{
                 await authenticationStore.logout()
                 props.navigation.reset({

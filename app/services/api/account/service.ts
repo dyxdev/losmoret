@@ -1,10 +1,10 @@
-import { LoginResponse, UserProfile, UserSignin, UserSignup } from "./types";
+import { Address, LoginResponse, UserProfile, UserSignin, UserSignup } from "./types";
 import { api } from "../api";
-import { CommonResult } from "../api.types";
+import { CommonResult, ResultClass } from "../api.types";
 import { GeneralApiProblem } from "../apiProblem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CallbackWithResult } from "@react-native-async-storage/async-storage/lib/typescript/types";
-import { _rootStore, useStores } from "app/store";
+import { _rootStore } from "app/store";
 
 export async function userSignup(data:UserSignup):Promise<CommonResult|GeneralApiProblem> {
     const response = await api.apiPostWrapper<CommonResult>(
@@ -70,6 +70,38 @@ export async function refreshStorageAuth(){
 export async function setCookies(value:string){
     const cookies = value + ";frontend_lang=es_MX;tZ=America/Havana"
     await AsyncStorage.setItem("cookies",cookies)
+}
+
+
+export async function getAddress():Promise<ResultClass<Address[]>|GeneralApiProblem> {
+    const response = await api.apiGetWrapper<ResultClass<Address[]>>(
+        "/user/address",
+        {}
+    )
+    return response
+}
+
+export async function postAddress(data:Address):Promise<ResultClass<Address>|GeneralApiProblem> {
+    const response = await api.apiPostWrapper<ResultClass<Address>>(
+        "/user/address",
+        {
+            "jsonrpc": "2.0",
+            params:data
+        }
+    )
+    return response
+}
+
+export async function putAddress(id:string|number,data:Address):Promise<ResultClass<Address>|GeneralApiProblem> {
+    const response = await api.apiPostWrapper<ResultClass<Address>>(
+        `/user/address/${id}`,
+        {
+            "jsonrpc": "2.0",
+            params:data
+        },
+        true
+    )
+    return response
 }
 
 

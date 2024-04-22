@@ -169,6 +169,10 @@ const en = {
     unknown: "Unknown",
     badData: "Bad data",
     "400": "Not Found"
+  },
+  addressScreen:{
+    empty: "Sin direcciones registradas",
+    message: "Aquí se mostraran las direcciones para la entrega de productos",
   }
 }
 

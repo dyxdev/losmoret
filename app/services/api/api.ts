@@ -177,7 +177,7 @@ api.apisauce.addAsyncResponseTransform(async response => {
           await refreshStorageAuth()
     }
 
-    if(response.headers){
+    /*if(response.headers){
       setCookies(response.headers['set-cookie'][0])
       CookieManager.setFromResponse(
         'https://charcuterialosmoret.com',
@@ -186,7 +186,7 @@ api.apisauce.addAsyncResponseTransform(async response => {
             console.log('CookieManager.setFromResponse =>', success);
           }); 
           await saveString('set-cookies',response.headers['set-cookie'][0])
-    }
+    }*/
   
    } catch (error) {
     

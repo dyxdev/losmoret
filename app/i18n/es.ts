@@ -87,6 +87,9 @@ const es = {
       unknown: "Error desconocido",
       badData: "Formato incorrecto",
       "400": "¡¡¡ Uppsss :( !!! No encontramos nada"
+    },
+    addressScreen:{
+      empty: "Sin direcciones registradas",
     }
   }
   

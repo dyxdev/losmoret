@@ -16,7 +16,6 @@ export function CoinSelect(){
       }} mt={1} onValueChange={itemValue => setCoin(itemValue)}>
           <Select.Item label="USD" value="usd" />
           <Select.Item label="CUP" value="cup" />
-          <Select.Item label="EUR" value="eur" />
         </Select>
       </Box>
     )
