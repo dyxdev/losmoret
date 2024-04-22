@@ -173,6 +173,7 @@ const en = {
   addressScreen:{
     empty: "Sin direcciones registradas",
     message: "Aquí se mostraran las direcciones para la entrega de productos",
+    delete: "¿ Desea eliminar esta dirección ?",
   }
 }
 

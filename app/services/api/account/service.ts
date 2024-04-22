@@ -104,6 +104,13 @@ export async function putAddress(id:string|number,data:Address):Promise<ResultCl
     return response
 }
 
+export async function deleteAddress(id:string|number):Promise<CommonResult|GeneralApiProblem> {
+    const response = await api.apiDeleteWrapper<ResultClass<Address>>(
+        `/user/address/delete?ids=${id}`
+    )
+    return response
+}
+
 
 
 

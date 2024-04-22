@@ -25,6 +25,7 @@ export interface UserProfile {
 }
 
 export interface Address {
+  id?:number|string
   street: string
   street2: string
   _zip: string

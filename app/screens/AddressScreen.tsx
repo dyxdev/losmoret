@@ -17,7 +17,8 @@ import { useToastErrorApi } from "app/components/AlertToast"
 import { AlertShow } from "app/components/AlertCard"
 import { AddressBlock } from "app/components/AddressBlock"
 import { Address } from "app/services/api/account/types"
-import { getAddress } from "app/services/api/account/service"
+import { deleteAddress, getAddress } from "app/services/api/account/service"
+import { translate } from "app/i18n"
 
 
 interface AddressScreenProps extends AppStackScreenProps<"Address"> { }
@@ -30,6 +31,7 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const {showToastApiError } = useToastErrorApi()
+  const [currentAddress, setCurrentAddress] = useState<Address|null>()
 
   useBackHeader(navigation)
   
@@ -44,6 +46,18 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
         setLoading(false)
       }
       setLoading(false)
+  }
+
+  async function onDeleteAddress(){
+    setLoading(true)
+    const response = await deleteAddress(currentAddress?.id as string)
+    if (isGeneralProblem(response)) {
+        showToastApiError(response as GeneralApiProblem)
+      }else{
+        load().then(()=>{console.log("Delete")})
+      } 
+    setLoading(false)
+    setOpenAlert(false)
   }
 
  
@@ -112,8 +126,22 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
             <AddressBlock
               key={JSON.stringify(item)}
               address={item}
+              onDelete={(address)=>{
+                setCurrentAddress(address)
+                setOpenAlert(true)
+              }}
             />
         )}
+      />
+
+<AlertShow
+          isOpen={openAlert} 
+          description={translate("addressScreen.delete")}
+          status="danger"
+          titleButton={translate("cartScreen.deletebutton")}
+          onOK={()=>onDeleteAddress()}
+          onClose={()=>setOpenAlert(false)}
+          isLoading={loading}
       />
       
     </Screen>
