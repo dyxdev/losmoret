@@ -7,7 +7,7 @@ import {
 } from "app/models/Product"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 import { translate } from "app/i18n"
-import { deleteLineCart, getCart } from "app/services/api/cart/service"
+import { deleteLineCart, getCart,applyPricelist as getApplyPricelist } from "app/services/api/cart/service"
 import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
 import { ResultClass } from "app/services/api"
 import { GetCartResponse } from "app/services/api/cart/types"
@@ -26,6 +26,7 @@ export const CarStoreModel = types
     state: types.maybeNull(types.enumeration("State", ["pending", "done", "error"])),
     message: types.maybeNull(types.string),
     categ: "",
+    pricelist: "2",
   })
   .views((store) => ({
     get total() {
@@ -42,6 +43,9 @@ export const CarStoreModel = types
     },
     get category(){
       return store.categ
+    },
+    get pricelistApply(){
+      return store.pricelist
     }
   }))
   .actions(withSetPropAction)
@@ -84,6 +88,7 @@ export const CarStoreModel = types
       })
       store.setProp("order_line",resultOrderLine)
       store.setProp("state", "done")
+      store.setProp("pricelist",result.pricelist_id[0])
     },
     async fetchCart() {
       store.setProp("order_line", [])
@@ -113,6 +118,32 @@ export const CarStoreModel = types
     removeProductAsync: flow(function* removeProductAsync(id) {
       return yield deleteLineCart(id)
     }),
+    async applyPricelist(id:number|string) {
+      store.setProp("order_line", [])
+      store.setProp("pricelist", `${id}`)
+      store.setProp("state", "pending")
+      try {
+        // ... yield async/await service
+        const response: ResultClass<GetCartResponse> | GeneralApiProblem = await getApplyPricelist(id)
+        if (isGeneralProblem(response)) {
+          store.setProp(
+            "message",
+            (response as GeneralApiProblem).message ?? translate("cartScreen.error"),
+          )
+          store.setProp("state", "error")
+        } else {
+          const result = (response as ResultClass<GetCartResponse>).result
+
+          runInAction(() => {
+            this.sucessFetch(result)
+          })
+        }
+      } catch (error) {
+        // ... try/catch
+        store.setProp("message", translate("cartScreen.error"))
+        store.setProp("state", "error")
+      }
+    }
   }))
 
 export interface CartStore extends Instance<typeof CarStoreModel> {}

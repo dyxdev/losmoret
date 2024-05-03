@@ -41,6 +41,16 @@ export async function deleteLineCart(id:any):Promise<ResultClass<DeleteCartRespo
     return response
 }
 
+export async function applyPricelist(id:any):Promise<ResultClass<GetCartResponse>|GeneralApiProblem> {
+    const response = await api.apiGetWrapper<ResultClass<GetCartResponse>>(
+        `/sale/apply_pricelist/${id}`,
+        undefined
+    )
+    return response
+}
+
+
+
 
 
 

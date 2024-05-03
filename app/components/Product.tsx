@@ -6,6 +6,7 @@ import { Box, Stack, HStack, Center, Heading, Divider, Text } from 'native-base'
 import { spacing } from 'app/theme';
 import { Icon } from './Icon';
 import { ProductSnapshotOut } from 'app/models/Product';
+import { useStores } from 'app/store';
 
 interface ProductBlockProps {
   product:ProductSnapshotOut
@@ -15,6 +16,10 @@ interface ProductBlockProps {
 const defaultImage = require("../../assets/images/ahumado.jpg")
 
 export function ProductBlock(props:ProductBlockProps) {
+
+  const {
+    cartStore
+  } = useStores()
 
   return (
     <TouchableOpacity
@@ -62,7 +67,7 @@ export function ProductBlock(props:ProductBlockProps) {
         <HStack alignItems="center" space={4} justifyContent="space-between">
           
           <Heading size="md" ml="-1">
-          { props.product.price_in_usd.toFixed(2) + " " + "USD"} 
+          { cartStore.pricelistApply.includes("2")  ? props.product.price_in_usd.toFixed(2) + " USD" :  props.product.list_price + " CUP"} 
           
           </Heading>
           
