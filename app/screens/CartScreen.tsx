@@ -40,7 +40,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
   async function load() {
     setLoading(true)
-    await cartStore.fetchCart()
+    await cartStore.applyPricelist(cartStore.pricelistApply)
     setLoading(false)
    
   }
@@ -52,9 +52,10 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
     });
 
     navigation.addListener('beforeRemove', (_) => {
+        cartStore.reset()
         load()
     })
-
+    
     return unsubscribe;
   }, [navigation]);
 

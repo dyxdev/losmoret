@@ -7,6 +7,7 @@ import { spacing } from 'app/theme';
 import { Icon } from './Icon';
 import { ProductSnapshotOut } from 'app/models/Product';
 import { useStores } from 'app/store';
+import { observer } from 'mobx-react-lite';
 
 interface ProductBlockProps {
   product:ProductSnapshotOut
@@ -15,7 +16,7 @@ interface ProductBlockProps {
 }
 const defaultImage = require("../../assets/images/ahumado.jpg")
 
-export function ProductBlock(props:ProductBlockProps) {
+export const ProductBlock = observer ( (props:ProductBlockProps) => {
 
   const {
     cartStore
@@ -78,7 +79,7 @@ export function ProductBlock(props:ProductBlockProps) {
     </TouchableOpacity>
   );
 
-}
+})
 
 const style = {
   button: { flex: 1, height: 250, paddingLeft: 4, paddingRight: 4 },

@@ -67,6 +67,12 @@ export const CarStoreModel = types
     initialLoad() {
       store.setProp("products", [])
     },
+    setCoin(id: string | number) {
+      store.setProp('pricelist',`${id}`)
+    },
+    reset(){
+      store.setProp("order_line",[])
+    },
     sucessFetch(result: GetCartResponse) {
       store.setProp("amount_delivery", result.amount_delivery)
       store.setProp("amount_total", result.amount_total)

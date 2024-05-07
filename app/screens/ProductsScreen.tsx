@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite"
 import { ActivityIndicator, ImageStyle, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
 import { EmptyState, ListView, Screen, Text } from "app/components"
-import { useBackHeader } from "app/hooks/customHeader"
+import { useCartHeader } from "app/hooks/customHeader"
 import { ProductBlock } from "app/components/Product"
 import { Box, View } from "native-base"
 import { colors, spacing } from "app/theme"
@@ -28,7 +28,7 @@ interface ProductsScreenProps extends AppStackScreenProps<"Products"> { }
 export const ProductsScreen: FC<ProductsScreenProps> = observer(function ProductsScreen(_props) {
 
   const { navigation } = _props
-  useBackHeader(navigation)
+  useCartHeader(navigation)
 
  
   const [data, setData] = React.useState<Array<ProductSnapshotOut>>([])
@@ -56,8 +56,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
       take:20,
       categ_name:category
     })
-    
-
+  
     setIsLoading(true)
     const response = await callEndpoint()
     if (isGeneralProblem(response)) {

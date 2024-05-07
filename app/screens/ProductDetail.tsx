@@ -15,7 +15,7 @@ import {
 
 import { AppStackScreenProps } from "app/navigators";
 import { observer } from "mobx-react-lite";
-import { useBackHeader } from "app/hooks/customHeader";
+import { useCartHeader } from "app/hooks/customHeader";
 import { Box, Button, HStack, VStack } from "native-base";
 import { colors } from "app/theme";
 import NumericInput from "react-native-numeric-input";
@@ -42,7 +42,8 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
 
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
   
-  useBackHeader(navigation)
+  useCartHeader(navigation)
+
 
   const renderImage = ({ item:any }) => (
     <TouchableHighlight>
@@ -85,6 +86,9 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
         <Text style={styles.infoRecipeName}>{item.name}</Text>
         <View style={styles.infoContainer}>
             <Text style={styles.category}> {title} </Text>
+        </View>
+        <View style={styles.infoContainer}>
+           {item.description_sale && <Text style={styles.category}> {item.description_sale} </Text> } 
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{"¿Qué cantidad desea?"}</Text>
