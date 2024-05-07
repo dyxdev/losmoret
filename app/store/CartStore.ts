@@ -94,7 +94,7 @@ export const CarStoreModel = types
       })
       store.setProp("order_line",resultOrderLine)
       store.setProp("state", "done")
-      store.setProp("pricelist",result.pricelist_id[0])
+      //store.setProp("pricelist",result.pricelist_id[0])
     },
     async fetchCart() {
       store.setProp("order_line", [])

@@ -52,7 +52,6 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
     });
 
     navigation.addListener('beforeRemove', (_) => {
-        cartStore.reset()
         load()
     })
     
