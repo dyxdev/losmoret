@@ -2,14 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import {ActivityIndicator, ImageStyle, View, ViewStyle } from "react-native"
+import { ActivityIndicator, ImageStyle, View, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
-import { EmptyState, ListView, Screen } from "app/components"
+import { Button, EmptyState, Icon, ListView, Screen } from "app/components"
 import { ContentStyle } from "@shopify/flash-list"
 import { spacing } from "app/theme/spacing"
 import { useBackHeader } from "app/hooks/customHeader"
 import { colors } from "app/theme"
-import { Center, VStack } from "native-base"
+import { Box, Center } from "native-base"
 import { CustomDivider } from "app/components/CustomDivider"
 import { ResultClass } from "app/services/api"
 import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
@@ -25,55 +25,56 @@ interface AddressScreenProps extends AppStackScreenProps<"Address"> { }
 
 
 export const AddressScreen: FC<AddressScreenProps> = observer(function AddressScreen(_props) {
-  
+
   const { navigation } = _props
   const [address, setAdreess] = useState<Array<Address>>([])
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const {showToastApiError } = useToastErrorApi()
-  const [currentAddress, setCurrentAddress] = useState<Address|null>()
+  const { showToastApiError } = useToastErrorApi()
+  const [currentAddress, setCurrentAddress] = useState<Address | null>()
+  const [refresh, setRefresh] = useState(false)
 
   useBackHeader(navigation)
-  
+
   async function load() {
     setLoading(true)
     const response = await getAddress()
     if (isGeneralProblem(response)) {
-        showToastApiError(response as GeneralApiProblem)
-      } else{
-        const result = (response as ResultClass<Array<Address>>).result
-        setAdreess([...result])
-        setLoading(false)
-      }
+      showToastApiError(response as GeneralApiProblem)
+    } else {
+      const result = (response as ResultClass<Array<Address>>).result
+      setAdreess([...result])
       setLoading(false)
+    }
+    setLoading(false)
   }
 
-  async function onDeleteAddress(){
+  async function onDeleteAddress() {
     setLoading(true)
     const response = await deleteAddress(currentAddress?.id as string)
     if (isGeneralProblem(response)) {
-        showToastApiError(response as GeneralApiProblem)
-      }else{
-        load().then(()=>{console.log("Delete")})
-      } 
+      showToastApiError(response as GeneralApiProblem)
+    } else {
+      load().then(() => { console.log("Delete") })
+    }
     setLoading(false)
     setOpenAlert(false)
   }
 
- 
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-        load()
+      load()
     });
 
     navigation.addListener('beforeRemove', (_) => {
-        load()
+      load()
     })
 
     return unsubscribe;
   }, [navigation]);
 
-  
+
   return (
     <Screen
       preset="scroll"
@@ -84,66 +85,80 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
         ItemSeparatorComponent={CustomDivider}
         contentContainerStyle={$listContentContainer}
         data={address}
+        refreshing={refresh}
+        onRefresh={() => {
+          setRefresh(true)
+          load()
+        }}
         estimatedItemSize={177}
         ListEmptyComponent={
           loading ? (
             <ActivityIndicator />
-          ):(
-          <Center flex={1} height="full">
-            {(
-             <EmptyState
-             preset="generic"
-             imageSource={require("../../assets/images/noaddress.png")}
-             style={$emptyState}
-             headingTx={
-               "addressScreen.empty"
-             }
-             contentTx={
+          ) : (
+            <Center flex={1} height="full">
+              {(
+                <EmptyState
+                  preset="generic"
+                  imageSource={require("../../assets/images/noaddress.png")}
+                  style={$emptyState}
+                  headingTx={
+                    "addressScreen.empty"
+                  }
+                  contentTx={
 
-               "addressScreen.message"
+                    "addressScreen.message"
 
-             }
-             headingStyle={{
-              color:"white"
-             }}
-             contentStyle={{
-              color:"white"
-             }}
-             imageStyle={$emptyStateImage}
-             ImageProps={{ resizeMode: "contain" }}
-           />
-            )}
-          </Center>)
+                  }
+                  headingStyle={{
+                    color: "white"
+                  }}
+                  contentStyle={{
+                    color: "white"
+                  }}
+                  imageStyle={$emptyStateImage}
+                  ImageProps={{ resizeMode: "contain" }}
+                />
+              )}
+            </Center>)
         }
         ListHeaderComponent={
           <View style={$heading}>
-            <VStack>
-            
-            </VStack>
+            <Box display="flex" justifyItems="flex-end" flex={1} justifyContent={"end"}>
+              <Button
+                text="Agregrar nueva dirección"
+                preset="reversed"
+                style={$tapButton}
+                LeftAccessory={() => <Icon icon="components" color="white" style={{marginRight:10}}></Icon>}
+                onPress={()=>navigation.navigate("AddressCrud",{id:null})}
+              />
+            </Box>
           </View>
         }
         renderItem={({ item }) => (
-            <AddressBlock
-              key={JSON.stringify(item)}
-              address={item}
-              onDelete={(address)=>{
-                setCurrentAddress(address)
-                setOpenAlert(true)
-              }}
-            />
+          <AddressBlock
+            key={JSON.stringify(item)}
+            address={item}
+            onDelete={(address) => {
+              setCurrentAddress(address)
+              setOpenAlert(true)
+            }}
+            onEdit={(address)=>{
+              navigation.navigate("AddressCrud",{id:address.id as any})
+            }}
+          />
         )}
       />
 
-<AlertShow
-          isOpen={openAlert} 
-          description={translate("addressScreen.delete")}
-          status="danger"
-          titleButton={translate("cartScreen.deletebutton")}
-          onOK={()=>onDeleteAddress()}
-          onClose={()=>setOpenAlert(false)}
-          isLoading={loading}
+      <AlertShow
+        isOpen={openAlert}
+        description={translate("addressScreen.delete")}
+        status="danger"
+        titleButton={translate("cartScreen.deletebutton")}
+        onOK={() => onDeleteAddress()}
+        onClose={() => setOpenAlert(false)}
+        isLoading={loading}
       />
-      
+
     </Screen>
   )
 })
@@ -168,9 +183,15 @@ const $heading: ViewStyle = {
 
 const $emptyState: ViewStyle = {
   marginTop: spacing.xxl,
-  flex:1
+  flex: 1
 }
 
 const $emptyStateImage: ImageStyle = {
   transform: [{ scaleX: 1 }],
+}
+
+const $tapButton: ViewStyle = {
+  marginTop: spacing.xs,
+  backgroundColor: colors.palette.primary,
+  marginBottom: spacing.lg
 }

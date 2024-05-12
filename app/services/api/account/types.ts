@@ -26,12 +26,13 @@ export interface UserProfile {
 
 export interface Address {
   id?:number|string
+  name?:string,
   street: string
   street2: string
   _zip: string
   country_id: number
   state_id: number
-  municipality_id: number
+  municipality_id?: number
   city: string
   phone: string
   mobile: string

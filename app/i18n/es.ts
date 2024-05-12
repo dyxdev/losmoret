@@ -92,6 +92,18 @@ const es = {
     },
     addressScreen:{
       empty: "Sin direcciones registradas",
+      message: "Aquí se mostraran las direcciones para la entrega de productos",
+      delete: "¿ Desea eliminar esta dirección ?",
+      nameFieldLabel: "Nombre",
+      streetFieldLabel: "Calle y numero",
+      street2FieldLabel: "Calle 2",
+      zip:"Codigo Postal",
+      city:"Reparto",
+      state: "Estado/Provincia",
+      label: "Registrar dirección",
+      phone: "Móvil",
+      update: "Modificar",
+      save: "Guardar"
     },
     MessagesScreen:{
       label:"Confirmación",
