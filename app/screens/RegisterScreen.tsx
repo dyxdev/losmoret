@@ -58,7 +58,6 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
       validationErrorPassword,
       validationErrorConfirmPassword,
       userRegister,
-      setResultMessage,
       asValidationError
 
     },
@@ -107,7 +106,6 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
               }
             )
           }else if(result){
-              setResultMessage(result.message)
               onRegister()
           }
         }

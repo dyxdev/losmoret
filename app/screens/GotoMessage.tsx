@@ -36,10 +36,10 @@ export const GotoMessageScreen: FC<GotoMessageScreenProps> = observer(function G
   function onLogin() {
     touchbutton = true
     navigation.navigate("Login")
+    touchbutton = true
   }
 
   function onEmail() {
-    touchbutton = true
     openInbox({
       message: "Abrir aplicación de correos",
       cancelLabel: "Ir atras",
@@ -80,9 +80,9 @@ export const GotoMessageScreen: FC<GotoMessageScreenProps> = observer(function G
             />
             <Text
               testID="goto-heading"
-              text={resultMessage}
-              preset="default"
-              style={$register}
+              tx="MessagesScreen.confirm"
+              preset="formHelper"
+              style={$registersub}
             />
 
           
@@ -127,6 +127,15 @@ const $register: TextStyle = {
   marginBottom: spacing.sm,
   color: "white",
   flexShrink: 1 
+}
+
+const $registersub: TextStyle = {
+  marginBottom: spacing.sm,
+  color: "white",
+  lineHeight: 30,
+  letterSpacing: 1,
+  alignSelf:"center",
+  textAlign:"justify",
 }
 
 const $tapButton: ViewStyle = {

@@ -11,14 +11,14 @@ export const RegisterStoreModel = types
     name: "",
     lastname: "",
     lang: "es_MX",
-    resultMessage: translate("MessagesScreen.confirm")
-    })
+    resultMessage: "La  cuenta  de  usuario  ha  sido  creada ,  por  favor  revisa  tu  correo  y  accede  al  enlace  que  le  hemos  enviado  para  activar  su  cuenta "
+    ,
+  })
   .views((store) => ({
-  
     get validationError() {
       if (store.authEmail.length === 0) return translate("fieldsValidation.blank")
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(store.authEmail))
-        return translate('errors.invalidEmail')
+        return translate("errors.invalidEmail")
       return null
     },
     get validationName() {
@@ -36,13 +36,18 @@ export const RegisterStoreModel = types
     get validationErrorConfirmPassword() {
       if (store.confirmPassword.length === 0) return translate("fieldsValidation.blank")
 
-      if(store.confirmPassword !== store.authPassword) return translate("fieldsValidation.notEqual")
+      if (store.confirmPassword !== store.authPassword)
+        return translate("fieldsValidation.notEqual")
 
       return null
     },
-    get asValidationError(){
-      return this.validationError !=null || this.validationErrorPassword != null || this.validationErrorConfirmPassword != null
-    }
+    get asValidationError() {
+      return (
+        this.validationError != null ||
+        this.validationErrorPassword != null ||
+        this.validationErrorConfirmPassword != null
+      )
+    },
   }))
   .actions((store) => ({
     setAuthEmail(value: string) {
@@ -63,6 +68,13 @@ export const RegisterStoreModel = types
     setResultMessage(value: string) {
       store.resultMessage = value.replace(/ /g, "")
     },
+    cleantStore() {
+      store.authEmail = ""
+      store.authPassword = ""
+      store.confirmPassword = ""
+      store.name = ""
+      store.lastname = ""
+    },
     userRegister: flow(function* userRegister() {
       return yield userSignup({
         email: store.authEmail,
@@ -70,9 +82,9 @@ export const RegisterStoreModel = types
         name: store.name,
         lastname: store.lastname,
         confirm_password: store.confirmPassword,
-        lang: store.lang
+        lang: store.lang,
       })
-    })
+    }),
   }))
 
 export interface AuthenticationStore extends Instance<typeof RegisterStoreModel> {}
