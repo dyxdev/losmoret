@@ -45,6 +45,7 @@ const es = {
     },
     registerScreen:{
       nameFieldLabel: "Nombre",
+      lastnameFieldLabel: "Apellidos",
       passwordFieldLabel: "Repite tu contraseña",
       label:"Registro",
       confirm:"Registrarse"
@@ -52,7 +53,8 @@ const es = {
     fieldsValidation:{
          blank: "No puede estar vacío",
          min: "Debe tener como mínimo {{min}} caracteres",
-         email: "Debe ser una dirección de correo"
+         email: "Debe ser una dirección de correo",
+         notEqual: "Las contraseñas no coinciden"
     },
     orderScreen:{
       title: "Mis órdenes",
@@ -90,7 +92,14 @@ const es = {
     },
     addressScreen:{
       empty: "Sin direcciones registradas",
-    }
+    },
+    MessagesScreen:{
+      label:"Confirmación",
+      login:"Ir al login",
+      email: "Ir al correo",
+      confirm: "La cuenta de usuario ha sido creada, por favor revisa tu correo y accede al enlace que le hemos enviado para activar su cuenta"
+    
+    },
   }
   
   export default es

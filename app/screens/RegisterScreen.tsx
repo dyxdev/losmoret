@@ -1,54 +1,121 @@
 import { observer } from "mobx-react-lite"
 import React, { ComponentType, FC, useEffect, useMemo, useRef, useState } from "react"
-import { TextInput, TextStyle, ViewStyle, Image, ImageStyle,View } from "react-native"
-import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
+import {
+  TextInput,
+  TextStyle,
+  ViewStyle,
+  Image,
+  ImageStyle,
+  View,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
+  SafeAreaView
+} from "react-native"
+import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
-import { colors, spacing,  } from "../theme"
+import { colors, spacing } from "../theme"
+import { $full, $fullBg, } from "../theme/styles"
+import { CommonResult } from "app/services/api"
+import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
+import { useToastCustom } from "app/components/AlertToast"
+import { ScrollView } from "react-native-gesture-handler"
 
-
-const store = require("../../assets/images/logocontxt.png")
-interface RegisterScreenProps extends AppStackScreenProps<"Register"> {}
+const store = require("../../assets/images/fondo.png")
+interface RegisterScreenProps extends AppStackScreenProps<"Register"> { }
 
 export const RegisterScreen: FC<RegisterScreenProps> = observer(function RegisterScreen(_props) {
-  
   const authPasswordInput = useRef<TextInput>(null)
   const authRepeetPasswordInput = useRef<TextInput>(null)
-
-  const [authPassword, setAuthPassword] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
-  const [authRepeetPassword, setAuthRepeetPassword] = useState("")
   const [isAuthRepeetPasswordHidden, setIsAuthRepeetPasswordHidden] = useState(true)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [attemptsCount, setAttemptsCount] = useState(0)
+  const [loading,setLoading] = useState(false)
+  const { navigation } = _props
+  const [viewValidation,setViewValidation] = useState(false)
+  
+  function onRegister() {
+    navigation.navigate("GotoMessage")
+  }
+  
+ 
   const {
-    authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
+    registerStore: {
+      authEmail,
+      setAuthEmail,
+      authPassword,
+      setAuthPassword,
+      confirmPassword,
+      setConfirmAuthPassword,
+      name,
+      lastname,
+      setName,
+      setLastName,
+      validationError,
+      validationName,
+      validationLastName,
+      validationErrorPassword,
+      validationErrorConfirmPassword,
+      userRegister,
+      setResultMessage,
+      asValidationError
+
+    },
   } = useStores()
+  const { showToast } = useToastCustom()
 
   useEffect(() => {
-   
-    setAuthEmail("admin@codes.store")
-    setAuthPassword("Odoo")
-
     return () => {
       setAuthPassword("")
       setAuthEmail("")
+      setName("")
+      setLastName("")
+      setConfirmAuthPassword("")
     }
   }, [])
 
-  const error = isSubmitted ? validationError : ""
+  function register() {
 
-  function login() {
-    setIsSubmitted(true)
-    setAttemptsCount(attemptsCount + 1)
+    setViewValidation(true)
 
-    if (validationError) return
+    if (asValidationError) return
 
-    setIsSubmitted(false)
-    setAuthPassword("")
-    setAuthEmail("")
 
-    setAuthToken(String(Date.now()))
+
+    userRegister().then(
+      (response: CommonResult | GeneralApiProblem) =>{
+        if (isGeneralProblem(response)) {
+          showToast(
+            {
+              title:"Ocurrio un error",
+              status: "error",
+              description:(response as GeneralApiProblem).message ?? "Ocurrio un error al realizar el registro contacte con los administradores",
+              variant:"solid"
+            }
+          )
+        } else{
+          const result = (response as CommonResult).result
+          const error =  (response as CommonResult).error
+          if(error){
+            showToast(
+              {
+                title:"Atención",
+                status: "warning",
+                description:error.message,
+                variant:"solid"
+              }
+            )
+          }else if(result){
+              setResultMessage(result.message)
+              onRegister()
+          }
+        }
+    }).finally(()=>{
+      setLoading(false)
+    })
+
+  
   }
 
   const PasswordRightAccessory: ComponentType<TextFieldAccessoryProps> = useMemo(
@@ -84,109 +151,130 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
   )
 
   return (
-    <Screen
-      backgroundColor={colors.palette.bgImage}
-      preset="auto"
-      contentContainerStyle={$screenContentContainer}
-      safeAreaEdges={["top", "bottom"]}
+    <SafeAreaView
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{...$fullBg,padding:40}}
     >
-      <Text testID="login-heading" tx="registerScreen.label" preset="heading" style={$register} />
-      <View style={$viewImageStyle} >
-             <Image style={$image} source={store}></Image>
-       </View> 
-      
-       <TextField
-        value={authEmail}
-        onChangeText={setAuthEmail}
-        containerStyle={$textField}
-        autoCapitalize="none"
-        autoComplete="email"
-        autoCorrect={false}
-        keyboardType="default"
-        labelTx="registerScreen.nameFieldLabel"
-        LabelTextProps={{
-          style:$register
-        }}
-        placeholderTx="registerScreen.nameFieldLabel"
-        helper={error}
-        status={error ? "error" : undefined}
-        onSubmitEditing={() => authPasswordInput.current?.focus()}
-      />
+      <KeyboardAvoidingView behavior={"height"} style={$full}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView>
+            <Text
+              testID="heading"
+              tx="registerScreen.label"
+              preset="heading"
+              style={$register}
+            />
+            <View style={$viewImageStyle}>
+              <Image style={$image} source={store}></Image>
+            </View>
 
-      <TextField
-        value={authEmail}
-        onChangeText={setAuthEmail}
-        containerStyle={$textField}
-        autoCapitalize="none"
-        autoComplete="email"
-        autoCorrect={false}
-        keyboardType="email-address"
-        labelTx="loginScreen.emailFieldLabel"
-        LabelTextProps={{
-          style:$register
-        }}
-        placeholderTx="loginScreen.emailFieldPlaceholder"
-        helper={error}
-        status={error ? "error" : undefined}
-        onSubmitEditing={() => authPasswordInput.current?.focus()}
-      />
+            <TextField
+              value={name}
+              onChangeText={setName}
+              containerStyle={$textField}
+              autoCapitalize="none"
+              autoComplete="name"
+              autoCorrect={false}
+              keyboardType="default"
+              labelTx="registerScreen.nameFieldLabel"
+              LabelTextProps={{
+                style: $register,
+              }}
+              placeholderTx="registerScreen.nameFieldLabel"
+              helper={validationName ?? undefined}
+              status={validationName && viewValidation ? "error" : undefined}
+            />
 
-      <TextField
-        ref={authPasswordInput}
-        value={authPassword}
-        onChangeText={setAuthPassword}
-        containerStyle={$textField}
-        autoCapitalize="none"
-        autoComplete="password"
-        autoCorrect={false}
-        secureTextEntry={isAuthPasswordHidden}
-        labelTx="loginScreen.passwordFieldLabel"
-        LabelTextProps={{
-          style:$register
-        }}
-        placeholderTx="loginScreen.passwordFieldPlaceholder"
-        onSubmitEditing={login}
-        RightAccessory={PasswordRightAccessory}
-      />
+            <TextField
+              value={lastname}
+              onChangeText={setLastName}
+              containerStyle={$textField}
+              autoCapitalize="none"
+              autoComplete="name-family"
+              autoCorrect={false}
+              keyboardType="default"
+              labelTx="registerScreen.lastnameFieldLabel"
+              LabelTextProps={{
+                style: $register,
+              }}
+              placeholderTx="registerScreen.lastnameFieldLabel"
+              helper={validationLastName ?? undefined}
+              status={validationLastName && viewValidation ? "error" : undefined}
 
-<TextField
-        ref={authRepeetPasswordInput}
-        value={authRepeetPassword}
-        onChangeText={setAuthRepeetPassword}
-        containerStyle={$textField}
-        autoCapitalize="none"
-        autoComplete="password"
-        autoCorrect={false}
-        secureTextEntry={isAuthRepeetPasswordHidden}
-        labelTx="loginScreen.passwordFieldLabel"
-        LabelTextProps={{
-          style:$register
-        }}
-        placeholderTx="registerScreen.passwordFieldLabel"
-        onSubmitEditing={login}
-        RightAccessory={PasswordRepeetRightAccessory}
-      />
+            />
 
-      <Button
-        testID="login-button"
-        tx="registerScreen.confirm"
-        style={$tapButton}
-        preset="reversed"
-        onPress={login}
-      />
-      
-    </Screen>
+            <TextField
+              value={authEmail}
+              onChangeText={setAuthEmail}
+              containerStyle={$textField}
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect={false}
+              keyboardType="default"
+              labelTx="loginScreen.emailFieldLabel"
+              LabelTextProps={{
+                style: $register,
+              }}
+              placeholderTx="loginScreen.emailFieldPlaceholder"
+              helper={validationError ?? undefined}
+              status={validationError && viewValidation ? "error" : undefined}
+            />
+
+            <TextField
+              ref={authPasswordInput}
+              value={authPassword}
+              onChangeText={setAuthPassword}
+              containerStyle={$textField}
+              autoCapitalize="none"
+              autoComplete="password"
+              autoCorrect={false}
+              secureTextEntry={isAuthPasswordHidden}
+              labelTx="loginScreen.passwordFieldLabel"
+              LabelTextProps={{
+                style: $register,
+              }}
+              placeholderTx="loginScreen.passwordFieldPlaceholder"
+              RightAccessory={PasswordRightAccessory}
+              helper={validationErrorPassword && viewValidation ? "error" : undefined}
+            />
+
+            <TextField
+              ref={authRepeetPasswordInput}
+              value={confirmPassword}
+              onChangeText={setConfirmAuthPassword}
+              containerStyle={$textField}
+              autoCapitalize="none"
+              autoComplete="password"
+              autoCorrect={false}
+              secureTextEntry={isAuthRepeetPasswordHidden}
+              labelTx="loginScreen.passwordFieldLabel"
+              LabelTextProps={{
+                style: $register,
+              }}
+              placeholderTx="registerScreen.passwordFieldLabel"
+              RightAccessory={PasswordRepeetRightAccessory}
+              helper={validationErrorConfirmPassword ?? undefined}
+              status={ validationErrorConfirmPassword && viewValidation ? "error" : undefined}
+            />
+
+            <Button
+              testID="login-button"
+              tx="registerScreen.confirm"
+              style={$tapButton}
+              preset="reversed"
+              onPress={register}
+              LeftAccessory={()=>loading && <ActivityIndicator color="white"/>}
+            />
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 })
 
-const $screenContentContainer: ViewStyle = {
-  paddingVertical: spacing.xxl,
-  paddingHorizontal: spacing.lg,
-}
-
 const $register: TextStyle = {
   marginBottom: spacing.sm,
-  color:"white"
+  color: "white",
 }
 
 const $textField: ViewStyle = {
@@ -195,12 +283,19 @@ const $textField: ViewStyle = {
 
 const $tapButton: ViewStyle = {
   marginTop: spacing.xs,
-  backgroundColor: colors.palette.button
+  backgroundColor: colors.palette.button,
 }
 
-const $image: ImageStyle = { flex: 1,
-  width: '100%',
-  height: '100%',
-  resizeMode: 'stretch'}
+const $image: ImageStyle = {
+  flex: 1,
+  width: "100%",
+  height: "100%",
+  resizeMode: "stretch",
+}
 
-const $viewImageStyle:ViewStyle = { marginTop: spacing.lg, width:150,height:150, alignSelf:"center"}
+const $viewImageStyle: ViewStyle = {
+  marginTop: spacing.lg,
+  width: 150,
+  height: 150,
+  alignSelf: "center",
+}

@@ -9,7 +9,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logocontxt.png",
     "splash": {
-      "image": "./assets/images/logocontxt.png",
+      "image": "./assets/images/fondo.png",
       "resizeMode": "contain",
       "backgroundColor": "#191015"
     },
@@ -33,7 +33,7 @@
         "backgroundImage": "./assets/images/logocontxt.png"
       },
       "splash": {
-        "image": "./assets/images/logocontxt.png",
+        "image": "./assets/images/fondo.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       }
@@ -43,8 +43,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.storeodooapp",
       "splash": {
-        "image": "./assets/images/logocontxt.png",
-        "tabletImage": "./assets/images/logocontxt.png",
+        "image": "./assets/images/fondo.png",
+        "tabletImage": "./assets/images/fondo.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       }
@@ -52,13 +52,14 @@
     "web": {
       "favicon": "./assets/images/logocontxt.png",
       "splash": {
-        "image": "./assets/images/logocontxt.png",
+        "image": "./assets/images/fondo.png",
         "resizeMode": "contain",
         "backgroundColor": "#191015"
       },
       "bundler": "metro"
     },
     "plugins": [
+      "react-native-email-link",
       "@config-plugins/react-native-blob-util",
       "@config-plugins/react-native-pdf",
       "expo-localization",

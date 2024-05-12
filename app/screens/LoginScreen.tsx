@@ -10,7 +10,8 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from "react-native"
 import { Button, Icon, Text, TextField, TextFieldAccessoryProps } from "../components"
 import { useStores } from "../store"
@@ -27,13 +28,12 @@ import {
   $tapButtonTxt,
   $topMargin,
   $centerText,
+  $full
 } from "../theme/styles"
 import type { LoginResponse } from "app/services/api/account/types"
 import { isGeneralProblem, type GeneralApiProblem } from "app/services/api/apiProblem"
-import { useToastCustom, useToastErrorApi } from "app/components/AlertToast"
+import { useToastCustom } from "app/components/AlertToast"
 import { setAuthTokenSession } from "app/services/api/account/service"
-import { CircularProgress } from "native-base"
-
 
 const store = require("../../assets/images/login.png")
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
@@ -57,7 +57,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       setAuthPassword,
       userLogin,
       setUserInfo,
-      asValidationError
     },
   } = useStores()
 
@@ -134,7 +133,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
   return (
     <SafeAreaView style={$fullBg}>
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView 
+       behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+       style={$full}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ImageBackground source={store} resizeMode="contain" style={$fullImage}>
         <View style={contentCenter}>

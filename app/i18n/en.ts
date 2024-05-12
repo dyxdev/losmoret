@@ -45,6 +45,7 @@ const en = {
   },
   registerScreen:{
     nameFieldLabel: "Name",
+    lastnameFieldLabel: "Last name",
     passwordFieldLabel: "Repeat Password",
     label:"Register",
     confirm:"Register"
@@ -131,7 +132,8 @@ const en = {
   fieldsValidation:{
     blank: "Can't be blank",
     min: "Must be at least {{min}} characters",
-    email: "Must be a email address"
+    email: "Must be a email address",
+    notEqual: "Password are not equal"
 },
   orderScreen:{
     title: "Mis ordernes",
@@ -174,7 +176,14 @@ const en = {
     empty: "Sin direcciones registradas",
     message: "Aquí se mostraran las direcciones para la entrega de productos",
     delete: "¿ Desea eliminar esta dirección ?",
-  }
+  },
+  MessagesScreen:{
+    label:"Confirmation",
+    login:"Go to login",
+    email: "Go to email apk",
+    confirm: "La cuenta de usuario ha sido creada, por favor revisa tu correo y accede al enlace que le hemos enviado para activar su cuenta"
+    
+  },
 }
 
 export default en

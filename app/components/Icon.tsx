@@ -111,6 +111,7 @@ export const iconRegistry = {
   trash: require("../../assets/icons/trash.png"),
   user: require("../../assets/icons/user.png"),
   pencil: require("../../assets/icons/pencil.png"),
+  mail: require("../../assets/icons/mail.png"),
 }
 
 const $imageStyleBase: ImageStyle = {
