@@ -33,19 +33,19 @@ export const AddressBlock = (props:AddressBlockProps) => {
                 <Icon icon="pencil" size={25} color={colors.palette.primary}/>
                 </TouchableHighlight>
                 <Box w={5}/>
-                <VStack alignItems="start" justifyContent="space-around">
+                <VStack alignItems="start" justifyContent="space-around" flex={1}>
                     <Text style={{
                        color:"white",
                        fontSize: 16
                     }}>
                         {"Calle y numero: " + props.address.street}
                     </Text>
-                    <Text style={{
+                    {props.address.street2 && <Text style={{
                        color:"white",
                        fontSize: 16
                     }}>
                         {"Calle 2: " + props.address.street2}
-                    </Text>
+                    </Text>}
                     <Text style={{
                        color:"white",
                        fontSize: 16

@@ -51,13 +51,13 @@ export const BottomNavigator = () => {
           tabBarLabel: ({ children, color, focused }) => (
             <Text style={
               {
-                color: focused ? colors.palette.primary : color
+                color: focused ? colors.palette.bgImg : color
               }
             }>Catergorías</Text>
           ),
 
           tabBarIcon: ({ color, size, focused }) => (
-            <MaterialCommunityIcons name="home" color={focused ? colors.palette.primary : color} size={size} />
+            <MaterialCommunityIcons name="home" color={focused ? colors.palette.bgImg : color} size={size} />
           ),
         }}
       />

@@ -64,6 +64,11 @@ export async function getAddress(): Promise<ResultClass<Address[]> | GeneralApiP
   return response
 }
 
+export async function getAddressById(id): Promise<ResultClass<Address> | GeneralApiProblem> {
+  const response = await api.apiGetWrapper<ResultClass<Address>>(`/user/address/${id}`, {})
+  return response
+}
+
 export async function postAddress(
   data: Address,
 ): Promise<ResultClass<Address> | GeneralApiProblem> {

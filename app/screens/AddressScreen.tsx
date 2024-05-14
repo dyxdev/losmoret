@@ -153,7 +153,7 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
         isOpen={openAlert}
         description={translate("addressScreen.delete")}
         status="danger"
-        titleButton={translate("cartScreen.deletebutton")}
+        titleButton={"Eliminar"}
         onOK={() => onDeleteAddress()}
         onClose={() => setOpenAlert(false)}
         isLoading={loading}

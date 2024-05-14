@@ -1,9 +1,11 @@
 import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
 import { translate } from "../i18n"
-import { getStateByCountry, postAddress, putAddress } from "app/services/api/account/service"
+import { getAddress, getAddressById, getStateByCountry, postAddress, putAddress } from "app/services/api/account/service"
 import { isGeneralProblem } from "app/services/api/apiProblem"
 import { runInAction } from "mobx"
 import { withSetPropAction } from "./helpers/withSetPropAction"
+import { ResultClass } from "app/services/api"
+import { Address } from "app/services/api/account/types"
 
 export const AddressStoreModel = types
   .model("AddressStore")
@@ -47,7 +49,7 @@ export const AddressStoreModel = types
       return null
     },
     get validationState() {
-      if (store.state_id !== -1) return translate("fieldsValidation.blank")
+      if (store.state_id === -1) return translate("fieldsValidation.blank")
       return null
     },
     get validationPhone() {
@@ -94,12 +96,13 @@ export const AddressStoreModel = types
       store._zip = value.replace(/ /g, "")
     },
     setPhone(value: string) {
-      store.phone = "+53" + value.replace(/ /g, "")
+      store.phone = value.replace(/ /g, "")
     },
     setMobile(value: string) {
-      store.mobile = "+53" + value.replace(/ /g, "")
+      store.mobile = value.replace(/ /g, "")
     },
     cleanStore() {
+      store.id = -1
       store.name = ""
       store.street = ""
       store.street2 = ""
@@ -114,20 +117,21 @@ export const AddressStoreModel = types
       return postAddress({
         name: store.name,
         street: store.street,
-        street2: store.street2,
+        "street2": store.street2,
         _zip: store._zip,
         country_id: store.country_id,
         state_id: store.state_id,
         phone: store.phone,
         mobile: store.mobile,
         city: store.city,
+        "_type": store._type
       })
     }),
-    updateAddreess: flow(function* saveAddreess() {
-      return putAddress(store.id, {
+    updateAddreess: flow(function* updateAddreess(id) {
+      return putAddress(id, {
         name: store.name,
         street: store.street,
-        street2: store.street2,
+        "street2": store.street2,
         _zip: store._zip,
         country_id: store.country_id,
         state_id: store.state_id,
@@ -146,6 +150,20 @@ export const AddressStoreModel = types
     ) {
       store.setProp("states", result as any)
     },
+    sucessFetchOne(
+      result:Address
+    ) {
+      store.setProp("name",result.name)
+      store.setProp("street",result.street)
+      store.state_id = result.state_id[0]
+      store.city = result.city
+      store.phone = result.phone
+      store.mobile = result.mobile
+      if(typeof result.street2 === 'string'  ){
+        store.street2 = result.street2
+      }
+      
+    },
     async fetchStates() {
       try {
         // ... yield async/await service
@@ -160,6 +178,24 @@ export const AddressStoreModel = types
       } catch (error) {
         // ... try/catch
       }
+    },
+    async fetchAddress(id) {
+      if(id){
+        try {
+          // ... yield async/await service
+          const response = await getAddressById(id)
+          
+          if (!isGeneralProblem(response)) {
+            const result = (response as ResultClass<Address>).result
+            runInAction(() => {
+              this.sucessFetchOne(result)
+            })
+          } 
+        } catch (error) {
+          console.log(error)
+        } 
+      }
+      
     },
     getState: flow(function* getState() {
       return getStateByCountry(store.country_id)

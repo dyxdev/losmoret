@@ -3,7 +3,6 @@ import React, { FC, useEffect, useMemo, useState } from "react"
 import {
     TextStyle,
     ViewStyle,
-    ImageStyle,
     View,
     KeyboardAvoidingView,
     Keyboard,
@@ -16,11 +15,13 @@ import { useStores } from "../store"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
 import { $full, $fullBg, } from "../theme/styles"
-import { CommonResult } from "app/services/api"
+import { ResultClass } from "app/services/api"
 import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem"
 import { useToastCustom } from "app/components/AlertToast"
 import { ScrollView } from "react-native-gesture-handler"
 import { StateSelect } from "app/components/StateSelect"
+import { Address } from "app/services/api/account/types"
+import { useBackHeader } from "app/hooks/customHeader"
 
 interface AddressCrudScreenProps extends AppStackScreenProps<"AddressCrud"> { }
 
@@ -31,10 +32,7 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
     const id = route.params?.id;
     const [viewValidation, setViewValidation] = useState(false)
 
-    function onRegister() {
-        navigation.navigate("GotoMessage")
-    }
-
+    useBackHeader(navigation)
 
     const {
         addressStore: {
@@ -43,7 +41,6 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
             street,
             street2,
             city,
-            state_id,
             phone,
             mobile,
             setName,
@@ -60,50 +57,54 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
             updateAddreess,
             validationCity,
             asValidationError,
-            cleanStore
+            cleanStore,
+            fetchAddress
 
         },
     } = useStores()
     const { showToast } = useToastCustom()
 
     useEffect(() => {
+        fetchAddress(id)
         return () => {
             cleanStore()
         }
     }, [])
 
-    function register() {
+    function saveAddress() {
 
         setViewValidation(true)
+        setLoading(true)
 
-        if (asValidationError) return
+        if (asValidationError){
+            setLoading(false)
 
-        userRegister().then(
-            (response: CommonResult | GeneralApiProblem) => {
+            return}
+        
+        const savePromise = id ? updateAddreess(id) : saveAddreess()
+
+        savePromise.then(
+            (response: ResultClass<Address> | GeneralApiProblem) => {
                 if (isGeneralProblem(response)) {
                     showToast(
                         {
                             title: "Ocurrio un error",
                             status: "error",
-                            description: (response as GeneralApiProblem).message ?? "Ocurrio un error al realizar el registro contacte con los administradores",
+                            description: (response as GeneralApiProblem).message ?? "Ocurrio un error al agregar la dirección",
                             variant: "solid"
                         }
                     )
                 } else {
-                    const result = (response as CommonResult).result
-                    const error = (response as CommonResult).error
-                    if (error) {
-                        showToast(
-                            {
-                                title: "Atención",
-                                status: "warning",
-                                description: error.message,
-                                variant: "solid"
-                            }
-                        )
-                    } else if (result) {
-                        onRegister()
-                    }
+                    cleanStore()
+                    showToast(
+                        {
+                            title: "Guardado",
+                            status: "success",
+                            description: response?.result?.message ?? "",
+                            variant: "solid"
+                        }
+                    )
+                    navigation.navigate("Address")
                 }
             }).finally(() => {
                 setLoading(false)
@@ -217,7 +218,7 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
                                 onChangeText={setPhone}
                                 containerStyle={$textField}
                                 autoCapitalize="none"
-                                keyboardType="name-phone-pad"
+                                keyboardType="phone-pad"
                                 autoCorrect={false}
                                 labelTx="addressScreen.phone"
                                 LabelTextProps={{
@@ -236,7 +237,7 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
                                 autoCapitalize="none"
                                 autoCorrect={false}
                                 label="Telefono secundario"
-                                keyboardType="name-phone-pad"
+                                keyboardType="phone-pad"
                                 LabelTextProps={{
                                     style: $register,
                                 }}
@@ -259,10 +260,10 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
 
                             <Button
                                 testID="login-button"
-                                tx={id ? "addressScreen.update" : "addressScreen.update"}
+                                text="Guardar"
                                 style={$tapButton}
                                 preset="reversed"
-                                onPress={register}
+                                onPress={saveAddress}
                                 LeftAccessory={() => loading && <ActivityIndicator color="white" />}
                             />
                         </View>

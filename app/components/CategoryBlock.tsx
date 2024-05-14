@@ -25,7 +25,6 @@ export function CategoryBlock(props:CategoryProps) {
           <View>
             <Image style={styles.image} source={props.image} />
             <View style={styles.overlay} />
-            <View style={styles.border} />
             <View style={styles.text}>
               <Text preset='heading' style={styles.subtitle}>{props.title}</Text>
             </View>

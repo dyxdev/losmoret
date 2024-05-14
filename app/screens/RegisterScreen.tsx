@@ -76,6 +76,7 @@ export const RegisterScreen: FC<RegisterScreenProps> = observer(function Registe
   function register() {
 
     setViewValidation(true)
+    setLoading(true)
 
     if (asValidationError) return
 

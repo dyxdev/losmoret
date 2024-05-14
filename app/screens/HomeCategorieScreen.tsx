@@ -5,7 +5,7 @@ import { AppStackScreenProps } from "app/navigators"
 import { Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
 import { useCartHeader } from "app/hooks/customHeader"
-import { colors, spacing } from "app/theme"
+import { spacing } from "app/theme"
 import { useStores } from "app/store"
 
 // import { useNavigation } from "@react-navigation/native"
@@ -100,5 +100,5 @@ const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.sm,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: "#FFFFFF"
 }

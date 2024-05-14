@@ -1,7 +1,7 @@
 import { useToastErrorApi } from "app/components/AlertToast"
 import { CoinSelect } from "app/components/CoinSelect"
 import { UserMenu } from "app/components/Menu"
-import { goBack, navigate } from "app/navigators"
+import { goBack } from "app/navigators"
 import { useStores } from "app/store"
 import { colors } from "app/theme"
 import { useHeader } from "app/utils/useHeader"
@@ -17,7 +17,7 @@ export const useCartHeader = (navigation: any)=>{
             RightActionComponent: <UserMenu navigation={navigation}/>,
             onLeftPress: async ()=> authenticationStore.logout(),
             onRightPress: ()=>navigation.navigate("Cart"),
-            backgroundColor: colors.palette.primary,
+            backgroundColor: colors.palette.bgImage,
             LeftActionComponent: <CoinSelect />
         }
     )
@@ -32,7 +32,7 @@ export const useBackHeader = (navigation:any)=>{
             onLeftPress: ()=>goBack(),
             RightActionComponent: <UserMenu navigation={navigation}/>,
             onRightPress: ()=>navigation.navigate("Cart"),
-            backgroundColor: colors.palette.primary
+            backgroundColor: colors.palette.bgImage
         }
     )
 }
@@ -41,7 +41,7 @@ export const useLeaveWebView = (navigation:any)=>{
     const { showToastInfoMessage } = useToastErrorApi()
     useHeader(
         {
-            backgroundColor: colors.palette.primary,
+            backgroundColor: colors.palette.bgImage,
             leftIcon: 'back',
             leftIconColor: 'white',
             onLeftPress: ()=>{
