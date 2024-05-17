@@ -167,7 +167,7 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 10,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: colors.palette.bgImage
 
 }
 

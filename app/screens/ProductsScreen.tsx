@@ -170,14 +170,15 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   height: "100%",
-  backgroundColor: colors.palette.secondary,
+  backgroundColor: colors.palette.bgImage,
+
 }
 
 const $listContentContainer: ContentStyle = {
   paddingHorizontal: spacing.lg,
   paddingTop: spacing.lg,
   paddingBottom: spacing.lg,
-  backgroundColor: colors.palette.secondary,
+  backgroundColor: colors.palette.bgImage,
 }
 
 const $heading: ViewStyle = {

@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   carousel: {},
   carouselContainer: {
     minHeight: 250,
-    backgroundColor: colors.palette.secondary,
+    backgroundColor: colors.palette.bgImage,
   },
 
   category: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     
   },
   container: {
-    backgroundColor: colors.palette.secondary,
+    backgroundColor: colors.palette.bgImage,
     flex: 1
   },
   image: {

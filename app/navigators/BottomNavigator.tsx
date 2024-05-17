@@ -25,12 +25,12 @@ const orderTab = (
           tabBarLabel: ({ children, color, focused }) => (
             <Text style={
               {
-                color: focused ? colors.palette.primary : color
+                color: focused ? colors.palette.bgImg : color
               }
             }>Mis órdenes</Text>
           ),
           tabBarIcon: ({ color, size, focused }) => (
-            <MaterialCommunityIcons name="book-check" color={focused ? colors.palette.primary : color} size={size} />
+            <MaterialCommunityIcons name="book-check" color={focused ? colors.palette.bgImg : color} size={size} />
           ),
         }}
       />

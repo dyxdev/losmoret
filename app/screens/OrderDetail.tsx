@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: colors.palette.secondary
+    backgroundColor: colors.palette.bgImage
   },
   image: {
     ...StyleSheet.absoluteFillObject,

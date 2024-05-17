@@ -114,8 +114,7 @@ export const OrdersScreen: FC<OrdersScreenProps> = observer(function OrdersScree
 
 const $screenContentContainer: ViewStyle = {
   flex: 1,
-  backgroundColor: colors.palette.secondary
- 
+  backgroundColor: colors.palette.bgImage
 }
 
 const $listContentContainer: ContentStyle = {

@@ -93,7 +93,7 @@ export const PayWebScreen: FC<PayWebScreenProps> = observer(function PayWebScree
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 0,
-  backgroundColor: colors.palette.secondary,
+  backgroundColor: colors.palette.bgImage,
   height: "auto",
   bottom: 30
 

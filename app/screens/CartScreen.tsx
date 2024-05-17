@@ -188,7 +188,7 @@ export const CartScreen: FC<CartScreenProps> = observer(function CartScreen(_pro
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 10,
-  backgroundColor: colors.palette.secondary
+  backgroundColor: colors.palette.bgImage
 
 }
 

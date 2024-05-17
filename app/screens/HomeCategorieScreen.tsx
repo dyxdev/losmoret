@@ -2,11 +2,13 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle } from "react-native"
 import { AppStackScreenProps } from "app/navigators"
-import { Screen } from "app/components"
+import { Icon, Screen } from "app/components"
 import { CategoryBlock } from "app/components/CategoryBlock"
 import { useCartHeader } from "app/hooks/customHeader"
-import { spacing } from "app/theme"
+import { colors, spacing } from "app/theme"
 import { useStores } from "app/store"
+import { Fab, Box } from "native-base";
+import { dialCall, sendWhatsAppMessage } from "app/utils/share"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "app/models"
@@ -90,7 +92,13 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
   return (
     
     <Screen style={$root} preset="auto">
+      
        {renderCategories()}
+       <Box position="relative" h={10} w="100%">
+         <Fab bgColor={colors.palette.secondary} bottom={160} onPress={()=>dialCall("53549460")} position="absolute" size="sm" icon={<Icon color="white" icon="phone" />}  />
+         <Fab bgColor={colors.palette.secondary} bottom={100} onPress={()=>sendWhatsAppMessage()} position="absolute" size="sm" icon={<Icon icon="whatsapp" />}  />
+      </Box>
+       
     </Screen>
     
   )

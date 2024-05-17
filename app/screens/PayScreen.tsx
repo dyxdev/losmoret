@@ -153,7 +153,7 @@ export const PayScreen: FC<PayScreenProps> = observer(function PayScreen(_props)
 const $screenContentContainer: ViewStyle = {
   flex: 1,
   padding: 10,
-  backgroundColor: colors.palette.secondary,
+  backgroundColor: colors.palette.bgImage,
   marginBottom: spacing.md,
 
 }
