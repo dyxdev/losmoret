@@ -42,16 +42,13 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
             street2,
             city,
             phone,
-            mobile,
             setName,
             setStreet,
             setStreet2,
             setCity,
             setPhone,
-            setMobile,
             validationName,
             validationStreet,
-            validationMobile,
             validationPhone,
             saveAddreess,
             updateAddreess,
@@ -230,24 +227,6 @@ export const AddressCrudScreen: FC<AddressCrudScreenProps> = observer(function A
                                 status={validationPhone && viewValidation ? "error" : undefined}
                             />
 
-                            <TextField
-                                value={mobile}
-                                onChangeText={setMobile}
-                                containerStyle={$textField}
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                label="Telefono secundario"
-                                keyboardType="phone-pad"
-                                LabelTextProps={{
-                                    style: $register,
-                                }}
-                                placeholder="Telefono secundario"
-                                LeftAccessory={MobileLeftAccessory}
-                                helper={validationMobile && viewValidation ? validationMobile : undefined}
-                                status={validationMobile && viewValidation ? "error" : undefined}
-                            />
-
-                           
                             <View style={{...$full,...{width:"100%",marginBottom:20, alignItems:"flex-start",marginLeft:20}}}>
 
                                 <Text

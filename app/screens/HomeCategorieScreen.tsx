@@ -95,7 +95,7 @@ export const HomeCategorieScreen: FC<HomeCategorieScreenProps> = observer(functi
       
        {renderCategories()}
        <Box position="relative" h={10} w="100%">
-         <Fab bgColor={colors.palette.secondary} bottom={160} onPress={()=>dialCall("53549460")} position="absolute" size="sm" icon={<Icon color="white" icon="phone" />}  />
+         <Fab bgColor={colors.palette.secondary} bottom={160} onPress={()=>dialCall("58666060")} position="absolute" size="sm" icon={<Icon color="white" icon="phone" />}  />
          <Fab bgColor={colors.palette.secondary} bottom={100} onPress={()=>sendWhatsAppMessage()} position="absolute" size="sm" icon={<Icon icon="whatsapp" />}  />
       </Box>
        

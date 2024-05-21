@@ -1,7 +1,7 @@
 import { useStores } from "app/store";
 import { observer } from "mobx-react-lite";
 import { Box, Select, CheckCircleIcon } from "native-base"
-import React, { useEffect } from "react"
+import React, { useEffect,useMemo } from "react"
 
 
 export const StateSelect = observer(() => {
@@ -13,6 +13,10 @@ export const StateSelect = observer(() => {
     useEffect(()=>{
         addressStore.fetchStates()
     },[])
+
+    const memo = useMemo(()=>[
+        1715,1716,1717,1718,1719,1720,1721,1722,1723,1724,1725,1726,1727,1728,1729,1730
+    ],[])
 
 
     return (
@@ -29,7 +33,9 @@ export const StateSelect = observer(() => {
                     console.log(itemValue)
                     addressStore.setState(Number.parseInt(itemValue))
                 }}>
-                {addressStore.stateArray.map((value, index) => <Select.Item key={index} label={value.name} value={`${value.id}`} />)}
+                {addressStore.stateArray.filter((value)=>{
+                    return !memo.includes( Number.parseInt(value.id))
+                }).map((value, index) => <Select.Item key={index} label={value.name} value={`${value.id}`} />)}
 
 
             </Select>

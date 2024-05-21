@@ -7,7 +7,7 @@
     "scheme": "storeodooapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logocontxt.png",
+    "icon": "./assets/images/fondo.png",
     "splash": {
       "image": "./assets/images/fondo.png",
       "resizeMode": "contain",
@@ -26,11 +26,11 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ],
-      "icon": "./assets/images/logocontxt.png",
+      "icon": "./assets/images/fondo.png",
       "package": "com.storeodooapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logocontxt.png",
-        "backgroundImage": "./assets/images/logocontxt.png"
+        "foregroundImage": "./assets/images/fondo.png",
+        "backgroundImage": "./assets/images/fondo.png"
       },
       "splash": {
         "image": "./assets/images/fondo.png",
@@ -39,7 +39,7 @@
       }
     },
     "ios": {
-      "icon": "./assets/images/logocontxt.png",
+      "icon": "./assets/images/fondo.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.storeodooapp",
       "splash": {
@@ -50,7 +50,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/images/logocontxt.png",
+      "favicon": "./assets/images/fondo.png",
       "splash": {
         "image": "./assets/images/fondo.png",
         "resizeMode": "contain",
@@ -59,6 +59,7 @@
       "bundler": "metro"
     },
     "plugins": [
+      "expo-font",
       "react-native-email-link",
       "@config-plugins/react-native-blob-util",
       "@config-plugins/react-native-pdf",

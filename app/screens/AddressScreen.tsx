@@ -19,6 +19,7 @@ import { AddressBlock } from "app/components/AddressBlock"
 import { Address } from "app/services/api/account/types"
 import { deleteAddress, getAddress } from "app/services/api/account/service"
 import { translate } from "app/i18n"
+import { useStores } from "app/store"
 
 
 interface AddressScreenProps extends AppStackScreenProps<"Address"> { }
@@ -33,7 +34,11 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
   const { showToastApiError } = useToastErrorApi()
   const [currentAddress, setCurrentAddress] = useState<Address | null>()
   const [refresh, setRefresh] = useState(false)
-
+  const {
+    addressStore: {
+        cleanStore
+    },
+} = useStores()
   useBackHeader(navigation)
 
   async function load() {
@@ -129,7 +134,9 @@ export const AddressScreen: FC<AddressScreenProps> = observer(function AddressSc
                 preset="reversed"
                 style={$tapButton}
                 LeftAccessory={() => <Icon icon="components" color="white" style={{marginRight:10}}></Icon>}
-                onPress={()=>navigation.navigate("AddressCrud",{id:null})}
+                onPress={()=>{
+                  cleanStore()
+                  navigation.navigate("AddressCrud",{id:null})}}
               />
             </Box>
           </View>

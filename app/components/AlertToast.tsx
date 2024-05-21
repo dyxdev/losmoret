@@ -51,6 +51,7 @@ export function useToastErrorApi(){
 
          }
         toast.show({
+         duration:3000,  
          render: (props)=>{
              return <ToastAlert {...info} {...props}/>
          }
@@ -66,6 +67,7 @@ export function useToastErrorApi(){
 
        }
       toast.show({
+       duration:4000, 
        render: (props)=>{
            return <ToastAlert {...info} {...props}/>
        }
@@ -81,6 +83,7 @@ export function useToastErrorApi(){
 
        }
       toast.show({
+      duration:2000, 
        render: (props)=>{
            return <ToastAlert {...info} {...props}/>
        }
@@ -96,6 +99,7 @@ export function useToastCustom(){
     const toast = useToast()
     function showToast(value:ToastShowProps){
            toast.show({
+            duration: 2000,
             render: (props)=>{
                 return <ToastAlert {...value} {...props}/>
             }

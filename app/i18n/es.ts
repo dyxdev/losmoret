@@ -96,7 +96,7 @@ const es = {
       delete: "¿ Desea eliminar esta dirección ?",
       nameFieldLabel: "Nombre",
       streetFieldLabel: "Calle y numero",
-      street2FieldLabel: "Calle 2",
+      street2FieldLabel: "Entre calle",
       zip:"Codigo Postal",
       city:"Reparto",
       state: "Estado/Provincia",

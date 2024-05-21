@@ -54,16 +54,16 @@ export const RegisterStoreModel = types
       store.authEmail = value.replace(/ /g, "")
     },
     setAuthPassword(value: string) {
-      store.authPassword = value.replace(/ /g, "")
+      store.authPassword = value
     },
     setConfirmAuthPassword(value: string) {
-      store.confirmPassword = value.replace(/ /g, "")
+      store.confirmPassword = value
     },
     setName(value: string) {
-      store.name = value.replace(/ /g, "")
+      store.name = value
     },
     setLastName(value: string) {
-      store.lastname = value.replace(/ /g, "")
+      store.lastname = value
     },
     setResultMessage(value: string) {
       store.resultMessage = value.replace(/ /g, "")

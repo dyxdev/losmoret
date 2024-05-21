@@ -30,8 +30,8 @@ export const OrderDetailScreen: FC<OrderDetailScreenProps> = observer(function O
 
   const [data,setData] = useState()
   const load = ()=>{
-    const newdData = item.order_line.map((line)=>{
-      console.log(line)
+    const newData = item.order_line.map((line)=>{
+      
       return {
           Productos: line.product_id[1],
           Cantidad: line.product_uom_qty,
@@ -39,7 +39,9 @@ export const OrderDetailScreen: FC<OrderDetailScreenProps> = observer(function O
           Importe: line.price_total
       }
 })
-setData(newdData)
+newData.splice(newData.length-1,1)
+setData(newData)
+console.log(newData)
   }
 
   useEffect(() => {
@@ -135,7 +137,7 @@ setData(newdData)
       </VStack>
       </VStack>
 
-      <View style={{marginTop: 0, height: 800}}
+      <View style={{marginTop: 0, height: "auto"}}
       >
           <DataTable
             data={data}
@@ -148,6 +150,8 @@ setData(newdData)
             ]}
             backgroundColor={'white'}
             headerLabelStyle={{ color: 'white', fontSize: 16 }}
+            noOfPages={1} 
+
         />
       </View>
     </ScrollView>

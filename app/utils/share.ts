@@ -9,7 +9,7 @@ export function dialCall(call:string){
 };
 
 export async function sendWhatsAppMessage(){
-    const phoneNumber = '+5353549460'; // Replace with the recipient's phone number
+    const phoneNumber = '+58666060'; // Replace with the recipient's phone number
     const text = encodeURIComponent("Hola, necesito su ayuda :)");
 
     const url = `whatsapp://send?phone=${phoneNumber}&text=${text}`;

@@ -70,7 +70,6 @@ export const AddressStoreModel = types
         this.validationStreet != null ||
         this.validationState != null ||
         this.validationPhone != null ||
-        this.validationMobile != null ||
         this.validationCity
       )
     },
@@ -78,13 +77,13 @@ export const AddressStoreModel = types
   .actions(withSetPropAction)
   .actions((store) => ({
     setName(value: string) {
-      store.name = value.replace(/ /g, "")
+      store.name = value
     },
     setStreet(value: string) {
-      store.street = value.replace(/ /g, "")
+      store.street = value
     },
     setStreet2(value: string) {
-      store.street2 = value.replace(/ /g, "")
+      store.street2 = value
     },
     setState(value: number) {
       store.setProp("state_id",value)
@@ -97,6 +96,7 @@ export const AddressStoreModel = types
     },
     setPhone(value: string) {
       store.phone = value.replace(/ /g, "")
+      store.mobile = value.replace(/ /g, "")
     },
     setMobile(value: string) {
       store.mobile = value.replace(/ /g, "")
