@@ -53,7 +53,7 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   async function load() {
     setParams({
       page:1,
-      take:20,
+      take:1000,
       categ_name:category
     })
   
@@ -70,6 +70,11 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
   }
 
   async function onRefresh() {
+    setParams({
+      page:1,
+      take:1000,
+      categ_name:category
+    })
     setRefreshing(true)
     const response = await callEndpoint()
     if (isGeneralProblem(response)) {
