@@ -19,10 +19,6 @@ import { useToastErrorApi } from "app/components/AlertToast"
 import { add2Cart } from "app/services/api/cart/service"
 import { CartAddResponse } from "app/services/api/cart/types"
 
-
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
-
 interface ProductsScreenProps extends AppStackScreenProps<"Products"> { }
 
 export const ProductsScreen: FC<ProductsScreenProps> = observer(function ProductsScreen(_props) {
@@ -33,11 +29,11 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
  
   const [data, setData] = React.useState<Array<ProductSnapshotOut>>([])
   const {
-    cartStore: { addProduct,category },
+    cartStore: { category }
   } = useStores()
   const params:Meta = {
     page:1,
-    take:20,
+    take:1000,
     categ_name:category
   }
   const {
@@ -66,7 +62,8 @@ export const ProductsScreen: FC<ProductsScreenProps> = observer(function Product
       setData([...result.items])
       setIsLoading(false)
     }
-    
+  
+  
   }
 
   async function onRefresh() {

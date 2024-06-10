@@ -23,7 +23,7 @@ export function CategoryBlock(props:CategoryProps) {
           onPress={props.click}
         >
           <View>
-            <Image style={styles.image} source={props.image} />
+            <Image style={styles.image} source={{uri:props.image}} />
             <View style={styles.overlay} />
             <View style={styles.text}>
               <Text preset='heading' style={styles.subtitle}>{props.title}</Text>

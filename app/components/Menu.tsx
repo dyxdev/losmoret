@@ -3,6 +3,7 @@ import React from "react"
 import { Icon } from "./Icon";
 import { useStores } from "app/store";
 import { CoinSelect } from "./CoinSelect";
+import { SearchBox } from "./SearchBox";
 
 
 export const UserMenu = (props:any)=> {
@@ -17,7 +18,7 @@ export const UserMenu = (props:any)=> {
     
 
     return (
-        <Box mr={2} alignItems="center" flexDir={"row"} justifyItems={"center"}>
+        <Box w='100%' mr={2} alignItems="center" flexDir={"row"} justifyItems={"center"}>
         <Icon style={styleIcon} icon="cart" size={30} color="white" onPress={()=>props.navigation.navigate("Cart")}/>
         <Menu mr={5} mt={-7} w="190" trigger={triggerProps => {
             return <Pressable accessibilityLabel="More options menu" {...triggerProps}>

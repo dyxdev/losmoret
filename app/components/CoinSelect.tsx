@@ -1,6 +1,6 @@
 import { useStores } from "app/store";
 import { observer } from "mobx-react-lite";
-import { Box, Select, CheckCircleIcon } from "native-base"
+import { Center, Select, CheckCircleIcon } from "native-base"
 import React from "react"
 
 
@@ -15,7 +15,7 @@ export const CoinSelect = observer ( () => {
     },{name:"onChangePricelist",}) */
 
     return (
-        <Box maxW="100" maxHeight="70" ml={2}>
+        <Center maxW="100" maxHeight="70" ml={2}>
         <Select 
         borderRadius={"lg"}
         height={"10"}
@@ -31,6 +31,6 @@ export const CoinSelect = observer ( () => {
           <Select.Item label="USD" value="2" />
           <Select.Item label="CUP" value="1" />
         </Select>
-      </Box>
+      </Center>
     )
 })

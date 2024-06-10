@@ -1,4 +1,4 @@
-import { Product, ProductListParams} from "./types";
+import { Product, ProductListParams, Category} from "./types";
 import { api } from "../api";
 import { CommonResult, PaginateResponse, ResultClass } from "../api.types";
 import { GeneralApiProblem } from "../apiProblem";
@@ -26,6 +26,26 @@ export async function productDetail(id:number|string):Promise<ResultClass<Produc
     )
     return response
 }
+
+export async function getCategory():Promise<ResultClass<PaginateResponse<Category>>|GeneralApiProblem> {
+    const response = await api.apiGetWrapper<ResultClass<PaginateResponse<Category>>>(
+        "/product/categories",
+        {}
+    )
+    return response
+}
+
+export async function getProductSearch(query:string):Promise<ResultClass<ResultClass<PaginateResponse<Product>>>|GeneralApiProblem> {
+    const response = await api.apiGetWrapper<ResultClass<ResultClass<PaginateResponse<Product>>>>(
+       `/products/name/${query}?take=100`,
+        {}
+    )
+    return response
+}
+
+
+
+
 
 
 

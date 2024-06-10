@@ -50,3 +50,22 @@ export const ProductCartBlock = (props:ProductCartProps) => {
             </HStack>
         </Box>)
 }
+
+export const ProductSearchBlock = (props:ProductCartProps) => {
+    
+    return (
+        <Box  borderColor="muted.900" pl={["0", "4"]} pr={["0", "5"]} py="2">
+            <HStack space={[1, 2]} alignItems="center">
+
+                <Box w={5}/>
+                <VStack alignItems="start" justifyContent="space-around">
+                    <Text style={{
+                       color:"white",
+                       fontSize: 16
+                    }}>
+                        {props.product.name}
+                    </Text>
+                </VStack>
+            </HStack>
+        </Box>)
+}

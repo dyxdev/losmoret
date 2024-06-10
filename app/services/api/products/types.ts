@@ -21,4 +21,10 @@ export interface Product {
   product_images:          any[];
 }
 
+export interface Category{
+  logo_url:string
+  name:string
+  id:number
+}
+
 
