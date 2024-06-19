@@ -18,7 +18,8 @@ import { observer } from "mobx-react-lite";
 import { useCartHeader } from "app/hooks/customHeader";
 import { Box, Button, HStack, VStack } from "native-base";
 import { colors } from "app/theme";
-import NumericInput from "react-native-numeric-input";
+//@ts-ignore
+import NumericInput from "app/components/NumericInput/NumericInput";
 import { Icon } from "app/components";
 import { add2Cart } from "app/services/api/cart/service"
 import { GeneralApiProblem, isGeneralProblem } from "app/services/api/apiProblem";
@@ -37,7 +38,7 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
   const title = route.params?.categoryName ?? "";
   const defaultImage = require("../../assets/images/ahumado.jpg")
 
-  const [quantity,setQuantity] = useState(0)
+  const [quantity,setQuantity] = useState(item.qty_available > 0 ? 1 : 0)
   const [loading, setLoading] = useState(false)
 
   const { showToastErrorResponse,showToastInfoMessage } = useToastErrorApi()
@@ -64,7 +65,7 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
     }).then((response:GeneralApiProblem | ResultClass<CartAddResponse>)=>{
       if (isGeneralProblem(response)) {
         showToastErrorResponse(response as GeneralApiProblem)
-        setQuantity(0)
+        setQuantity(1)
         setLoading(false)
       } else{
         const result = (response as ResultClass<CartAddResponse>).result
@@ -90,21 +91,28 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
         <View style={styles.infoContainer}>
            {item.description_sale && <Text style={styles.category}> {item.description_sale} </Text> } 
         </View>
-        <View style={styles.infoContainer}>
+        {item.qty_available > 0 && (<View style={styles.infoContainer}>
           <Text style={styles.infoDescriptionRecipe}>{"¿Qué cantidad desea?"}</Text>
-        </View>
+        </View>)
+        }
         <View style={styles.infoContainer}>
-          <VStack>
+          {
+            item.qty_available > 0 ? (
+              <VStack>
           <NumericInput 
             value={quantity} 
-            onChange={value => {
-              if(value > 0){
-                setQuantity(value)
+            onInc={() => {
+              if(quantity+1 <= item.qty_available){
+                setQuantity(quantity+1)
               }
+            }} 
+            onDec={() => {
+               if(quantity > 0){
+                setQuantity(quantity-1)
+               }
             }} 
             minValue={0}
             maxValue={item.qty_available}
-            onLimitReached={(isMax,msg) => console.log(isMax,msg)}
             totalWidth={240} 
             totalHeight={50} 
             iconSize={25}
@@ -128,6 +136,10 @@ export const ProductDetailScreen: FC<ProductDetailScreenProps> = observer(functi
             </HStack>
             </Button>
           </VStack>
+            ) : (
+              <Text style={styles.category}>No existe disponibilidad en nuestra tienda</Text>
+            )
+          }
         </View>
         
       </View>
